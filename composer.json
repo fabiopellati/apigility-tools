@@ -45,7 +45,8 @@
       "component": [
         "ZF\\Rest",
         "ZF\\ApiProblem",
-        "MessageExchangeEventManager"
+        "MessageExchangeEventManager",
+        "ApigilityTools"
       ]
     }
   }
