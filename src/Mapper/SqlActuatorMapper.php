@@ -1,0 +1,193 @@
+<?php
+/**
+ *
+ *
+ */
+
+namespace ApigilityTools\Mapper;
+
+use MessageExchangeEventManager\Event\EventInterface;
+use MessageExchangeEventManager\EventManagerAwareTrait;
+use MessageExchangeEventManager\EventRunAwareTrait;
+
+/**
+ * Class DefaultTableGatewayMapper
+ * espone metodi per l'interazione con la base dati con comportamenti standard
+ *
+ * si possono modificare i comportamenti dei metodi in override sulle classi estese
+ * oppure alterare i select intercettando gli eventi
+ *
+ * @package ApigilityTools
+ */
+class SqlActuatorMapper implements FetchAwareInterface, UpdateAwareInterface, CreateAwareInterface, DeleteAwareInterface
+{
+
+    use EventManagerAwareTrait;
+    use EventRunAwareTrait;
+    const EVENT_MAPPER_PRE_CREATE = 'mapper.create.pre';
+    const EVENT_MAPPER_PRE_UPDATE = 'mapper.update.pre';
+    const EVENT_MAPPER_PRE_PATCH = 'mapper.patch.pre';
+    const EVENT_MAPPER_PRE_DELETE = 'mapper.delete.pre';
+    const EVENT_MAPPER_PRE_FETCH = 'mapper.fetch.pre';
+    const EVENT_MAPPER_PRE_FETCH_ALL = 'mapper.fetchAll.pre';
+
+    const EVENT_MAPPER_CREATE = 'mapper.create';
+    const EVENT_MAPPER_UPDATE = 'mapper.update';
+    const EVENT_MAPPER_PATCH = 'mapper.patch';
+    const EVENT_MAPPER_DELETE = 'mapper.delete';
+    const EVENT_MAPPER_FETCH = 'mapper.fetch';
+    const EVENT_MAPPER_FETCH_ALL = 'mapper.fetchAll';
+
+    const EVENT_MAPPER_POST_CREATE = 'mapper.create.post';
+    const EVENT_MAPPER_POST_UPDATE = 'mapper.update.post';
+    const EVENT_MAPPER_POST_PATCH = 'mapper.patch.post';
+    const EVENT_MAPPER_POST_DELETE = 'mapper.delete.post';
+    const EVENT_MAPPER_POST_FETCH = 'mapper.fetch.post';
+    const EVENT_MAPPER_POST_FETCH_ALL = 'mapper.fetchAll.post';
+
+
+    /**
+     * @var \MessageExchangeEventManager\Event\Event
+     */
+    protected $event;
+
+
+    /**
+     *  constructor.
+     *
+     * @param \MessageExchangeEventManager\Event\EventInterface $event
+     *
+     * @internal param \ToolkitApi\Toolkit $instance
+     */
+    public function __construct(EventInterface $event)
+    {
+
+        $this->event = $event;
+        $this->getEvent()->setTarget($this);
+    }
+
+
+    /**
+     * @return \MessageExchangeEventManager\Event\Event
+     */
+    public function getEvent()
+    {
+        return $this->event;
+    }
+
+    /**
+     * @param \MessageExchangeEventManager\Event\Event $event
+     */
+    public function setEvent($event)
+    {
+        $this->event = $event;
+    }
+
+
+    /**
+     * Create a new resource.
+     *
+     * @param array|object $data Data representing the resource to create.
+     *
+     * @return array|object Newly created resource.
+     */
+    public function create($data)
+    {
+        $this->getEvent()->getRequest()->getParameters()->set('data', $data);
+        $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_CREATE, self::EVENT_MAPPER_CREATE,
+                                    self::EVENT_MAPPER_POST_CREATE);
+        return $response->getContent();
+
+    }
+
+    /**
+     *
+     * Replace an existing resource.
+     *
+     * @param int|string   $id   Identifier of resource.
+     * @param array|object $data Data with which to replace the resource.
+     *
+     * @return array|object Updated resource.
+     */
+    public function update($id, $data)
+    {
+        $this->getEvent()->getRequest()->getParameters()->set('id', $id);
+        $this->getEvent()->getRequest()->getParameters()->set('data', $data);
+        $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_UPDATE, self::EVENT_MAPPER_UPDATE,
+                                    self::EVENT_MAPPER_POST_UPDATE);
+
+        return $response->getContent();
+    }
+
+    /**
+     *
+     * Update an existing resource.
+     *
+     * @param int|string   $id   Identifier of resource.
+     * @param array|object $data Data with which to update the resource.
+     *
+     * @return array|object Updated resource.
+     */
+    public function patch($id, $data)
+    {
+        return $this->update($id, $data);
+    }
+
+    /**
+     *
+     * Delete an existing resource.
+     *
+     * @
+     * @param int|string $id Identifier of resource.
+     *
+     * @return bool
+     */
+    public function delete($id)
+    {
+        $this->getEvent()->getRequest()->getParameters()->set('id', $id);
+        $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_DELETE, self::EVENT_MAPPER_DELETE,
+                                    self::EVENT_MAPPER_POST_DELETE);
+        return $response->getContent();
+
+    }
+
+    /**
+     *
+     * Fetch a resource
+     *
+     * @param  mixed $id
+     *
+     * @return mixed|\ZF\ApiProblem\ApiProblem
+     * @throws \ApigilityTools\Exception\RuntimeException
+     */
+    public function fetch($id)
+    {
+
+        $this->getEvent()->getRequest()->getParameters()->set('id', $id);
+
+        $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_FETCH, self::EVENT_MAPPER_FETCH,
+                                    self::EVENT_MAPPER_POST_FETCH);
+        return $response->getContent();
+
+    }
+
+    /**
+     * Fetch all or a subset of resources
+     *
+     * @param  array $params
+     *
+     * @return mixed|\ZF\ApiProblem\ApiProblem
+     * @throws \ApigilityTools\Exception\RuntimeException
+     */
+    public function fetchAll($params = [])
+    {
+
+        $this->getEvent()->getRequest()->getParameters()->set('params', $params);
+        $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_FETCH_ALL, self::EVENT_MAPPER_FETCH_ALL,
+                                    self::EVENT_MAPPER_POST_FETCH_ALL);
+        return $response->getContent();
+
+    }
+
+
+}
