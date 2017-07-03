@@ -57,7 +57,7 @@ class CompositeKeysListenerAggregate extends AbstractListenerAggregate
      *
      * @return void
      */
-    public function attach(EventManagerInterface $events, $priority = 10000)
+    public function attach(EventManagerInterface $events, $priority = 100)
     {
 
         $this->listeners[] = $events->attach(EventAwareEntity::EVENT_GET_ARRAY_COPY, [$this, 'onGetArrayCopy'],

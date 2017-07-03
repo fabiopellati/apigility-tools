@@ -56,11 +56,11 @@ class SoftDeleteListener extends AbstractListenerAggregate
      *
      * @return void
      */
-    public function attach(EventManagerInterface $events, $priority = 10000)
+    public function attach(EventManagerInterface $events, $priority = 100)
     {
 
         $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_DELETE, [$this, 'onDelete'],
-                                             $priority + 1000);
+                                             $priority + 100);
         $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_PRE_SQL_SELECT, [$this, 'onSelect'], $priority);
     }
 

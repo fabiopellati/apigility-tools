@@ -22,7 +22,7 @@ class HydratorResultsetListener extends AbstractListenerAggregate
      * @param int                                      $priority
      *
      */
-    public function attach(EventManagerInterface $events, $priority = 1000)
+    public function attach(EventManagerInterface $events, $priority = 100)
     {
 
         $this->listeners[] = $events->attach(SqlActuatorMapper::EVENT_MAPPER_POST_CREATE, [$this, 'onRunPost'],

@@ -36,15 +36,15 @@ class RunQueryListener extends AbstractListenerAggregate
      *
      * @return void
      */
-    public function attach(EventManagerInterface $events, $priority = 10000)
+    public function attach(EventManagerInterface $events, $priority = 100)
     {
 //
         $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_UPDATE, [$this, 'onEventConstraint'],
-                                             $priority + 1000);
+                                             $priority + 100);
         $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_DELETE, [$this, 'onEventConstraint'],
-                                             $priority + 1000);
+                                             $priority + 100);
         $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_PATCH, [$this, 'onEventConstraint'],
-                                             $priority + 1000);
+                                             $priority + 100);
 
         $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_SELECT, [$this, 'onSelect'], $priority);
         $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_INSERT, [$this, 'onInsert'], $priority);

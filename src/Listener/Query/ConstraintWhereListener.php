@@ -35,7 +35,7 @@ class ConstraintWhereListener extends AbstractListenerAggregate
      *
      * @return void
      */
-    public function attach(EventManagerInterface $events, $priority = 10000)
+    public function attach(EventManagerInterface $events, $priority = 100)
     {
 
         $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_PRE_SQL_CONSTRAINT_WHERE,
@@ -52,10 +52,10 @@ class ConstraintWhereListener extends AbstractListenerAggregate
      */
     public function onAttachSqlConstraintWhere(Event $e)
     {
-        $this->getEventManager()->attach(SqlActuatorListener::EVENT_SQL_SELECT, [$this, 'onSqlConstraintWhere'], 1000);
-        $this->getEventManager()->attach(SqlActuatorListener::EVENT_SQL_UPDATE, [$this, 'onSqlConstraintWhere'], 1000);
-        $this->getEventManager()->attach(SqlActuatorListener::EVENT_SQL_PATCH, [$this, 'onSqlConstraintWhere'], 1000);
-        $this->getEventManager()->attach(SqlActuatorListener::EVENT_SQL_DELETE, [$this, 'onSqlConstraintWhere'], 1000);
+        $this->getEventManager()->attach(SqlActuatorListener::EVENT_SQL_SELECT, [$this, 'onSqlConstraintWhere'], 100);
+        $this->getEventManager()->attach(SqlActuatorListener::EVENT_SQL_UPDATE, [$this, 'onSqlConstraintWhere'], 100);
+        $this->getEventManager()->attach(SqlActuatorListener::EVENT_SQL_PATCH, [$this, 'onSqlConstraintWhere'], 100);
+        $this->getEventManager()->attach(SqlActuatorListener::EVENT_SQL_DELETE, [$this, 'onSqlConstraintWhere'], 100);
         return $e->getResponse();
     }
 

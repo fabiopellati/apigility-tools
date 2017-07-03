@@ -190,7 +190,7 @@ abstract class SqlActuatorMapperFactory
         self::attachListener($mapper, $container->get('ApigilityTools\Listener\Query\RunQueryListener'));
         self::attachListener($mapper, $container->get('ApigilityTools\Listener\SqlPaginatorListener'));
 
-        self::attachListener($mapper, $container->get('ApigilityTools\Listener\HydratorDbResultListener'), 10000);
+        self::attachListener($mapper, $container->get('ApigilityTools\Listener\HydratorDbResultListener'), 100);
     }
 
     /**

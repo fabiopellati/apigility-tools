@@ -35,7 +35,7 @@ class CountAffectedQueryListener extends AbstractListenerAggregate
      *
      * @return void
      */
-    public function attach(EventManagerInterface $events, $priority = 10000)
+    public function attach(EventManagerInterface $events, $priority = 100)
     {
 
         $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_SELECT, [$this, 'onEvent'],

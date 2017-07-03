@@ -33,11 +33,11 @@ class SelectQueryListener extends AbstractListenerAggregate
      *
      * @return void
      */
-    public function attach(EventManagerInterface $events, $priority = 10000)
+    public function attach(EventManagerInterface $events, $priority = 100)
     {
         $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_PRE_SQL_SELECT, [
             $this, 'onPreSelect'
-        ], $priority + 1000);
+        ], $priority + 100);
     }
 
     /**
