@@ -8,7 +8,7 @@
 namespace ApigilityTools;
 
 return [
-    'gnc-apigility-tools' => [
+    'apigility-tools' => [
         'sql-actuator-mapper' => [
             'default' => [
                 'composite_key' => false,
