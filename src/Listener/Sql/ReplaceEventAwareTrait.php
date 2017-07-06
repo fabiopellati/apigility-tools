@@ -8,8 +8,8 @@
 
 namespace ApigilityTools\Listener\Sql;
 
+use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\Event\EventInterface;
-use Zend\EventManager\Event;
 
 trait ReplaceEventAwareTrait
 {
