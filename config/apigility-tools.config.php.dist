@@ -8,27 +8,36 @@
 return [
     'gnc-apigility-tools'=>[
         'sql-actuator-mapper' => [
-            'Resource\\Class' => [
+            'default'=>[
+                'composite_key' => false,
+                'mapper_class' => 'ApigilityTools\\Mapper\\SqlActuatorMapper',
+
+                'listeners' => [
+                    'ApigilityTools\Listener\Sql\SqlFetchListener',
+                    'ApigilityTools\Listener\Sql\SqlFetchAllListener',
+                    'ApigilityTools\Listener\Sql\SqlCreateListener',
+                    'ApigilityTools\Listener\Sql\SqlUpdateListener',
+                    'ApigilityTools\Listener\Sql\SqlDeleteListener',
+                    'ApigilityTools\Listener\Query\ConstraintWhereListener',
+                    'ApigilityTools\Listener\Query\SelectQueryListener',
+                    'ApigilityTools\Listener\Query\UpdateQueryListener',
+                    'ApigilityTools\Listener\Query\DeleteQueryListener',
+                    'ApigilityTools\Listener\Query\InsertQueryListener',
+                    'ApigilityTools\Listener\Query\RunQueryListener',
+                    'ApigilityTools\Listener\Sql\SqlPaginatorListener',
+                    'ApigilityTools\Listener\HydratorDbResultListener' ,
+                    'ApigilityTools\\Listener\\Query\\WhereIdListener',
+                    'ApigilityTools\\Listener\\HydratorPreLimitedDbResultsetCollectionListener',
+                    'ApigilityTools\\Listener\\Query\\CountAffectedQueryListener'
+                ]
+
+            ],
+            'Mapper\\Class' => [
                 'namespace' => '',
                 'db_adapter' => '',
                 'db_schema' => '',
                 'db_table' => '',
-                'mapper_class' => 'Gnc\\ApigilityTools\\Mapper\\SqlActuatorMapper',
-                'composite_key' => false,
-
                 'listeners' => [
-                    'Gnc\ApigilityTools\Listener\Sql\SqlActuatorListener',
-                    'Gnc\ApigilityTools\Listener\Query\ConstraintWhereListener',
-                    'Gnc\ApigilityTools\Listener\Query\SelectQueryListener',
-//                    'Gnc\ApigilityTools\Listener\Query\UpdateQueryListener'
-//                    'Gnc\ApigilityTools\Listener\Query\DeleteQueryListener'
-//                    'Gnc\ApigilityTools\Listener\Query\InsertQueryListener'
-                    'Gnc\ApigilityTools\Listener\Query\RunQueryListener',
-                    'Gnc\ApigilityTools\Listener\Sql\SqlPaginatorListener',
-                    'Gnc\ApigilityTools\Listener\HydratorDbResultListener' => ['priority' => 1000],
-                    'Gnc\\ApigilityTools\\Listener\\Query\\WhereKeysListener',
-                    'Gnc\\ApigilityTools\\Listener\\HydratorPreLimitedDbResultsetCollectionListener',
-                    'Gnc\\ApigilityTools\\Listener\\Query\\CountAffectedQueryListener'
                 ]
             ]
         ]

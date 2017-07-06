@@ -15,6 +15,7 @@ use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\TableIdentifier;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Factory\FactoryInterface;
+use Zend\Stdlib\ArrayUtils;
 
 /**
  * Class DefaultTableGatewayMapper
@@ -74,61 +75,7 @@ class SqlActuatorMapperFactory
 
         self::setHydrator($hydrator, $container, $event);
         self::setResultset($resultset, $container, $event);
-        return $mapper;
 
-    }
-
-    /**
-     * l'utilizzo della factory invocandola, prevede la compilazione di adeguata configurazione
-     * sotto la chiave ['apigility-tools']['sql-actuator-mapper']
-     *
-     * @param \Interop\Container\ContainerInterface $container
-     * @param string                                $requestedName
-     * @param array|null                            $options
-     *
-     * @return object
-     */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    {
-        $config = $container->get('Config');
-        $sqlActuatorMapperConfig = $config['gnc-apigility-tools']['sql-actuator-mapper'];
-
-        $requestedConfig = $sqlActuatorMapperConfig[$requestedName];
-        if (empty($requestedConfig)) {
-            throw new ServiceNotCreatedException('configuration missed for ' . $requestedName, 500);
-        }
-
-        $namespace = $requestedConfig['namespace'];
-        $halMetadataMap = $config['zf-hal']['metadata_map'];
-        $controllerClass = $namespace . '\Controller';
-        $entityClass = $namespace . '\Entity';
-        $collectionClass = $namespace . '\Collection';
-        $hydrator = $halMetadataMap[$entityClass]['hydrator'];
-
-        $dbAdapter = $container->get($requestedConfig['db_adapter']);
-        $dbSchema = $requestedConfig['db_schema'];
-        $dbTable = $requestedConfig['db_table'];
-        $mapperClass = $requestedConfig['mapper_class'];
-
-        $entity = new $entityClass();
-        if (!$entity instanceof EventAwareEntity) {
-            throw new ServiceNotCreatedException('Entity must be instance of EventAwareEntity', 500);
-        }
-        if ($requestedConfig['composite_key'] === true) {
-            $entityIdentifierName = $halMetadataMap[$entityClass]['entity_identifier_name'];
-            $listener = new CompositeKeysListenerAggregate($entityIdentifierName);
-            $listener->attach($entity->getEventManager());
-        }
-
-        $mapper = self::mapperFactory($container, $dbAdapter, $dbTable, $dbSchema, $mapperClass, $controllerClass,
-                                      $entityClass, $collectionClass, $entity, $hydrator);
-        foreach ($requestedConfig['listeners'] as $listener_class) {
-            $listener = $container->get($listener_class);
-            if (method_exists($listener, 'setEventManager')) {
-                $listener->setEventManager($mapper->getEventManager());
-            }
-            self::attachListener($mapper, $listener);
-        }
         return $mapper;
 
     }
@@ -185,11 +132,13 @@ class SqlActuatorMapperFactory
     private static function setHalConfig($entityClass, $collectionClass, $metadataMap, Event $event)
     {
         $halConfig = [
-            $entityClass => $metadataMap[$entityClass], $collectionClass => $metadataMap[$collectionClass]
+            $entityClass     => $metadataMap[$entityClass],
+            $collectionClass => $metadataMap[$collectionClass],
         ];
         $event->getRequest()->getParameters()->set('halConfig', $halConfig);
         $event->getRequest()->getParameters()->set('identifierName',
-                                                   $halConfig[$entityClass]['entity_identifier_name']);
+                                                   $halConfig[$entityClass]['entity_identifier_name'])
+        ;
     }
 
     /**
@@ -212,6 +161,59 @@ class SqlActuatorMapperFactory
     private static function setCollectionClass($collectionClass, Event $event)
     {
         $event->getRequest()->getParameters()->set('collectionClass', $collectionClass);
+    }
+
+    /**
+     * l'utilizzo della factory invocandola, prevede la compilazione di adeguata configurazione
+     * sotto la chiave ['apigility-tools']['sql-actuator-mapper']
+     *
+     * @param \Interop\Container\ContainerInterface $container
+     * @param string                                $requestedName
+     * @param array|null                            $options
+     *
+     * @return object
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        $config = $container->get('Config');
+        $sqlActuatorMapperConfig = $config['gnc-apigility-tools']['sql-actuator-mapper'];
+
+        $requestedConfig = $this->getRequestedConfig($requestedName, $sqlActuatorMapperConfig);
+
+        $namespace = $requestedConfig['namespace'];
+        $halMetadataMap = $config['zf-hal']['metadata_map'];
+        $controllerClass = $namespace . '\Controller';
+        $entityClass = $namespace . '\Entity';
+        $collectionClass = $namespace . '\Collection';
+        $hydrator = $halMetadataMap[$entityClass]['hydrator'];
+
+        $dbAdapter = $container->get($requestedConfig['db_adapter']);
+        $dbSchema = $requestedConfig['db_schema'];
+        $dbTable = $requestedConfig['db_table'];
+        $mapperClass = $requestedConfig['mapper_class'];
+
+        $entity = new $entityClass();
+        if (!$entity instanceof EventAwareEntity) {
+            throw new ServiceNotCreatedException('Entity must be instance of EventAwareEntity', 500);
+        }
+        if ($requestedConfig['composite_key'] === true) {
+            $entityIdentifierName = $halMetadataMap[$entityClass]['entity_identifier_name'];
+            $listener = new CompositeKeysListenerAggregate($entityIdentifierName);
+            $listener->attach($entity->getEventManager());
+        }
+
+        $mapper = self::mapperFactory($container, $dbAdapter, $dbTable, $dbSchema, $mapperClass, $controllerClass,
+                                      $entityClass, $collectionClass, $entity, $hydrator);
+        foreach ($requestedConfig['listeners'] as $listener_class) {
+            $listener = $container->get($listener_class);
+            if (method_exists($listener, 'setEventManager')) {
+                $listener->setEventManager($mapper->getEventManager());
+            }
+            self::attachListener($mapper, $listener);
+        }
+
+        return $mapper;
+
     }
 
     /**
@@ -256,7 +258,26 @@ class SqlActuatorMapperFactory
         $event = new Event();
         $event->setRequest($request);
         $event->setResponse($response);
+
         return $event;
+    }
+
+    /**
+     * @param $requestedName
+     * @param $sqlActuatorMapperConfig
+     *
+     * @return array
+     */
+    protected function getRequestedConfig($requestedName, $sqlActuatorMapperConfig)
+    {
+        $requestedConfig = $sqlActuatorMapperConfig[$requestedName];
+        if (empty($requestedConfig)) {
+            throw new ServiceNotCreatedException('configuration missed for ' . $requestedName, 500);
+        }
+        $defaultConfig = $sqlActuatorMapperConfig['default'];
+        $merged = ArrayUtils::merge($defaultConfig, $requestedConfig);
+
+        return $merged;
     }
 
 
