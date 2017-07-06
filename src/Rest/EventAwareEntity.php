@@ -31,9 +31,7 @@ class EventAwareEntity
     {
         $this->getEvent()->getRequest()->getParameters()->set('input', $input);
         $response = $this->triggerEvent(self::EVENT_EXCHANGE_ARRAY, $this->getEvent());
-        if ($response->isError()) {
-            throw new RuntimeException($response->getMessage(), $response->getStatusCode());
-        }
+
         $content = $response->getContent();
         if (is_array($content)) {
             parent::exchangeArray($content);
@@ -51,9 +49,7 @@ class EventAwareEntity
         $arrayCopy = parent::getArrayCopy();
         $this->getEvent()->getRequest()->getParameters()->set('arrayCopy', $arrayCopy);
         $response = $this->triggerEvent(self::EVENT_GET_ARRAY_COPY, $this->getEvent());
-        if ($response->isError()) {
-            throw new RuntimeException($response->getMessage(), $response->getStatusCode());
-        }
+
         $array = $response->getContent();
         if (is_array($array)) {
             return $array;

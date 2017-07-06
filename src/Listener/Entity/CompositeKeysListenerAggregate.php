@@ -108,10 +108,10 @@ class CompositeKeysListenerAggregate
         $request = $e->getRequest();
         $response = $e->getResponse();
 
-//        $input=$request->getParameters()->get('input');
-//        if(is_array($input)){
-//            $response->setContent($input);
-//        }
+        $input=$request->getParameters()->get('input');
+        if(is_array($input)){
+            $response->setContent($input);
+        }
         return $response;
 
     }

@@ -44,7 +44,8 @@ class SqlActuatorMapperFactory
      *
      * @return \ApigilityTools\Mapper\SqlActuatorMapper
      */
-    public static function mapperFactory(ContainerInterface $container, Adapter $dbAdapter, $table, $schema, $mapperClass, $controllerClass, $entityClass, $collectionClass, $resultset = null, $hydrator = null)
+    public static function mapperFactory(ContainerInterface $container, Adapter $dbAdapter, $table, $schema,ù
+    $mapperClass, $controllerClass, $entityClass, $collectionClass, $resultset = null, $hydrator = null)
     {
 
         $event = self::getEvent($container);
@@ -163,8 +164,7 @@ class SqlActuatorMapperFactory
         $controllerClass = $namespace . '\Controller';
         $entityClass = $namespace . '\Entity';
         $collectionClass = $namespace . '\Collection';
-        $hydrator = $halMetadataMap[$entityClass]['hydrator'];
-
+        $hydratorClass = $halMetadataMap[$entityClass]['hydrator'];
         $dbAdapter = $container->get($requestedConfig['db_adapter']);
         $dbSchema = $requestedConfig['db_schema'];
         $dbTable = $requestedConfig['db_table'];
@@ -180,6 +180,7 @@ class SqlActuatorMapperFactory
             $listener->attach($entity->getEventManager());
         }
 
+        $hydrator=new $hydratorClass();
         $mapper = self::mapperFactory($container, $dbAdapter, $dbTable, $dbSchema, $mapperClass, $controllerClass,
                                       $entityClass, $collectionClass, $entity, $hydrator);
         foreach ($requestedConfig['listeners'] as $listener_class) {

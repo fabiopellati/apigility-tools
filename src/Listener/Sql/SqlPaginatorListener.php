@@ -31,7 +31,7 @@ class SqlPaginatorListener
     public function attach(EventManagerInterface $events, $priority = 100)
     {
 
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_SELECT, [$this, 'onEvent'],
+        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onEvent'],
                                              $priority + 100);
     }
 
@@ -49,11 +49,14 @@ class SqlPaginatorListener
         $response = $e->getResponse();
         $requestQuery = $request->getParameters()->get('request_query');
 
-        if (empty($requestQuery) || empty($requestQuery['page'])) {
-            return $response;
+        if (empty($requestQuery) ||
+            empty($requestQuery['page'])
+        ) {
+            $page = 1;
+        } else {
+            $page = (int)$requestQuery['page'];
         }
         $pageSize = (int)$this->getPageSize($request, $requestQuery);
-        $page = (int)$requestQuery['page'];
         try {
             /**
              * @var $query \Zend\Db\Sql\Select
