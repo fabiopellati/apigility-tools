@@ -1,0 +1,54 @@
+<?php
+/**
+ * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ */
+
+return [
+    'gnc-apigility-tools'=>[
+        'sql-actuator-mapper' => [
+            'Resource\\Class' => [
+                'namespace' => '',
+                'db_adapter' => '',
+                'db_schema' => '',
+                'db_table' => '',
+                'mapper_class' => 'Gnc\\ApigilityTools\\Mapper\\SqlActuatorMapper',
+                'composite_key' => false,
+
+                'listeners' => [
+                    'Gnc\ApigilityTools\Listener\Sql\SqlActuatorListener',
+                    'Gnc\ApigilityTools\Listener\Query\ConstraintWhereListener',
+                    'Gnc\ApigilityTools\Listener\Query\SelectQueryListener',
+//                    'Gnc\ApigilityTools\Listener\Query\UpdateQueryListener'
+//                    'Gnc\ApigilityTools\Listener\Query\DeleteQueryListener'
+//                    'Gnc\ApigilityTools\Listener\Query\InsertQueryListener'
+                    'Gnc\ApigilityTools\Listener\Query\RunQueryListener',
+                    'Gnc\ApigilityTools\Listener\Sql\SqlPaginatorListener',
+                    'Gnc\ApigilityTools\Listener\HydratorDbResultListener' => ['priority' => 1000],
+                    'Gnc\\ApigilityTools\\Listener\\Query\\WhereKeysListener',
+                    'Gnc\\ApigilityTools\\Listener\\HydratorPreLimitedDbResultsetCollectionListener',
+                    'Gnc\\ApigilityTools\\Listener\\Query\\CountAffectedQueryListener'
+                ]
+            ]
+        ]
+
+    ],
+    /**
+    * configurare la cache
+    */
+    'caches' => [
+        'gnc_apigility_tools_model_cache' => [
+            'adapter' => [
+                'name' => 'filesystem',
+                'options' => [
+                    'cache_dir' => __DIR__ . '/../../../data/cache',
+                    'ttl' => 3600,
+                ],
+            ],
+            'plugins' => [
+                'serializer' => []
+            ]
+        ]
+    ]
+];

@@ -6,12 +6,15 @@
 
 namespace ApigilityTools\Mapper;
 
+use ApigilityTools\Listener\Entity\CompositeKeysListenerAggregate;
+use ApigilityTools\Rest\EventAwareEntity;
 use Interop\Container\ContainerInterface;
 use MessageExchangeEventManager\Event\Event;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\TableIdentifier;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
  * Class DefaultTableGatewayMapper
@@ -22,8 +25,24 @@ use Zend\ServiceManager\Exception\ServiceNotCreatedException;
  *
  * @package ApigilityTools
  */
-abstract class SqlActuatorMapperFactory
+class SqlActuatorMapperFactory
+    implements FactoryInterface
 {
+
+    /**
+     * @param \Interop\Container\ContainerInterface $container
+     * @param \Zend\Db\Adapter\Adapter              $dbAdapter
+     * @param                                       $table
+     * @param                                       $schema
+     * @param                                       $mapperClass
+     * @param                                       $controllerClass
+     * @param                                       $entityClass
+     * @param                                       $collectionClass
+     * @param null                                  $resultset
+     * @param null                                  $hydrator
+     *
+     * @return \ApigilityTools\Mapper\SqlActuatorMapper
+     */
     public static function mapperFactory(ContainerInterface $container, Adapter $dbAdapter, $table, $schema, $mapperClass, $controllerClass, $entityClass, $collectionClass, $resultset = null, $hydrator = null)
     {
 
@@ -52,12 +71,88 @@ abstract class SqlActuatorMapperFactory
         self::setCollectionClass($collectionClass, $event);
         self::setHalConfig($entityClass, $collectionClass, $halConfig, $event);
         self::setApigilityConfig($apigilityConfig, $event);
-        self::setMapperListeners($container, $mapper);
 
         self::setHydrator($hydrator, $container, $event);
         self::setResultset($resultset, $container, $event);
         return $mapper;
 
+    }
+
+    /**
+     * l'utilizzo della factory invocandola, prevede la compilazione di adeguata configurazione
+     * sotto la chiave ['apigility-tools']['sql-actuator-mapper']
+     *
+     * @param \Interop\Container\ContainerInterface $container
+     * @param string                                $requestedName
+     * @param array|null                            $options
+     *
+     * @return object
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        $config = $container->get('Config');
+        $sqlActuatorMapperConfig = $config['gnc-apigility-tools']['sql-actuator-mapper'];
+
+        $requestedConfig = $sqlActuatorMapperConfig[$requestedName];
+        if (empty($requestedConfig)) {
+            throw new ServiceNotCreatedException('configuration missed for ' . $requestedName, 500);
+        }
+
+        $namespace = $requestedConfig['namespace'];
+        $halMetadataMap = $config['zf-hal']['metadata_map'];
+        $controllerClass = $namespace . '\Controller';
+        $entityClass = $namespace . '\Entity';
+        $collectionClass = $namespace . '\Collection';
+        $hydrator = $halMetadataMap[$entityClass]['hydrator'];
+
+        $dbAdapter = $container->get($requestedConfig['db_adapter']);
+        $dbSchema = $requestedConfig['db_schema'];
+        $dbTable = $requestedConfig['db_table'];
+        $mapperClass = $requestedConfig['mapper_class'];
+
+        $entity = new $entityClass();
+        if (!$entity instanceof EventAwareEntity) {
+            throw new ServiceNotCreatedException('Entity must be instance of EventAwareEntity', 500);
+        }
+        if ($requestedConfig['composite_key'] === true) {
+            $entityIdentifierName = $halMetadataMap[$entityClass]['entity_identifier_name'];
+            $listener = new CompositeKeysListenerAggregate($entityIdentifierName);
+            $listener->attach($entity->getEventManager());
+        }
+
+        $mapper = self::mapperFactory($container, $dbAdapter, $dbTable, $dbSchema, $mapperClass, $controllerClass,
+                                      $entityClass, $collectionClass, $entity, $hydrator);
+        foreach ($requestedConfig['listeners'] as $listener_class) {
+            $listener = $container->get($listener_class);
+            if (method_exists($listener, 'setEventManager')) {
+                $listener->setEventManager($mapper->getEventManager());
+            }
+            self::attachListener($mapper, $listener);
+        }
+        return $mapper;
+
+    }
+
+    /**
+     *
+     * @param $container
+     * @param $mapper
+     */
+    public static function initDefaultMapperListeners(ContainerInterface $container, $mapper)
+    {
+        $sqlActuatorListener = $container->get('Gnc\ApigilityTools\Listener\Sql\SqlActuatorListener');
+        $sqlActuatorListener->setEventManager($mapper->getEventManager());
+        self::attachListener($mapper, $sqlActuatorListener);
+
+        $constraintWhereListener = $container->get('Gnc\ApigilityTools\Listener\Query\ConstraintWhereListener');
+        $constraintWhereListener->setEventManager($mapper->getEventManager());
+        self::attachListener($mapper, $constraintWhereListener);
+        self::attachListener($mapper, $container->get('Gnc\ApigilityTools\Listener\Query\SelectQueryListener'));
+
+        self::attachListener($mapper, $container->get('Gnc\ApigilityTools\Listener\Query\RunQueryListener'));
+        self::attachListener($mapper, $container->get('Gnc\ApigilityTools\Listener\Sql\SqlPaginatorListener'));
+
+        self::attachListener($mapper, $container->get('Gnc\ApigilityTools\Listener\HydratorDbResultListener'), 10000);
     }
 
     /**
@@ -120,23 +215,6 @@ abstract class SqlActuatorMapperFactory
     }
 
     /**
-     * @param \MessageExchangeEventManager\Resultset\Resultset $resultset
-     * @param \Interop\Container\ContainerInterface            $container
-     * @param \MessageExchangeEventManager\Event\Event         $event
-     *
-     */
-    protected function setResultset($resultset, ContainerInterface $container, Event $event)
-    {
-
-        if (!is_null($resultset)) {
-            $event->getRequest()->setResultset($resultset);
-        } else {
-
-            $event->getRequest()->setResultset($container->get('MessageExchangeEventManager\Resultset\Resultset'));
-        }
-    }
-
-    /**
      * @param \MessageExchangeEventManager\Resultset\ResultsetHydrator $hydrator
      * @param \Interop\Container\ContainerInterface                    $container
      * @param \MessageExchangeEventManager\Event\Event                 $event
@@ -144,12 +222,25 @@ abstract class SqlActuatorMapperFactory
      */
     protected function setHydrator($hydrator, ContainerInterface $container, Event $event)
     {
-
         if (!is_null($hydrator)) {
             $event->getRequest()->setResultset($hydrator);
         } else {
-
             $event->getRequest()->setResultset($container->get('MessageExchangeEventManager\Resultset\ResultsetHydrator'));
+        }
+    }
+
+    /**
+     * @param \MessageExchangeEventManager\Resultset\Resultset $resultset
+     * @param \Interop\Container\ContainerInterface            $container
+     * @param \MessageExchangeEventManager\Event\Event         $event
+     *
+     */
+    protected function setResultset($resultset, ContainerInterface $container, Event $event)
+    {
+        if (!is_null($resultset)) {
+            $event->getRequest()->setResultset($resultset);
+        } else {
+            $event->getRequest()->setResultset($container->get('MessageExchangeEventManager\Resultset\Resultset'));
         }
     }
 
@@ -168,30 +259,6 @@ abstract class SqlActuatorMapperFactory
         return $event;
     }
 
-    /**
-     *
-     * @param $container
-     * @param $mapper
-     */
-    private function setMapperListeners($container, $mapper)
-    {
-        $sqlActuatorListener = $container->get('ApigilityTools\Listener\Sql\SqlActuatorListener');
-        $sqlActuatorListener->setEventManager($mapper->getEventManager());
-        self::attachListener($mapper, $sqlActuatorListener);
-
-        $constraintWhereListener = $container->get('ApigilityTools\Listener\Query\ConstraintWhereListener');
-        $constraintWhereListener->setEventManager($mapper->getEventManager());
-        self::attachListener($mapper, $constraintWhereListener);
-        self::attachListener($mapper, $container->get('ApigilityTools\Listener\Query\SelectQueryListener'));
-
-//        self::attachListener($mapper, $container->get('ApigilityTools\Listener\Query\UpdateQueryListener'));
-//        self::attachListener($mapper, $container->get('ApigilityTools\Listener\Query\DeleteQueryListener'));
-//        self::attachListener($mapper, $container->get('ApigilityTools\Listener\Query\InsertQueryListener'));
-        self::attachListener($mapper, $container->get('ApigilityTools\Listener\Query\RunQueryListener'));
-        self::attachListener($mapper, $container->get('ApigilityTools\Listener\SqlPaginatorListener'));
-
-        self::attachListener($mapper, $container->get('ApigilityTools\Listener\HydratorDbResultListener'), 100);
-    }
 
     /**
      * @param \ApigilityTools\Mapper\SqlActuatorMapper                                                          $mapper
