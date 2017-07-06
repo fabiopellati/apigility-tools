@@ -44,7 +44,7 @@ class SqlActuatorMapperFactory
      *
      * @return \ApigilityTools\Mapper\SqlActuatorMapper
      */
-    public static function mapperFactory(ContainerInterface $container, Adapter $dbAdapter, $table, $schema,ù
+    public static function mapperFactory(ContainerInterface $container, Adapter $dbAdapter, $table, $schema,
     $mapperClass, $controllerClass, $entityClass, $collectionClass, $resultset = null, $hydrator = null)
     {
 
