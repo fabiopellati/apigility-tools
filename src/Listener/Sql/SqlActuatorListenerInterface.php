@@ -6,7 +6,7 @@
  * Time: 11.43
  */
 
-namespace Gnc\ApigilityTools\Listener\Sql;
+namespace ApigilityTools\Listener\Sql;
 
 use MessageExchangeEventManager\Event\EventInterface;
 
