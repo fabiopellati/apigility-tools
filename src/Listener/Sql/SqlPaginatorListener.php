@@ -32,7 +32,7 @@ class SqlPaginatorListener
     {
 
         $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onEvent'],
-                                             $priority + 100);
+                                             $priority );
     }
 
     /**
