@@ -12,7 +12,7 @@
 namespace ApigilityTools\Listener\Query;
 
 use ApigilityTools\Exception\InvalidParamException;
-use ApigilityTools\Listener\Sql\SqlActuatorListener;
+use ApigilityTools\Listener\Sql\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
 use Zend\Db\Sql\AbstractPreparableSql;
 use Zend\Db\Sql\Predicate\Operator;
@@ -41,9 +41,9 @@ class WhereIdListener
     public function attach(EventManagerInterface $events, $priority = 100)
     {
 
-        $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_PRE_SQL_DELETE, [$this, 'onDelete'], $priority);
-        $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_PRE_SQL_SELECT, [$this, 'onSelect'], $priority);
-        $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_PRE_SQL_UPDATE, [$this, 'onUpdate'], $priority);
+        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_DELETE, [$this, 'onDelete'], $priority);
+        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onSelect'], $priority);
+        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_UPDATE, [$this, 'onUpdate'], $priority);
     }
 
     /**

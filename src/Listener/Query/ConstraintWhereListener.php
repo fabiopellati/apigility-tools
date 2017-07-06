@@ -11,7 +11,7 @@
 
 namespace ApigilityTools\Listener\Query;
 
-use ApigilityTools\Listener\Sql\SqlActuatorListener;
+use ApigilityTools\Listener\Sql\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\EventManagerAwareTrait;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
@@ -39,7 +39,7 @@ class ConstraintWhereListener
     public function attach(EventManagerInterface $events, $priority = 100)
     {
 
-        $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_PRE_SQL_CONSTRAINT_WHERE,
+        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_CONSTRAINT_WHERE,
                                              [$this, 'onAttachSqlConstraintWhere'], $priority);
     }
 
@@ -53,10 +53,18 @@ class ConstraintWhereListener
      */
     public function onAttachSqlConstraintWhere(Event $e)
     {
-        $this->getEventManager()->attach(SqlActuatorListener::EVENT_SQL_SELECT, [$this, 'onSqlConstraintWhere'], 100);
-        $this->getEventManager()->attach(SqlActuatorListener::EVENT_SQL_UPDATE, [$this, 'onSqlConstraintWhere'], 100);
-        $this->getEventManager()->attach(SqlActuatorListener::EVENT_SQL_PATCH, [$this, 'onSqlConstraintWhere'], 100);
-        $this->getEventManager()->attach(SqlActuatorListener::EVENT_SQL_DELETE, [$this, 'onSqlConstraintWhere'], 100);
+        $this->getEventManager()->attach(SqlActuatorListenerInterface::EVENT_SQL_SELECT,
+                                         [$this, 'onSqlConstraintWhere'], 100)
+        ;
+        $this->getEventManager()->attach(SqlActuatorListenerInterface::EVENT_SQL_UPDATE,
+                                         [$this, 'onSqlConstraintWhere'], 100)
+        ;
+        $this->getEventManager()->attach(SqlActuatorListenerInterface::EVENT_SQL_PATCH, [$this, 'onSqlConstraintWhere'],
+                                         100)
+        ;
+        $this->getEventManager()->attach(SqlActuatorListenerInterface::EVENT_SQL_DELETE,
+                                         [$this, 'onSqlConstraintWhere'], 100)
+        ;
 
         return $e->getResponse();
     }

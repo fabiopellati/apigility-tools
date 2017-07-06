@@ -12,7 +12,7 @@
 namespace ApigilityTools\Listener\Query;
 
 use ApigilityTools\Exception\InvalidParamException;
-use ApigilityTools\Listener\Sql\SqlActuatorListener;
+use ApigilityTools\Listener\Sql\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
 use Zend\Db\Sql\Sql;
 use Zend\EventManager\AbstractListenerAggregate;
@@ -37,7 +37,7 @@ class DeleteQueryListener
     public function attach(EventManagerInterface $events, $priority = 100)
     {
 
-        $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_PRE_SQL_DELETE, [$this, 'onEvent'], $priority);
+        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_DELETE, [$this, 'onEvent'], $priority);
     }
 
 

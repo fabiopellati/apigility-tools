@@ -12,7 +12,7 @@
 namespace ApigilityTools\Listener\Query;
 
 use ApigilityTools\Exception\InvalidParamException;
-use ApigilityTools\Listener\Sql\SqlActuatorListener;
+use ApigilityTools\Listener\Sql\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
 use MessageExchangeEventManager\Request\Request;
@@ -40,17 +40,17 @@ class RunQueryListener
     public function attach(EventManagerInterface $events, $priority = 100)
     {
 //
-        $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_UPDATE, [$this, 'onEventConstraint'],
+        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_UPDATE, [$this, 'onEventConstraint'],
                                              $priority + 100);
-        $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_DELETE, [$this, 'onEventConstraint'],
+        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_DELETE, [$this, 'onEventConstraint'],
                                              $priority + 100);
-        $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_PATCH, [$this, 'onEventConstraint'],
+        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_PATCH, [$this, 'onEventConstraint'],
                                              $priority + 100);
 
-        $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_SELECT, [$this, 'onSelect'], $priority);
-        $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_INSERT, [$this, 'onInsert'], $priority);
-        $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_UPDATE, [$this, 'onUpdate'], $priority);
-        $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_DELETE, [$this, 'onDelete'], $priority);
+        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_SELECT, [$this, 'onSelect'], $priority);
+        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_INSERT, [$this, 'onInsert'], $priority);
+        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_UPDATE, [$this, 'onUpdate'], $priority);
+        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_DELETE, [$this, 'onDelete'], $priority);
     }
 
 

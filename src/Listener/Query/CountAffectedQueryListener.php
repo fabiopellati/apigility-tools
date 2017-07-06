@@ -11,7 +11,7 @@
 
 namespace ApigilityTools\Listener\Query;
 
-use ApigilityTools\Listener\Sql\SqlActuatorListener;
+use ApigilityTools\Listener\Sql\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
 use Zend\Db\Sql\AbstractPreparableSql;
@@ -39,11 +39,11 @@ class CountAffectedQueryListener
     public function attach(EventManagerInterface $events, $priority = 100)
     {
 
-        $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_SELECT, [$this, 'onEvent'],
+        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_SELECT, [$this, 'onEvent'],
                                              $priority + 100);
-        $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_UPDATE, [$this, 'onEvent'],
+        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_UPDATE, [$this, 'onEvent'],
                                              $priority + 100);
-        $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_SQL_DELETE, [$this, 'onEvent'],
+        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_DELETE, [$this, 'onEvent'],
                                              $priority + 100);
     }
 
