@@ -12,7 +12,8 @@ use MessageExchangeEventManager\Event\Event;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class SqlFilterTextListener extends AbstractListenerAggregate
+class SqlFilterTextListener
+    extends AbstractListenerAggregate
 {
     /**
      * @var array
@@ -90,6 +91,7 @@ class SqlFilterTextListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
     }
 }

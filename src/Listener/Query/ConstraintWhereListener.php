@@ -18,7 +18,8 @@ use MessageExchangeEventManager\Exception\ListenerRequirementException;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class ConstraintWhereListener extends AbstractListenerAggregate
+class ConstraintWhereListener
+    extends AbstractListenerAggregate
 {
 
     use EventManagerAwareTrait;
@@ -56,6 +57,7 @@ class ConstraintWhereListener extends AbstractListenerAggregate
         $this->getEventManager()->attach(SqlActuatorListener::EVENT_SQL_UPDATE, [$this, 'onSqlConstraintWhere'], 100);
         $this->getEventManager()->attach(SqlActuatorListener::EVENT_SQL_PATCH, [$this, 'onSqlConstraintWhere'], 100);
         $this->getEventManager()->attach(SqlActuatorListener::EVENT_SQL_DELETE, [$this, 'onSqlConstraintWhere'], 100);
+
         return $e->getResponse();
     }
 
@@ -87,6 +89,7 @@ class ConstraintWhereListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
     }
 

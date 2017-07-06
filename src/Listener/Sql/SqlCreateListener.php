@@ -8,7 +8,6 @@
 
 namespace ApigilityTools\Listener\Sql;
 
-use ApigilityTools\Listener\Sql\ReplaceEventAwareTrait;
 use ApigilityTools\Mapper\SqlActuatorMapper;
 use MessageExchangeEventManager\Event\EventInterface;
 use MessageExchangeEventManager\EventManagerAwareTrait;
@@ -51,6 +50,7 @@ class SqlCreateListener
         $response = $this->runEvent($event, SqlActuatorListenerInterface::EVENT_PRE_SQL_INSERT,
                                     SqlActuatorListenerInterface::EVENT_SQL_INSERT,
                                     SqlActuatorListenerInterface::EVENT_POST_SQL_INSERT);
+
         return $response;
     }
 

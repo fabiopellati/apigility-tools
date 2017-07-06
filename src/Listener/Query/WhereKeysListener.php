@@ -23,7 +23,8 @@ use Zend\Db\Sql\Where;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class WhereKeysListener extends AbstractListenerAggregate
+class WhereKeysListener
+    extends AbstractListenerAggregate
 {
     /**
      * @var string
@@ -85,6 +86,7 @@ class WhereKeysListener extends AbstractListenerAggregate
         if (empty($id)) {
             return $e->getResponse();
         }
+
         return $this->onEvent($e);
     }
 
@@ -151,6 +153,7 @@ class WhereKeysListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
 
     }

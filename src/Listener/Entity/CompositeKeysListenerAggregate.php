@@ -17,7 +17,8 @@ use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Stdlib\Exception\InvalidArgumentException;
 
-class CompositeKeysListenerAggregate extends AbstractListenerAggregate
+class CompositeKeysListenerAggregate
+    extends AbstractListenerAggregate
 {
     /**
      * @var string
@@ -35,7 +36,7 @@ class CompositeKeysListenerAggregate extends AbstractListenerAggregate
         if (is_array($keys)) {
             $this->keys = $keys;
 
-        } elseif (is_string($keys)) {
+        } else if (is_string($keys)) {
             $this->keys = explode($identifierDelimiter, $keys);
         }
 
@@ -92,6 +93,7 @@ class CompositeKeysListenerAggregate extends AbstractListenerAggregate
             $arrayCopy['id'] = $newValue;
             $response->setContent($arrayCopy);
         }
+
         return $response;
 
     }

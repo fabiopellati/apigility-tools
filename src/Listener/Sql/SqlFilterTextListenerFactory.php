@@ -14,7 +14,8 @@ use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
-class SqlFilterTextListenerFactory implements FactoryInterface
+class SqlFilterTextListenerFactory
+    implements FactoryInterface
 {
     /**
      * Create an object
@@ -34,6 +35,7 @@ class SqlFilterTextListenerFactory implements FactoryInterface
         $params = $container->get('Application')->getMvcEvent()->getRequest()->getQuery()->toArray();
 
         $object = new SqlFilterTextListener($params);
+
         return $object;
     }
 

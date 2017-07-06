@@ -12,7 +12,8 @@ use MessageExchangeEventManager\Event\Event;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class SqlSearchableListener extends AbstractListenerAggregate
+class SqlSearchableListener
+    extends AbstractListenerAggregate
 {
 
     /**
@@ -69,10 +70,12 @@ class SqlSearchableListener extends AbstractListenerAggregate
                 if (is_string($params['search_into'])) {
                     $nest->like($params['search_into'], "%$search%");
                     $nest->or;
-                } elseif (is_array($params['search_into'])) {
-                    foreach ($params['search_into'] as $into) {
-                        $nest->like($into, "%$search%");
-                        $nest->or;
+                } else {
+                    if (is_array($params['search_into'])) {
+                        foreach ($params['search_into'] as $into) {
+                            $nest->like($into, "%$search%");
+                            $nest->or;
+                        }
                     }
                 }
             });
@@ -80,6 +83,7 @@ class SqlSearchableListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
     }
 }

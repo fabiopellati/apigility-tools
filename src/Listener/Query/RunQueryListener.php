@@ -21,7 +21,8 @@ use Zend\Db\Sql\Sql;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class RunQueryListener extends AbstractListenerAggregate
+class RunQueryListener
+    extends AbstractListenerAggregate
 {
 
 
@@ -79,6 +80,7 @@ class RunQueryListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
     }
 
@@ -116,6 +118,7 @@ class RunQueryListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
     }
 
@@ -148,6 +151,7 @@ class RunQueryListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
 
     }
@@ -171,6 +175,7 @@ class RunQueryListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
 
     }
@@ -200,6 +205,7 @@ class RunQueryListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
     }
 
@@ -258,6 +264,7 @@ class RunQueryListener extends AbstractListenerAggregate
             throw new ListenerRequirementException('parametro count_affected non presente: possibile errore nella sequenza dei listener ',
                                                    500);
         }
+
         return $countAffected;
 
     }

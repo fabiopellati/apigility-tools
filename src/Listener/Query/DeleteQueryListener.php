@@ -18,7 +18,8 @@ use Zend\Db\Sql\Sql;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class DeleteQueryListener extends AbstractListenerAggregate
+class DeleteQueryListener
+    extends AbstractListenerAggregate
 {
 
 
@@ -64,6 +65,7 @@ class DeleteQueryListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
     }
 

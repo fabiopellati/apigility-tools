@@ -18,7 +18,8 @@ use Zend\Db\Sql\Sql;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class SelectQueryListener extends AbstractListenerAggregate
+class SelectQueryListener
+    extends AbstractListenerAggregate
 {
 
 
@@ -36,7 +37,8 @@ class SelectQueryListener extends AbstractListenerAggregate
     public function attach(EventManagerInterface $events, $priority = 100)
     {
         $this->listeners[] = $events->attach(SqlActuatorListener::EVENT_PRE_SQL_SELECT, [
-            $this, 'onPreSelect'
+            $this,
+            'onPreSelect',
         ], $priority + 100);
     }
 
@@ -76,6 +78,7 @@ class SelectQueryListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
     }
 

@@ -7,7 +7,8 @@
 
 namespace ApigilityTools\Exception;
 
-class InvalidParamException extends \Exception
+class InvalidParamException
+    extends \Exception
 {
 
 }

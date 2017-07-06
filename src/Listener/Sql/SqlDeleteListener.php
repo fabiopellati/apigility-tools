@@ -8,7 +8,6 @@
 
 namespace ApigilityTools\Listener\Sql;
 
-use ApigilityTools\Listener\Sql\ReplaceEventAwareTrait;
 use ApigilityTools\Mapper\SqlActuatorMapper;
 use MessageExchangeEventManager\Event\EventInterface;
 use MessageExchangeEventManager\EventManagerAwareTrait;
@@ -27,14 +26,14 @@ class SqlDeleteListener
 
     /**
      * @param \Zend\EventManager\EventManagerInterface $events
-     * @param int $priority
+     * @param int                                      $priority
      *
      */
     public function attach(EventManagerInterface $events, $priority = 1000)
     {
 
         $this->listeners[] = $events->attach(SqlActuatorMapper::EVENT_MAPPER_DELETE, [$this, 'onMapperEvent'],
-            $priority);
+                                             $priority);
 
     }
 
@@ -52,6 +51,7 @@ class SqlDeleteListener
         $response = $this->runEvent($event, SqlActuatorListenerInterface::EVENT_PRE_SQL_DELETE,
                                     SqlActuatorListenerInterface::EVENT_SQL_DELETE,
                                     SqlActuatorListenerInterface::EVENT_POST_SQL_DELETE);
+
         return $response;
     }
 

@@ -22,7 +22,8 @@ use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerInterface;
 
-class WhereIdListener extends AbstractListenerAggregate
+class WhereIdListener
+    extends AbstractListenerAggregate
 {
 
 
@@ -56,6 +57,7 @@ class WhereIdListener extends AbstractListenerAggregate
         if (empty($id)) {
             return $e->getResponse();
         }
+
         return $this->onEvent($e);
     }
 
@@ -110,6 +112,7 @@ class WhereIdListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
 
     }

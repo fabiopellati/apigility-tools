@@ -8,7 +8,6 @@
 
 namespace ApigilityTools\Listener\Sql;
 
-use ApigilityTools\Listener\Sql\ReplaceEventAwareTrait;
 use ApigilityTools\Mapper\SqlActuatorMapper;
 use MessageExchangeEventManager\Event\EventInterface;
 use MessageExchangeEventManager\EventManagerAwareTrait;
@@ -27,7 +26,7 @@ class SqlPatchListener
 
     /**
      * @param \Zend\EventManager\EventManagerInterface $events
-     * @param int $priority
+     * @param int                                      $priority
      *
      */
     public function attach(EventManagerInterface $events, $priority = 1000)
@@ -52,6 +51,7 @@ class SqlPatchListener
         $response = $this->runEvent($event, SqlActuatorListenerInterface::EVENT_PRE_SQL_PATCH,
                                     SqlActuatorListenerInterface::EVENT_SQL_PATCH,
                                     SqlActuatorListenerInterface::EVENT_POST_SQL_PATCH);
+
         return $response;
     }
 

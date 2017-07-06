@@ -10,7 +10,8 @@ namespace ApigilityTools\Paginator\Adapter;
 
 use Zend\Paginator\Adapter\AdapterInterface;
 
-class PreLimitedArrayAdapter implements AdapterInterface
+class PreLimitedArrayAdapter
+    implements AdapterInterface
 {
 
     /**

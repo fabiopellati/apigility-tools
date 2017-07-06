@@ -12,7 +12,8 @@ use MessageExchangeEventManager\Event\Event;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class SqlOrderableListener extends AbstractListenerAggregate
+class SqlOrderableListener
+    extends AbstractListenerAggregate
 {
 
     /**
@@ -77,6 +78,7 @@ class SqlOrderableListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
     }
 }

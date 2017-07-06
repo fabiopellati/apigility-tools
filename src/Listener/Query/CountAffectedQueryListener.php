@@ -20,7 +20,8 @@ use Zend\Db\Sql\Sql;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class CountAffectedQueryListener extends AbstractListenerAggregate
+class CountAffectedQueryListener
+    extends AbstractListenerAggregate
 {
 
 
@@ -65,7 +66,7 @@ class CountAffectedQueryListener extends AbstractListenerAggregate
             $countAffected = $this->countAffected($sql, $query);
             if (isset($countAffected['count_affected'])) {
                 $request->getParameters()->set('count_affected', $countAffected['count_affected']);
-            } elseif (isset($countAffected['COUNT_AFFECTED'])) {
+            } else if (isset($countAffected['COUNT_AFFECTED'])) {
                 $request->getParameters()->set('count_affected', $countAffected['COUNT_AFFECTED']);
 
             }
@@ -74,6 +75,7 @@ class CountAffectedQueryListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
     }
 
@@ -116,6 +118,7 @@ class CountAffectedQueryListener extends AbstractListenerAggregate
         $select->where($query->where);
         $statement = $sql->prepareStatementForSqlObject($select);
         $current = $statement->execute()->current();
+
         return $current;
     }
 

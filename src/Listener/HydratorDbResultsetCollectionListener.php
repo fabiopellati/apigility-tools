@@ -15,7 +15,8 @@ use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Paginator\Adapter\ArrayAdapter;
 
-class HydratorDbResultsetCollectionListener extends AbstractListenerAggregate
+class HydratorDbResultsetCollectionListener
+    extends AbstractListenerAggregate
 {
 
 
@@ -54,6 +55,7 @@ class HydratorDbResultsetCollectionListener extends AbstractListenerAggregate
             $collection = new $collectionClass($adapter);
             $response->setContent($collection);
         }
+
         return $response;
     }
 

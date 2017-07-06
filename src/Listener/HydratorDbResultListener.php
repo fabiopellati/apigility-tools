@@ -15,7 +15,8 @@ use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class HydratorDbResultListener extends AbstractListenerAggregate
+class HydratorDbResultListener
+    extends AbstractListenerAggregate
 {
 
 
@@ -57,11 +58,11 @@ class HydratorDbResultListener extends AbstractListenerAggregate
             $hydrator = $request->getParameters()->get('hydrator');
             $resultset = $request->getParameters()->get('resultset');
 
-
             $resultset = new HydratingResultSet($hydrator, $resultset);
             $resultset->initialize($content);
             $response->setContent($resultset);
         }
+
         return $response;
     }
 

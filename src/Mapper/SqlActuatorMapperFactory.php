@@ -203,9 +203,11 @@ class SqlActuatorMapperFactory
     protected function setHydrator($hydrator, ContainerInterface $container, Event $event)
     {
         if (!is_null($hydrator)) {
-            $event->getRequest()->getParameters()->set('hydrator',$hydrator);
+            $event->getRequest()->getParameters()->set('hydrator', $hydrator);
         } else {
-            $event->getRequest()->getParameters()->set('hydrator',$container->get('MessageExchangeEventManager\Resultset\ResultsetHydrator'));
+            $event->getRequest()->getParameters()->set('hydrator',
+                                                       $container->get('MessageExchangeEventManager\Resultset\ResultsetHydrator'))
+            ;
         }
     }
 
@@ -218,9 +220,11 @@ class SqlActuatorMapperFactory
     protected function setResultset($resultset, ContainerInterface $container, Event $event)
     {
         if (!is_null($resultset)) {
-            $event->getRequest()->getParameters()->set('resultset',$resultset);
+            $event->getRequest()->getParameters()->set('resultset', $resultset);
         } else {
-            $event->getRequest()->getParameters()->set('resultset',$container->get('MessageExchangeEventManager\Resultset\Resultset'));
+            $event->getRequest()->getParameters()->set('resultset',
+                                                       $container->get('MessageExchangeEventManager\Resultset\Resultset'))
+            ;
         }
     }
 

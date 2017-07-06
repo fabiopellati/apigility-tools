@@ -24,6 +24,7 @@ trait ReplaceEventAwareTrait
         $event->setRequest($e->getRequest());
         $event->setResponse($e->getResponse());
         $event->getTarget($this);
+
         return $event;
     }
 }

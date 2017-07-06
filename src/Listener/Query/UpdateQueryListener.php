@@ -18,7 +18,8 @@ use Zend\Db\Sql\Sql;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class UpdateQueryListener extends AbstractListenerAggregate
+class UpdateQueryListener
+    extends AbstractListenerAggregate
 {
 
 
@@ -63,6 +64,7 @@ class UpdateQueryListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
     }
 

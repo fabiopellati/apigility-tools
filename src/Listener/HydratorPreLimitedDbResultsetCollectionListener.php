@@ -17,7 +17,8 @@ use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class HydratorPreLimitedDbResultsetCollectionListener extends AbstractListenerAggregate
+class HydratorPreLimitedDbResultsetCollectionListener
+    extends AbstractListenerAggregate
 {
 
 
@@ -59,6 +60,7 @@ class HydratorPreLimitedDbResultsetCollectionListener extends AbstractListenerAg
             $collection = new $collectionClass($adapter);
             $response->setContent($collection);
         }
+
         return $response;
     }
 
@@ -75,6 +77,7 @@ class HydratorPreLimitedDbResultsetCollectionListener extends AbstractListenerAg
             throw new ListenerRequirementException('parametro count_affected non presente: possibile errore nella sequenza dei listener ',
                                                    500);
         }
+
         return $countAffected;
 
     }
@@ -92,6 +95,7 @@ class HydratorPreLimitedDbResultsetCollectionListener extends AbstractListenerAg
             throw new ListenerRequirementException('parametro collectionClass non presente: possibile errore nella sequenza dei listener ',
                                                    500);
         }
+
         return $collectionClass;
 
     }

@@ -77,6 +77,7 @@ class SqlActuatorMapper
         $this->getEvent()->getRequest()->getParameters()->set('data', $data);
         $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_CREATE, self::EVENT_MAPPER_CREATE,
                                     self::EVENT_MAPPER_POST_CREATE);
+
         return $response->getContent();
 
     }
@@ -128,6 +129,7 @@ class SqlActuatorMapper
         $this->getEvent()->getRequest()->getParameters()->set('id', $id);
         $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_DELETE, self::EVENT_MAPPER_DELETE,
                                     self::EVENT_MAPPER_POST_DELETE);
+
         return $response->getContent();
 
     }
@@ -148,6 +150,7 @@ class SqlActuatorMapper
 
         $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_FETCH, self::EVENT_MAPPER_FETCH,
                                     self::EVENT_MAPPER_POST_FETCH);
+
         return $response->getContent();
 
     }
@@ -166,6 +169,7 @@ class SqlActuatorMapper
         $this->getEvent()->getRequest()->getParameters()->set('params', $params);
         $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_FETCH_ALL, self::EVENT_MAPPER_FETCH_ALL,
                                     self::EVENT_MAPPER_POST_FETCH_ALL);
+
         return $response->getContent();
 
     }

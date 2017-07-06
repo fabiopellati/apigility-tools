@@ -11,7 +11,8 @@ namespace ApigilityTools\Rest\Resource;
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
-class DefaultResourceListener extends AbstractResourceListener
+class DefaultResourceListener
+    extends AbstractResourceListener
 {
 
     const EVENT_REQUEST_QUERY = 'event.request.query';
@@ -48,6 +49,7 @@ class DefaultResourceListener extends AbstractResourceListener
         $data = $this->retrieveData($data);
         $id = $this->mapper->create($data);
         $result = $this->fetch($id);
+
         return $result;
     }
 
@@ -61,6 +63,7 @@ class DefaultResourceListener extends AbstractResourceListener
     public function delete($id)
     {
         $result = $this->mapper->delete($id);
+
         return $result;
 
         //        return new ApiProblem(405, 'The DELETE method has not been defined for individual resources');
@@ -91,6 +94,7 @@ class DefaultResourceListener extends AbstractResourceListener
     public function fetch($id)
     {
         $result = $this->mapper->fetch($id);
+
 //        print_r($result->toArray());exit;
 
         return $result->current();
@@ -115,6 +119,7 @@ class DefaultResourceListener extends AbstractResourceListener
          * @var $result \Zend\Paginator\Paginator
          */
         $result = $this->mapper->fetchAll($params);
+
         return $result;
     }
 
@@ -130,6 +135,7 @@ class DefaultResourceListener extends AbstractResourceListener
     {
         $data = $this->retrieveData($data);
         $this->mapper->patch($id, $data);
+
         return $this->fetch($id);
     }
 
@@ -176,6 +182,7 @@ class DefaultResourceListener extends AbstractResourceListener
         $data = $this->retrieveData($data);
         $data = $this->prepareDataForExecute($data);
         $result = $this->mapper->update($id, $data);
+
         return $result;
 
 //        return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
@@ -210,6 +217,7 @@ class DefaultResourceListener extends AbstractResourceListener
                 unset($data[$key]);
             }
         }
+
         return $data;
     }
 

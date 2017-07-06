@@ -19,7 +19,8 @@ use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerInterface;
 
-class SoftDeleteListener extends AbstractListenerAggregate
+class SoftDeleteListener
+    extends AbstractListenerAggregate
 {
 
     /**
@@ -86,6 +87,7 @@ class SoftDeleteListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
 
     }
@@ -119,6 +121,7 @@ class SoftDeleteListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
 
     }
@@ -154,7 +157,8 @@ class SoftDeleteListener extends AbstractListenerAggregate
                 return true;
             }
         }
-        throw new RuntimeException('SoftDelete richiede un campo soft_delete. Aggiungere il campo alla tabella ' . $tableIdentifier->getTable());
+        throw new RuntimeException('SoftDelete richiede un campo soft_delete. Aggiungere il campo alla tabella ' .
+                                   $tableIdentifier->getTable());
     }
 
     /**

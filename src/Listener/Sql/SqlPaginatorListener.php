@@ -15,7 +15,8 @@ use Zend\Db\Sql\Select;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class SqlPaginatorListener extends AbstractListenerAggregate
+class SqlPaginatorListener
+    extends AbstractListenerAggregate
 {
 
 
@@ -68,6 +69,7 @@ class SqlPaginatorListener extends AbstractListenerAggregate
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
 //        print_r([__METHOD__=>$request->getParameters()->get('query')->getSqlString()]);
         return $response;
     }
@@ -89,10 +91,12 @@ class SqlPaginatorListener extends AbstractListenerAggregate
         $pageSizeParam = $apigilityConfig['page_size_param'];
 
         $pageSize = (int)$apigilityConfig['page_size'];
-        $pageSize = (!empty($pageSizeParam) && !empty($requestQuery[$pageSizeParam])) ? $requestQuery[$pageSizeParam] : $pageSize;
+        $pageSize = (!empty($pageSizeParam) && !empty($requestQuery[$pageSizeParam])) ? $requestQuery[$pageSizeParam] :
+            $pageSize;
         if (empty($pageSize)) {
             throw new InvalidParamException(__CLASS__ . '. page_size is missed', 500);
         }
+
         return $pageSize;
     }
 }

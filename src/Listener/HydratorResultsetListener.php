@@ -13,7 +13,8 @@ use MessageExchangeEventManager\Event\EventInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class HydratorResultsetListener extends AbstractListenerAggregate
+class HydratorResultsetListener
+    extends AbstractListenerAggregate
 {
 
 
@@ -54,6 +55,7 @@ class HydratorResultsetListener extends AbstractListenerAggregate
             $resultset = $hydrator->hydrate($content, $resultset);
             $response->setContent($resultset);
         }
+
         return $response;
     }
 

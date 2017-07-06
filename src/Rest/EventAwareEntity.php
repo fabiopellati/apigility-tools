@@ -10,7 +10,9 @@ use MessageExchangeEventManager\Resultset\ResultsetInterface;
 use MessageExchangeEventManager\SingletonEventManagerAwareTrait;
 use Zend\Stdlib\ArrayObject;
 
-class EventAwareEntity extends ArrayObject implements ResultsetInterface
+class EventAwareEntity
+    extends ArrayObject
+    implements ResultsetInterface
 {
     use SingletonEventManagerAwareTrait;
     use EventAwareTrait;
@@ -101,6 +103,7 @@ class EventAwareEntity extends ArrayObject implements ResultsetInterface
             throw new \Exception('last response unattended, is attended MessageExchangeEventManager\Response\ResponseInterface',
                                  500);
         }
+
         return $response;
     }
 

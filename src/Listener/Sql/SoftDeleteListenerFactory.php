@@ -15,7 +15,8 @@ use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
-class SoftDeleteListenerFactory implements FactoryInterface
+class SoftDeleteListenerFactory
+    implements FactoryInterface
 {
     /**
      * Create an object
@@ -39,6 +40,7 @@ class SoftDeleteListenerFactory implements FactoryInterface
             $cache = StorageFactory::factory($cache_config);
             $object->setCache($cache);
         }
+
         return $object;
     }
 
