@@ -6,7 +6,7 @@
  * Time: 17.44
  */
 
-namespace ApigilityTools\Listener;
+namespace ApigilityTools\Listener\Sql;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;

@@ -6,9 +6,8 @@
  * Time: 17.44
  */
 
-namespace ApigilityTools\Listener;
+namespace ApigilityTools\Listener\Sql;
 
-use ApigilityTools\Listener\Sql\SqlActuatorListener;
 use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\Exception\InvalidParamException;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
