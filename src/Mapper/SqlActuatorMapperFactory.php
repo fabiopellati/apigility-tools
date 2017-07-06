@@ -81,28 +81,6 @@ class SqlActuatorMapperFactory
     }
 
     /**
-     *
-     * @param $container
-     * @param $mapper
-     */
-    public static function initDefaultMapperListeners(ContainerInterface $container, $mapper)
-    {
-        $sqlActuatorListener = $container->get('Gnc\ApigilityTools\Listener\Sql\SqlActuatorListener');
-        $sqlActuatorListener->setEventManager($mapper->getEventManager());
-        self::attachListener($mapper, $sqlActuatorListener);
-
-        $constraintWhereListener = $container->get('Gnc\ApigilityTools\Listener\Query\ConstraintWhereListener');
-        $constraintWhereListener->setEventManager($mapper->getEventManager());
-        self::attachListener($mapper, $constraintWhereListener);
-        self::attachListener($mapper, $container->get('Gnc\ApigilityTools\Listener\Query\SelectQueryListener'));
-
-        self::attachListener($mapper, $container->get('Gnc\ApigilityTools\Listener\Query\RunQueryListener'));
-        self::attachListener($mapper, $container->get('Gnc\ApigilityTools\Listener\Sql\SqlPaginatorListener'));
-
-        self::attachListener($mapper, $container->get('Gnc\ApigilityTools\Listener\HydratorDbResultListener'), 10000);
-    }
-
-    /**
      * @param \Zend\Db\Adapter\Adapter $dbAdapter
      * @param                          $table
      * @param                          $schema
@@ -176,7 +154,7 @@ class SqlActuatorMapperFactory
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $config = $container->get('Config');
-        $sqlActuatorMapperConfig = $config['gnc-apigility-tools']['sql-actuator-mapper'];
+        $sqlActuatorMapperConfig = $config['apigility-tools']['sql-actuator-mapper'];
 
         $requestedConfig = $this->getRequestedConfig($requestedName, $sqlActuatorMapperConfig);
 

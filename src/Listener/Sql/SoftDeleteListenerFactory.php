@@ -34,8 +34,8 @@ class SoftDeleteListenerFactory implements FactoryInterface
     {
         $object = new SoftDeleteListener();
         $config = $container->get('Config');
-        if (isset($config['caches']['gnc_apigility_tools_model_cache'])) {
-            $cache_config = $config['caches']['gnc_apigility_tools_model_cache'];
+        if (isset($config['caches']['apigility_tools_model_cache'])) {
+            $cache_config = $config['caches']['apigility_tools_model_cache'];
             $cache = StorageFactory::factory($cache_config);
             $object->setCache($cache);
         }

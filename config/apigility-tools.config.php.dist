@@ -2,7 +2,7 @@
 
 
 return [
-    'gnc-apigility-tools'=>[
+    'apigility-tools'=>[
         'sql-actuator-mapper' => [
             'default'=>[
                 'composite_key' => false,
@@ -43,7 +43,7 @@ return [
     * configurare la cache
     */
     'caches' => [
-        'gnc_apigility_tools_model_cache' => [
+        'apigility_tools_model_cache' => [
             'adapter' => [
                 'name' => 'filesystem',
                 'options' => [
