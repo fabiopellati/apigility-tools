@@ -10,11 +10,11 @@ namespace ApigilityTools;
 return [
     'service_manager' => [
         'factories' => [
-            'ApigilityTools\\Listener\\SqlOrderableListener' => 'ApigilityTools\\Listener\\SqlOrderableListenerFactory',
-            'ApigilityTools\\Listener\\SqlSearchableListener' => 'ApigilityTools\\Listener\\SqlSearchableListenerFactory',
-            'ApigilityTools\\Listener\\SqlFilterTextListener' => 'ApigilityTools\\Listener\\SqlFilterTextListenerFactory',
-            'ApigilityTools\\Listener\\SoftDeleteListener' => 'ApigilityTools\\Listener\\SoftDeleteListenerFactory',
-            'ApigilityTools\\Listener\\SqlPaginatorListener' => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
+            'ApigilityTools\\Listener\\Sql\\SqlOrderableListener' => 'ApigilityTools\\Listener\\Sql\\SqlOrderableListenerFactory',
+            'ApigilityTools\\Listener\\Sql\\SqlSearchableListener' => 'ApigilityTools\\Listener\\Sql\\SqlSearchableListenerFactory',
+            'ApigilityTools\\Listener\\Sql\\SqlFilterTextListener' => 'ApigilityTools\\Listener\\Sql\\SqlFilterTextListenerFactory',
+            'ApigilityTools\\Listener\\Sql\\SoftDeleteListener' => 'ApigilityTools\\Listener\\Sql\\SoftDeleteListenerFactory',
+            'ApigilityTools\\Listener\\Sql\\SqlPaginatorListener' => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             'ApigilityTools\\Listener\\Sql\\SqlActuatorListener' => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             'ApigilityTools\\Listener\\Entity\\CompositeKeysListenerAggregate' => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             'ApigilityTools\\Listener\\Query\\CountAffectedQueryListener' => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
