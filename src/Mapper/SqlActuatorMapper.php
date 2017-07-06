@@ -19,31 +19,12 @@ use MessageExchangeEventManager\EventRunAwareTrait;
  *
  * @package ApigilityTools
  */
-class SqlActuatorMapper implements FetchAwareInterface, UpdateAwareInterface, CreateAwareInterface, DeleteAwareInterface
+class SqlActuatorMapper
+    implements MapperFetchAwareInterface, MapperFetchAllAwareInterface, MapperUpdateAwareInterface, MapperPatchAwareInterface, MapperCreateAwareInterface, MapperDeleteAwareInterface
 {
 
     use EventManagerAwareTrait;
     use EventRunAwareTrait;
-    const EVENT_MAPPER_PRE_CREATE = 'mapper.create.pre';
-    const EVENT_MAPPER_PRE_UPDATE = 'mapper.update.pre';
-    const EVENT_MAPPER_PRE_PATCH = 'mapper.patch.pre';
-    const EVENT_MAPPER_PRE_DELETE = 'mapper.delete.pre';
-    const EVENT_MAPPER_PRE_FETCH = 'mapper.fetch.pre';
-    const EVENT_MAPPER_PRE_FETCH_ALL = 'mapper.fetchAll.pre';
-
-    const EVENT_MAPPER_CREATE = 'mapper.create';
-    const EVENT_MAPPER_UPDATE = 'mapper.update';
-    const EVENT_MAPPER_PATCH = 'mapper.patch';
-    const EVENT_MAPPER_DELETE = 'mapper.delete';
-    const EVENT_MAPPER_FETCH = 'mapper.fetch';
-    const EVENT_MAPPER_FETCH_ALL = 'mapper.fetchAll';
-
-    const EVENT_MAPPER_POST_CREATE = 'mapper.create.post';
-    const EVENT_MAPPER_POST_UPDATE = 'mapper.update.post';
-    const EVENT_MAPPER_POST_PATCH = 'mapper.patch.post';
-    const EVENT_MAPPER_POST_DELETE = 'mapper.delete.post';
-    const EVENT_MAPPER_POST_FETCH = 'mapper.fetch.post';
-    const EVENT_MAPPER_POST_FETCH_ALL = 'mapper.fetchAll.post';
 
 
     /**
