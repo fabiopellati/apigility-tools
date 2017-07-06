@@ -54,7 +54,11 @@ class HydratorDbResultListener extends AbstractListenerAggregate
         $content = $response->getContent();
 
         if ($content instanceof ResultInterface && $content->isQueryResult()) {
-            $resultset = new HydratingResultSet($request->getHydrator(), $e->getRequest()->getResultset());
+            $hydrator = $request->getParameters()->get('hydrator');
+            $resultset = $request->getParameters()->get('resultset');
+
+
+            $resultset = new HydratingResultSet($hydrator, $resultset);
             $resultset->initialize($content);
             $response->setContent($resultset);
         }

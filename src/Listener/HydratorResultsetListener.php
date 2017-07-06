@@ -43,8 +43,9 @@ class HydratorResultsetListener extends AbstractListenerAggregate
     public function onRunPost(EventInterface $e)
     {
         $request = $e->getRequest();
-        $hydrator = $request->getHydrator();
-        $resultset = $e->getRequest()->getResultset();
+        $hydrator = $request->getParameters()->get('hydrator');
+        $resultset = $request->getParameters()->get('resultset');
+
         $response = $e->getResponse();
 
         $content = $response->getContent();
