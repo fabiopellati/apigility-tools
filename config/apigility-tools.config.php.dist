@@ -4,35 +4,66 @@
 return [
     'apigility-tools'=>[
         'sql-actuator-mapper' => [
-            'default'=>[
+            'mapper_default'=>[
                 'composite_key' => false,
-                'mapper_class' => 'ApigilityTools\\Mapper\\SqlActuatorMapper',
+                'mapper_class' => 'ApigilityTools\\SqlActuator\\SqlActuatorMapper',
+                'identifier_delimiter'=>'_',
 
-                'listeners' => [
-                    'ApigilityTools\Listener\Sql\SqlFetchListener',
-                    'ApigilityTools\Listener\Sql\SqlFetchAllListener',
-                    'ApigilityTools\Listener\Sql\SqlCreateListener',
-                    'ApigilityTools\Listener\Sql\SqlUpdateListener',
-                    'ApigilityTools\Listener\Sql\SqlDeleteListener',
-                    'ApigilityTools\Listener\Query\ConstraintWhereListener',
-                    'ApigilityTools\Listener\Query\SelectQueryListener',
-                    'ApigilityTools\Listener\Query\UpdateQueryListener',
-                    'ApigilityTools\Listener\Query\DeleteQueryListener',
-                    'ApigilityTools\Listener\Query\InsertQueryListener',
-                    'ApigilityTools\Listener\Query\RunQueryListener',
-                    'ApigilityTools\Listener\Sql\SqlPaginatorListener',
-                    'ApigilityTools\Listener\HydratorDbResultListener' ,
-                    'ApigilityTools\\Listener\\Query\\WhereIdListener',
-                    'ApigilityTools\\Listener\\HydratorPreLimitedDbResultsetCollectionListener',
-                    'ApigilityTools\\Listener\\Query\\CountAffectedQueryListener'
+                'mapper-listeners' => [
+                    'ApigilityTools\SqlActuator\Listener\Sql\SqlFetchListener',
+                    'ApigilityTools\SqlActuator\Listener\Sql\SqlFetchAllListener',
+                    'ApigilityTools\SqlActuator\Listener\Sql\SqlCreateListener',
+                    'ApigilityTools\SqlActuator\Listener\Sql\SqlUpdateListener',
+                    'ApigilityTools\SqlActuator\Listener\Sql\SqlDeleteListener',
+                    'ApigilityTools\SqlActuator\Listener\Query\ConstraintWhereListener',
+                    'ApigilityTools\SqlActuator\Listener\Query\SelectQueryListener',
+
+                    /**
+                    *
+                    * listener facoltativi, da attivare solo se necessari
+                    *
+                    * 'ApigilityTools\SqlActuator\Listener\Query\UpdateQueryListener',
+                    * 'ApigilityTools\SqlActuator\Listener\Query\DeleteQueryListener',
+                    * 'ApigilityTools\SqlActuator\Listener\Query\InsertQueryListener',
+                    */
+
+                    'ApigilityTools\SqlActuator\Listener\Query\RunQueryListener',
+                    'ApigilityTools\SqlActuator\Listener\Sql\SqlPaginatorListener',
+                    'ApigilityTools\SqlActuator\Listener\HydratorDbResultListener' ,
+
+                    /**
+                    *
+                    * listener per la selezione delle risorse
+                    * se la risosrsa è identificata da chiave composita usare in alternativa
+                    *
+                    * 'ApigilityTools\SqlActuator\Listener\Query\WhereKeysListener',
+                    *
+                    */
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\WhereIdListener',
+
+                    'ApigilityTools\\SqlActuator\\Listener\\HydratorPreLimitedDbResultsetCollectionListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\CountAffectedQueryListener'
                 ]
 
+            ],
+            'Resource\\Class' => [
+                'mapper_class' => 'Mapper\\Class',
+            ],
+
+            'Entity\\Class' => [
+                'identifier_delimiter'=>'_',
+                'listeners' => [
+                    'ApigilityTools\Rest\Entity\Listener\CompositeKeysListenerAggregate',
+                ]
             ],
             'Mapper\\Class' => [
                 'namespace' => '',
                 'db_adapter' => '',
                 'db_schema' => '',
                 'db_table' => '',
+                'route_association_identifier_name'=>'risorse_id',
+                'entity_association_identifier_name'=>'risorse_id',
+
                 'listeners' => [
                 ]
             ]
