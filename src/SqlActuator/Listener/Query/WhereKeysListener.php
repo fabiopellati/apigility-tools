@@ -107,7 +107,7 @@ class WhereKeysListener
             $identifierName = $request->getParameters()->get('identifierName');
             $keys=[];
             if (!empty($identifierName)) {
-                $keys = explode($this->identifierDelimiter, $identifierName);
+                $keys = explode($identifierDelimiter, $identifierName);
             }
 
             $values = explode($identifierDelimiter, $id);
