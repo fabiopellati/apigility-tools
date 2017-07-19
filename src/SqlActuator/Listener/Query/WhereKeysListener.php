@@ -111,7 +111,7 @@ class WhereKeysListener
             }
 
             $values = explode($identifierDelimiter, $id);
-            if (count($values) != count($this->keys)) {
+            if (count($values) != count($keys)) {
                 throw new InvalidParamException('Id parameter contains a wrong number of elements', 500);
             }
             $query = $request->getParameters()->get('query');
