@@ -8,7 +8,7 @@
 
 namespace ApigilityTools\SqlActuator\Listener\Sql;
 
-use ApigilityTools\SqlActuator\Mapper;
+use ApigilityTools\Mapper\Mapper;
 use MessageExchangeEventManager\Event\EventInterface;
 use MessageExchangeEventManager\EventManagerAwareTrait;
 use MessageExchangeEventManager\EventRunAwareTrait;

@@ -91,6 +91,7 @@ class WhereKeysListener
     /**
      * @param \MessageExchangeEventManager\Event\Event $e
      *
+     * @todo linea 116 questa eccezione non ha effetti sulla cascata
      * @return \MessageExchangeEventManager\Response\ResponseInterface
      */
     public function onEvent(Event $e)

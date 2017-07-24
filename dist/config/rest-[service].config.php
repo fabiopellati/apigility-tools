@@ -5,7 +5,7 @@ return [
     'service_manager' => [
         'factories' => [
             __NAMESPACE__ . '\\Resource' => \ApigilityTools\Rest\Resource\ResourceListenerFactory::class,
-            __NAMESPACE__ . '\\Mapper'   => \ApigilityTools\SqlActuator\MapperFactory::class,
+            __NAMESPACE__ . '\\Mapper'   => \ApigilityTools\Mapper\MapperFactory::class,
             __NAMESPACE__ . '\\Entity'   => \ApigilityTools\Rest\Entity\EventAwareEntityFactory::class,
         ],
     ],

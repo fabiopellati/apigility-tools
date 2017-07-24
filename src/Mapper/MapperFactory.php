@@ -4,7 +4,7 @@
  *
  */
 
-namespace ApigilityTools\SqlActuator;
+namespace ApigilityTools\Mapper;
 
 use ApigilityTools\Rest\Entity\EventAwareEntity;
 use Interop\Container\ContainerInterface;
@@ -42,7 +42,7 @@ class MapperFactory
      * @param null                                  $resultset
      * @param null                                  $hydrator
      *
-     * @return \ApigilityTools\SqlActuator\Mapper
+     * @return \ApigilityTools\Mapper\Mapper
      */
     public static function mapperFactory(ContainerInterface $container, Adapter $dbAdapter, $table, $schema,
     $mapperClass, $controllerClass, $entityClass, $collectionClass, $resultset = null, $hydrator = null)
@@ -51,7 +51,7 @@ class MapperFactory
         $event = self::getEvent($container);
 
         /**
-         * @var $mapper \ApigilityTools\SqlActuator\Mapper
+         * @var $mapper \ApigilityTools\Mapper\Mapper
          *
          */
         $mapper = new $mapperClass($event);
@@ -285,7 +285,7 @@ class MapperFactory
 
 
     /**
-     * @param \ApigilityTools\SqlActuator\Mapper                                                                $mapper
+     * @param \ApigilityTools\Mapper\Mapper                                                                     $mapper
      * @param                                                                                                   $listener
      * @param null                                                                                              $priority
      */

@@ -4,14 +4,8 @@
  *
  */
 
-namespace ApigilityTools\SqlActuator;
+namespace ApigilityTools\Mapper;
 
-use ApigilityTools\Mapper\MapperCreateAwareInterface;
-use ApigilityTools\Mapper\MapperDeleteAwareInterface;
-use ApigilityTools\Mapper\MapperFetchAllAwareInterface;
-use ApigilityTools\Mapper\MapperFetchAwareInterface;
-use ApigilityTools\Mapper\MapperPatchAwareInterface;
-use ApigilityTools\Mapper\MapperUpdateAwareInterface;
 use MessageExchangeEventManager\Event\EventInterface;
 use MessageExchangeEventManager\EventManagerAwareTrait;
 use MessageExchangeEventManager\EventRunAwareTrait;
@@ -26,7 +20,8 @@ use MessageExchangeEventManager\EventRunAwareTrait;
  * @package ApigilityTools
  */
 class Mapper
-    implements MapperFetchAwareInterface, MapperFetchAllAwareInterface, MapperUpdateAwareInterface, MapperPatchAwareInterface, MapperCreateAwareInterface, MapperDeleteAwareInterface
+    implements MapperFetchAwareInterface, MapperFetchAllAwareInterface,
+               MapperUpdateAwareInterface, MapperPatchAwareInterface, MapperCreateAwareInterface, MapperDeleteAwareInterface
 {
 
     use EventManagerAwareTrait;

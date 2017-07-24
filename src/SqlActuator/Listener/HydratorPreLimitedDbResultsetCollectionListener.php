@@ -8,8 +8,8 @@
 
 namespace ApigilityTools\SqlActuator\Listener;
 
+use ApigilityTools\Mapper\Mapper;
 use ApigilityTools\Paginator\Adapter\PreLimitedArrayAdapter;
-use ApigilityTools\SqlActuator\Mapper;
 use MessageExchangeEventManager\Event\EventInterface;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
 use MessageExchangeEventManager\Request\Request;

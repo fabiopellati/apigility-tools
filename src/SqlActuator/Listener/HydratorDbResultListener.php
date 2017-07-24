@@ -8,7 +8,7 @@
 
 namespace ApigilityTools\SqlActuator\Listener;
 
-use ApigilityTools\SqlActuator\Mapper;
+use ApigilityTools\Mapper\Mapper;
 use MessageExchangeEventManager\Event\EventInterface;
 use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\ResultSet\HydratingResultSet;
