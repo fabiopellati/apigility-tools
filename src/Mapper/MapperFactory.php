@@ -58,7 +58,7 @@ class MapperFactory
         $event->getRequest()->getParameters()->set('mapper', $mapper);
 
         if (!$mapper instanceof Mapper) {
-            throw new ServiceNotCreatedException('$mapperClass must be instance of ApigilityTools\Mapper\SqlActuatorMapper',
+            throw new ServiceNotCreatedException('$mapperClass must be instance of ApigilityTools\Mapper\SqlActuatorMapper '. $mapperClass.' given',
                                                  500);
         }
 
