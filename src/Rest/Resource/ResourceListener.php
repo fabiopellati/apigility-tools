@@ -47,8 +47,11 @@ class ResourceListener
     public function create($data)
     {
         $data = $this->retrieveData($data);
-        $id = $this->mapper->create($data);
-        $result = $this->fetch($id);
+        $createResult = $this->mapper->create($data);
+        if ($createResult instanceof ApiProblem) {
+            return $createResult;
+        }
+        $result = $this->fetch($createResult);
 
         return $result;
     }
@@ -112,9 +115,6 @@ class ResourceListener
         $requestQuery = $this->getEvent()->getRequest()->getQuery();
         $this->mapper->getEvent()->getRequest()->getParameters()->set('request_query', $requestQuery);
 
-//        print_r([__METHOD__=>$requestQuery]);exit;
-//        $this->mapper->getEventManager()->triggerEvent(self::EVENT_REQUEST_QUERY, )
-
         /**
          * @var $result \Zend\Paginator\Paginator
          */
@@ -134,7 +134,7 @@ class ResourceListener
     public function patch($id, $data)
     {
         $data = $this->retrieveData($data);
-        $this->mapper->patch($id, $data);
+        $result = $this->mapper->patch($id, $data);
 
         return $this->fetch($id);
     }
