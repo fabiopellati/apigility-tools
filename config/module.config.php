@@ -38,6 +38,7 @@ return [
 
     'service_manager' => [
         'factories' => [
+            'ApigilityTools\\Mapper\\Listener\\ComposedKeysListener'       => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             /**
              * actuator sql
              */

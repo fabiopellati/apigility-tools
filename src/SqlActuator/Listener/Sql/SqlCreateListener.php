@@ -18,7 +18,8 @@ use Zend\EventManager\EventManagerInterface;
 
 class SqlCreateListener
     extends AbstractListenerAggregate
-    implements SqlActuatorListenerInterface, EventManagerAwareInterface
+    implements EventManagerAwareInterface,
+               SqlActuatorListenerInterface
 {
     use EventManagerAwareTrait;
     use EventRunAwareTrait;

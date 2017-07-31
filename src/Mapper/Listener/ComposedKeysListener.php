@@ -9,9 +9,12 @@
  *
  */
 
-namespace ApigilityTools\SqlActuator\Listener\Query;
+namespace ApigilityTools\Mapper\Listener;
 
 use ApigilityTools\Exception\InvalidParamException;
+use ApigilityTools\Mapper\MapperDeleteAwareInterface;
+use ApigilityTools\Mapper\MapperFetchAwareInterface;
+use ApigilityTools\Mapper\MapperUpdateAwareInterface;
 use ApigilityTools\SqlActuator\Listener\Sql\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
@@ -23,7 +26,7 @@ use Zend\Db\Sql\Where;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class WhereKeysListener
+class ComposedKeysListener
     extends AbstractListenerAggregate
 {
 
@@ -42,9 +45,9 @@ class WhereKeysListener
     public function attach(EventManagerInterface $events, $priority = 100)
     {
 
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_DELETE, [$this, 'onDelete'], $priority);
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onSelect'], $priority);
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_UPDATE, [$this, 'onUpdate'], $priority);
+        $this->listeners[] = $events->attach(MapperDeleteAwareInterface::EVENT_MAPPER_PRE_DELETE, [$this, 'onDelete'], $priority);
+        $this->listeners[] = $events->attach(MapperFetchAwareInterface::EVENT_MAPPER_PRE_FETCH, [$this, 'onSelect'], $priority);
+        $this->listeners[] = $events->attach(MapperUpdateAwareInterface::EVENT_MAPPER_PRE_UPDATE, [$this, 'onUpdate'], $priority);
     }
 
     /**
@@ -115,14 +118,7 @@ class WhereKeysListener
             if (count($values) != count($keys)) {
                 throw new InvalidParamException('Id parameter contains a wrong number of elements', 500);
             }
-            $query = $request->getParameters()->get('query');
-            if (empty($query) || !$query instanceof AbstractPreparableSql) {
-                throw new ListenerRequirementException('parametro query non presente: possibile errore nella sequenza dei listener ',
-                                                       500);
-            }
 
-            $this->composeWhere($query, $keys, $values);
-            $request->getParameters()->set('hasConstraintWhere', true);
             $composedKey=array_combine($keys,$values);
             $request->getParameters()->set('composedKey', $composedKey);
             $request->getParameters()->set('constraint', [$identifierName => $id]);
@@ -136,39 +132,5 @@ class WhereKeysListener
 
     }
 
-    /**
-     * metodo di costruzione della where con chiave composita
-     * per tutti gli eventi gestiti
-     *
-     * nel comportamento standard la query viene filtrata per  con una nest and
-     * 'chiave'=valore per ciascuna chiave definita
-     *
-     * @param AbstractPreparableSql $query
-     * @param                       $values
-     *
-     * @internal param $id
-     */
-    protected function composeWhere(AbstractPreparableSql $query,$keys, $values)
-    {
-
-
-        $query->where(function (Where $where) use ($keys, $values) {
-            $where->and;
-            $nest = $where->nest();
-            foreach ($keys as $index => $key) {
-                $value = $values[$index];
-                if ($value === (int)$value) {
-                    $value = (int)$value;
-
-                    $predicate = new Operator($key, Operator::OP_EQ, $value);
-                    $nest->addPredicate($predicate, Predicate::OP_AND);
-                    continue;
-                }
-                $predicate = new Like($key, $value);
-                $nest->addPredicate($predicate, Predicate::OP_AND);
-
-            }
-        });
-    }
 
 }
