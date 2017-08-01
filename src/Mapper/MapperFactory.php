@@ -9,6 +9,8 @@ namespace ApigilityTools\Mapper;
 use ApigilityTools\Rest\Entity\EventAwareEntity;
 use Interop\Container\ContainerInterface;
 use MessageExchangeEventManager\Event\Event;
+use MessageExchangeEventManager\Request\Request;
+use MessageExchangeEventManager\Response\Response;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\TableIdentifier;
@@ -256,8 +258,8 @@ class MapperFactory
      */
     protected function getEvent(ContainerInterface $container)
     {
-        $request = $container->get('MessageExchangeEventManager\\Request\\Request');
-        $response = $container->get('MessageExchangeEventManager\\Response\\Response');
+        $request = new Request();
+        $response = new Response();
         $event = new Event();
         $event->setRequest($request);
         $event->setResponse($response);
