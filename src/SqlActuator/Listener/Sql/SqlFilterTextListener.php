@@ -81,7 +81,7 @@ class SqlFilterTextListener
                     }
                     if ($value != '') {
                         $nest = $where->NEST;
-                        $nest->equalTo($key, $value);
+                        $nest->like($key, $value);
                         $nest->and;
                     }
                 }
