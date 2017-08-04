@@ -39,7 +39,7 @@ class WhereKeysListener
      *
      * @return void
      */
-    public function attach(EventManagerInterface $events, $priority = 100)
+    public function attach(EventManagerInterface $events, $priority = 500)
     {
 
         $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_DELETE, [$this, 'onDelete'], $priority);
@@ -102,10 +102,11 @@ class WhereKeysListener
         try {
             $id = $request->getParameters()->get('id');
             $identifierDelimiter = $request->getParameters()->get('identifierDelimiter');
-            if (!empty($identifierDelimiter)) {
+            if (empty($identifierDelimiter)) {
                 $identifierDelimiter = '_';
             }
             $identifierName = $request->getParameters()->get('identifierName');
+
             $keys=[];
             if (!empty($identifierName)) {
                 $keys = explode($identifierDelimiter, $identifierName);

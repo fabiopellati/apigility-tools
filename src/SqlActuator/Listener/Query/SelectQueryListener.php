@@ -34,7 +34,7 @@ class SelectQueryListener
      *
      * @return void
      */
-    public function attach(EventManagerInterface $events, $priority = 100)
+    public function attach(EventManagerInterface $events, $priority = 1000)
     {
         $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [
             $this,
