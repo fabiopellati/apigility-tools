@@ -3,7 +3,7 @@
 
 return [
     'apigility-tools'=>[
-        'sql-actuator-mapper' => [
+        'actuator-mapper' => [
             'mapper_default'=>[
                 'composite_key' => false,
                 'mapper_class' => 'ApigilityTools\\SqlActuator\\SqlActuatorMapper',

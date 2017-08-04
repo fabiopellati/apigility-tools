@@ -10,7 +10,7 @@ return [
         ],
     ],
     'apigility-tools' => [
-        'sql-actuator-mapper' => [
+        'actuator-mapper' => [
             __NAMESPACE__ . '\\Resource' => [
                 'mapper_class' => __NAMESPACE__ . '\\Mapper',
             ],

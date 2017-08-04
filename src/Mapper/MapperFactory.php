@@ -31,7 +31,7 @@ class MapperFactory
 
     /**
      * l'utilizzo della factory invocandola, prevede la compilazione di adeguata configurazione
-     * sotto la chiave ['apigility-tools']['sql-actuator-mapper']
+     * sotto la chiave ['apigility-tools']['actuator-mapper']
      *
      * @param \Interop\Container\ContainerInterface $container
      * @param string                                $requestedName
