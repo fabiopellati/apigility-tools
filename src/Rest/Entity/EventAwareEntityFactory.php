@@ -24,7 +24,7 @@ class EventAwareEntityFactory
     {
         $entity = new $requestedName();
         $config = $container->get('Config');
-        $sqlActuatorMapperConfig = $config['apigility-tools']['sql-actuator-mapper'];
+        $sqlActuatorMapperConfig = $config['apigility-tools']['actuator-mapper'];
         $halMetadataMap = $config['zf-hal']['metadata_map'];
         $entityIdentifierName = $halMetadataMap[$requestedName]['entity_identifier_name'];
         $entity->getEvent()->getRequest()->getParameters()->set('identifierName', $entityIdentifierName);

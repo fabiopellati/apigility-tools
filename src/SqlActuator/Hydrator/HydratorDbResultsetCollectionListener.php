@@ -6,7 +6,7 @@
  * Time: 11.43
  */
 
-namespace ApigilityTools\SqlActuator\Listener;
+namespace ApigilityTools\SqlActuator\Hydrator;
 
 use ApigilityTools\Mapper\Mapper;
 use MessageExchangeEventManager\Event\EventInterface;

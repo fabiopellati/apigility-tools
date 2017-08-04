@@ -6,8 +6,9 @@
  * Time: 17.44
  */
 
-namespace ApigilityTools\SqlActuator\Listener\Sql;
+namespace ApigilityTools\SqlActuator\Listener\Feature;
 
+use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\Exception\InvalidParamException;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
@@ -15,7 +16,7 @@ use Zend\Db\Sql\Select;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class SqlPaginatorListener
+class PaginatorListener
     extends AbstractListenerAggregate
 {
 

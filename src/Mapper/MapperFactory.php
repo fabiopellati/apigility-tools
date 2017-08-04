@@ -11,9 +11,6 @@ use Interop\Container\ContainerInterface;
 use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\Request\Request;
 use MessageExchangeEventManager\Response\Response;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\TableIdentifier;
 use Zend\Filter\Word\UnderscoreToCamelCase;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Factory\FactoryInterface;
@@ -33,120 +30,8 @@ class MapperFactory
 {
 
     /**
-     * @param \Interop\Container\ContainerInterface $container
-     * @param \Zend\Db\Adapter\Adapter              $dbAdapter
-     * @param                                       $table
-     * @param                                       $schema
-     * @param                                       $mapperClass
-     * @param                                       $controllerClass
-     * @param                                       $entityClass
-     * @param                                       $collectionClass
-     * @param null                                  $resultset
-     * @param null                                  $hydrator
-     *
-     * @return \ApigilityTools\Mapper\Mapper
-     */
-    public static function mapperFactory(ContainerInterface $container, Adapter $dbAdapter, $table, $schema,
-    $mapperClass, $controllerClass, $entityClass, $collectionClass, $resultset = null, $hydrator = null)
-    {
-
-        $event = self::getEvent($container);
-
-        /**
-         * @var $mapper \ApigilityTools\Mapper\Mapper
-         *
-         */
-        $mapper = new $mapperClass($event);
-        $event->getRequest()->getParameters()->set('mapper', $mapper);
-
-        if (!$mapper instanceof Mapper) {
-            throw new ServiceNotCreatedException('$mapperClass must be instance of ApigilityTools\Mapper\SqlActuatorMapper '. $mapperClass.' given',
-                                                 500);
-        }
-
-        $config = $container->get('Config');
-
-        $halConfig = $config['zf-hal']['metadata_map'];
-        $apigilityConfig = $config['zf-rest'][$controllerClass];
-
-        self::setSql($dbAdapter, $table, $schema, $event);
-
-        self::setEntityClass($entityClass, $event);
-        self::setCollectionClass($collectionClass, $event);
-        self::setHalConfig($entityClass, $collectionClass, $halConfig, $event);
-        self::setApigilityConfig($apigilityConfig, $event);
-
-        self::setHydrator($hydrator, $container, $event);
-        self::setResultset($resultset, $container, $event);
-
-        return $mapper;
-
-    }
-
-    /**
-     * @param \Zend\Db\Adapter\Adapter $dbAdapter
-     * @param                          $table
-     * @param                          $schema
-     * @param                          $event
-     */
-    private static function setSql(Adapter $dbAdapter, $table, $schema, Event $event)
-    {
-        $sql = new Sql($dbAdapter, new TableIdentifier($table, $schema));
-        $event->getRequest()->getParameters()->set('sql', $sql);
-    }
-
-    /**
-     * @param $entityClass
-     * @param $event
-     */
-    private static function setEntityClass($entityClass, Event $event)
-    {
-        $event->getRequest()->getParameters()->set('entityClass', $entityClass);
-    }
-
-    /**
-     * @param $entityClass
-     * @param $collectionClass
-     * @param $event
-     * @param $metadataMap
-     */
-    private static function setHalConfig($entityClass, $collectionClass, $metadataMap, Event $event)
-    {
-        $halConfig = [
-            $entityClass     => $metadataMap[$entityClass],
-            $collectionClass => $metadataMap[$collectionClass],
-        ];
-        $event->getRequest()->getParameters()->set('halConfig', $halConfig);
-        $event->getRequest()->getParameters()->set('identifierName',
-                                                   $halConfig[$entityClass]['entity_identifier_name'])
-        ;
-    }
-
-    /**
-     * @param                                          $apigilityConfig
-     * @param \MessageExchangeEventManager\Event\Event $event
-     *
-     * @internal param $entityClass
-     * @internal param $collectionClass
-     * @internal param $metadataMap
-     */
-    private static function setApigilityConfig($apigilityConfig, Event $event)
-    {
-        $event->getRequest()->getParameters()->set('apigilityConfig', $apigilityConfig);
-    }
-
-    /**
-     * @param $collectionClass
-     * @param $event
-     */
-    private static function setCollectionClass($collectionClass, Event $event)
-    {
-        $event->getRequest()->getParameters()->set('collectionClass', $collectionClass);
-    }
-
-    /**
      * l'utilizzo della factory invocandola, prevede la compilazione di adeguata configurazione
-     * sotto la chiave ['apigility-tools']['sql-actuator-mapper']
+     * sotto la chiave ['apigility-tools']['actuator-mapper']
      *
      * @param \Interop\Container\ContainerInterface $container
      * @param string                                $requestedName
@@ -156,33 +41,40 @@ class MapperFactory
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
+        $event = $this->getEvent($container);
+
         $config = $container->get('Config');
-        $sqlActuatorMapperConfig = $config['apigility-tools']['sql-actuator-mapper'];
+
+        $actuatorMapperConfig = $config['apigility-tools']['actuator-mapper'];
         $halMetadataMapConfig = $config['zf-hal']['metadata_map'];
-
-        $requestedConfig = $this->getRequestedConfig($requestedName, $sqlActuatorMapperConfig);
-
-        $namespace=$this->extractConfigParam($requestedConfig, 'namespace');
-
+        $requestedConfig = $this->getRequestedConfig($requestedName, $actuatorMapperConfig);
+        $namespace = $this->extractConfigParam($requestedConfig, 'namespace');
         $controllerClass = $namespace . '\Controller';
-        $controllerConfig=$config['zf-rest'][$controllerClass];
+        $controllerConfig = $config['zf-rest'][$controllerClass];
         $entityClass = $controllerConfig['entity_class'];
         $collectionClass = $controllerConfig['collection_class'];
-        $hydratorClass = $halMetadataMapConfig[$entityClass]['hydrator'];
+        $apigilityConfig = $config['zf-rest'][$controllerClass];
 
-        $dbAdapter = $container->get($this->extractConfigParam($requestedConfig, 'db_adapter'));
-        $dbSchema = $this->extractConfigParam($requestedConfig, 'db_schema');
-        $dbTable = $this->extractConfigParam($requestedConfig, 'db_table');
-        $mapperClass =$this->extractConfigParam($requestedConfig, 'mapper_class');
+        $requestParameters = $event->getRequest()->getParameters();
+        $requestParameters->set('actuatorMapperConfig', $actuatorMapperConfig);
+        $requestParameters->set('halMetadataMapConfig', $halMetadataMapConfig);
+        $requestParameters->set('namespace', $namespace);
+        $requestParameters->set('entityClass', $entityClass);
+        $requestParameters->set('collectionClass', $collectionClass);
+        $requestParameters->set('identifierName', $halMetadataMapConfig[$entityClass]['entity_identifier_name']);
+        $requestParameters->set('apigilityConfig', $apigilityConfig);
+
+        $mapper = $this->setMapper($requestedConfig, $event);
 
         $entity = $container->get($entityClass);
         if (!$entity instanceof EventAwareEntity) {
             throw new ServiceNotCreatedException('Entity must be instance of EventAwareEntity', 500);
         }
 
-        $hydrator=new $hydratorClass();
-        $mapper = self::mapperFactory($container, $dbAdapter, $dbTable, $dbSchema, $mapperClass, $controllerClass,
-                                      $entityClass, $collectionClass, $entity, $hydrator);
+        $hydratorClass = $halMetadataMapConfig[$entityClass]['hydrator'];
+        $hydrator = new $hydratorClass();
+        $this->setHydrator($hydrator, $container, $event);
+        $this->setResultset($entity, $container, $event);
 
         $underscoreToCamelCase = new UnderscoreToCamelCase();
         foreach ($requestedConfig as $key => $value) {
@@ -198,7 +90,12 @@ class MapperFactory
                     }
                     break;
                 default:
-                    $mapper->getEvent()->getRequest()->getParameters()->set($param, $value);
+                    if ($container->has($value)) {
+                        $mapper->getEvent()->getRequest()->getParameters()->set($param, $container->get($value));
+                    } else {
+                        $mapper->getEvent()->getRequest()->getParameters()->set($param, $value);
+
+                    }
                     break;
             }
         }
@@ -206,6 +103,7 @@ class MapperFactory
         return $mapper;
 
     }
+
     /**
      * @param $requestedConfig
      *
@@ -215,8 +113,10 @@ class MapperFactory
     {
         $value = $requestedConfig[$key];
         unset($requestedConfig[$key]);
+
         return $value;
     }
+
     /**
      * @param \MessageExchangeEventManager\Resultset\ResultsetHydrator $hydrator
      * @param \Interop\Container\ContainerInterface                    $container
@@ -285,11 +185,34 @@ class MapperFactory
         return $merged;
     }
 
+    /**
+     * @param $requestedConfig
+     * @param $event
+     *
+     * @return \ApigilityTools\Mapper\Mapper
+     */
+    protected function setMapper($requestedConfig, $event)
+    {
+        $mapperClass = $this->extractConfigParam($requestedConfig, 'mapper_class');
+        $mapper = new $mapperClass($event);
+
+        if (!$mapper instanceof Mapper) {
+            throw new ServiceNotCreatedException('$mapperClass must be instance of ApigilityTools\Mapper\Mapper ' .
+                                                 $mapperClass . ' given',
+                                                 500);
+        }
+        $event->getRequest()->getParameters()->set('mapper', $mapper);
+        $event->getRequest()->getParameters()->set('mapperClass', $mapperClass);
+
+        return $mapper;
+
+    }
+
 
     /**
-     * @param \ApigilityTools\Mapper\Mapper                                                                     $mapper
-     * @param                                                                                                   $listener
-     * @param null                                                                                              $priority
+     * @param \ApigilityTools\Mapper\Mapper $mapper
+     * @param                               $listener
+     * @param null                          $priority
      */
     private function attachListener(Mapper $mapper, $listener, $priority = null)
     {

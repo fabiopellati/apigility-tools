@@ -12,7 +12,7 @@
 namespace ApigilityTools\SqlActuator\Listener\Query;
 
 use ApigilityTools\Exception\InvalidParamException;
-use ApigilityTools\SqlActuator\Listener\Sql\SqlActuatorListenerInterface;
+use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
 use Zend\Db\Sql\AbstractPreparableSql;
 use Zend\Db\Sql\Predicate\Operator;

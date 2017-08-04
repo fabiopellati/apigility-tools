@@ -23,10 +23,10 @@ class ResourceListenerFactory
     {
 
         $config = $container->get('Config');
-        $sqlActuatorMapperConfig = $config['apigility-tools']['sql-actuator-mapper'];
+        $sqlActuatorMapperConfig = $config['apigility-tools']['actuator-mapper'];
         $requestedConfig = $sqlActuatorMapperConfig[$requestedName];
         if (empty($requestedConfig) || empty($requestedConfig['mapper_class'])) {
-            throw new ServiceNotCreatedException('sql-actuator-mapper configuration missed for mapper_class in ' .
+            throw new ServiceNotCreatedException('actuator-mapper configuration missed for mapper_class in ' .
                                                  $requestedName, 500);
         }
         $mapperClass = $requestedConfig['mapper_class'];

@@ -15,14 +15,7 @@ use ApigilityTools\Exception\InvalidParamException;
 use ApigilityTools\Mapper\MapperDeleteAwareInterface;
 use ApigilityTools\Mapper\MapperFetchAwareInterface;
 use ApigilityTools\Mapper\MapperUpdateAwareInterface;
-use ApigilityTools\SqlActuator\Listener\Sql\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
-use MessageExchangeEventManager\Exception\ListenerRequirementException;
-use Zend\Db\Sql\AbstractPreparableSql;
-use Zend\Db\Sql\Predicate\Like;
-use Zend\Db\Sql\Predicate\Operator;
-use Zend\Db\Sql\Predicate\Predicate;
-use Zend\Db\Sql\Where;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
