@@ -30,7 +30,7 @@ return [
                     'ApigilityTools\\SqlActuator\\Listener\\Query\\RunQueryListener'=>'ApigilityTools\\SqlActuator\\Listener\\Query\\RunQueryListener',
                     //                    'ApigilityTools\\SqlActuator\\Listener\\Query\\WhereIdListener'=>'ApigilityTools\\SqlActuator\\Listener\\Query\\WhereIdListener',
                     'ApigilityTools\\SqlActuator\\Listener\\Query\\CountAffectedQueryListener'               =>'ApigilityTools\\SqlActuator\\Listener\\Query\\CountAffectedQueryListener',
-                    'ApigilityTools\\SqlActuator\\Listener\\HydratorDbResultListener'                        =>'ApigilityTools\\SqlActuator\\Listener\\HydratorDbResultListener',
+                    'ApigilityTools\\SqlActuator\\Hydrator\\HydratorDbResultListener'                        =>'ApigilityTools\\SqlActuator\\Hydrator\\HydratorDbResultListener',
                     'ApigilityTools\\SqlActuator\\Hydrator\\HydratorPreLimitedDbResultsetCollectionListener' => 'ApigilityTools\\SqlActuator\\Hydrator\\HydratorPreLimitedDbResultsetCollectionListener',
                 ],
             ],
