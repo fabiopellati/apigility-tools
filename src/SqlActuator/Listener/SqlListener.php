@@ -25,7 +25,7 @@ class SqlListener
 {
     use EventManagerAwareTrait;
     use EventRunAwareTrait;
-    use ReplaceEventAwareTrait;
+
 
     /**
      * @param \Zend\EventManager\EventManagerInterface $events
@@ -55,9 +55,9 @@ class SqlListener
         $request = $e->getRequest();
         $response = $e->getResponse();
         $dbAdapter = $request->getParameters()->get('dbAdapter');
-        $schema = $request->getParameters()->get('schema');
-        $table = $request->getParameters()->get('table');
-        $sql = new Sql($dbAdapter, new TableIdentifier($table, $schema));
+        $dbSchema = $request->getParameters()->get('dbSchema');
+        $dbTable = $request->getParameters()->get('dbTable');
+        $sql = new Sql($dbAdapter, new TableIdentifier($dbTable, $dbSchema));
         $request->getParameters()->set('sql', $sql);
 
         return $response;

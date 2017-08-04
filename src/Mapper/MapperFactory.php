@@ -90,7 +90,12 @@ class MapperFactory
                     }
                     break;
                 default:
-                    $mapper->getEvent()->getRequest()->getParameters()->set($param, $value);
+                    if ($container->has($value)) {
+                        $mapper->getEvent()->getRequest()->getParameters()->set($param, $container->get($value));
+                    } else {
+                        $mapper->getEvent()->getRequest()->getParameters()->set($param, $value);
+
+                    }
                     break;
             }
         }
@@ -197,6 +202,7 @@ class MapperFactory
                                                  500);
         }
         $event->getRequest()->getParameters()->set('mapper', $mapper);
+        $event->getRequest()->getParameters()->set('mapperClass', $mapperClass);
 
         return $mapper;
 
