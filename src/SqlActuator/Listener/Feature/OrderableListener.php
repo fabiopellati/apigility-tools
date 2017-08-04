@@ -6,13 +6,14 @@
  * Time: 17.44
  */
 
-namespace ApigilityTools\SqlActuator\Listener\Sql;
+namespace ApigilityTools\SqlActuator\Listener\Feature;
 
+use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class SqlSearchableListener
+class OrderableListener
     extends AbstractListenerAggregate
 {
 
@@ -32,8 +33,10 @@ class SqlSearchableListener
     }
 
     /**
+     * Attach one or more listeners
      *
-     * aggiunge alla select del mapper una serie di where ricavandoli dai parametri search e search_into
+     * Implementors may add an optional $priority argument; the EventManager
+     * implementation will pass this to the aggregate.
      *
      * @param EventManagerInterface $events
      * @param int                   $priority
@@ -45,6 +48,7 @@ class SqlSearchableListener
 
         $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onEvent'], $priority);
     }
+
 
     /**
      *
@@ -58,27 +62,19 @@ class SqlSearchableListener
         $params = $this->params;
         $request = $e->getRequest();
         $response = $e->getResponse();
-        if (empty($params['search_into']) || empty($params['search'])) {
+        if (empty($params['order'])) {
             return $response;
+        }
+        if (empty($params['order_direction'])) {
+            $params['order_direction'] = 'ASC';
         }
         try {
             $query = $request->getParameters()->get('query');
+            $order = $params['order'];
+            $order_direction = $params['order_direction'];
+            $order = [$order => strtoupper($order_direction)];
+            $query->order($order);
 
-            $query->where(function ($where) use ($params) {
-                $search = $params['search'];
-                $nest = $where->NEST;
-                if (is_string($params['search_into'])) {
-                    $nest->like($params['search_into'], "%$search%");
-                    $nest->or;
-                } else {
-                    if (is_array($params['search_into'])) {
-                        foreach ($params['search_into'] as $into) {
-                            $nest->like($into, "%$search%");
-                            $nest->or;
-                        }
-                    }
-                }
-            });
         } catch (\Exception $error) {
             $response->setcontent($error);
             $e->stopPropagation();
@@ -87,4 +83,3 @@ class SqlSearchableListener
         return $response;
     }
 }
-

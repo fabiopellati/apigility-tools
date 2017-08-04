@@ -6,7 +6,7 @@
  * Time: 17.44
  */
 
-namespace ApigilityTools\SqlActuator\Listener\Sql;
+namespace ApigilityTools\SqlActuator\Listener\Feature;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
@@ -14,15 +14,15 @@ use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
-class SqlAssociationListenerFactory
+class FilterTextListenerFactory
     implements FactoryInterface
 {
     /**
      * Create an object
      *
      * @param  ContainerInterface $container
-     * @param  string $requestedName
-     * @param  null|array $options
+     * @param  string             $requestedName
+     * @param  null|array         $options
      *
      * @return object
      * @throws ServiceNotFoundException if unable to resolve the service.
@@ -32,13 +32,10 @@ class SqlAssociationListenerFactory
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        /**
-         * @var \Zend\Mvc\MvcEvent $mvcEvent
-         */
-        $mvcEvent=$container->get('Application')->getMvcEvent();
-        $params = $mvcEvent->getRouteMatch()->getParams();
+        $params = $container->get('Application')->getMvcEvent()->getRequest()->getQuery()->toArray();
 
-        $object = new SqlAssociationListener($params);
+        $object = new FilterTextListener($params);
+
         return $object;
     }
 

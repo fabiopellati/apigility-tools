@@ -6,7 +6,7 @@
  * Time: 17.44
  */
 
-namespace ApigilityTools\SqlActuator\Listener\Sql;
+namespace ApigilityTools\SqlActuator\Listener\Feature;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
@@ -14,7 +14,7 @@ use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
-class SqlOrderableListenerFactory
+class OrderableListenerFactory
     implements FactoryInterface
 {
     /**
@@ -33,7 +33,7 @@ class SqlOrderableListenerFactory
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $params = $container->get('Application')->getMvcEvent()->getRequest()->getQuery()->toArray();
-        $object = new SqlOrderableListener($params);
+        $object = new OrderableListener($params);
 
         return $object;
     }

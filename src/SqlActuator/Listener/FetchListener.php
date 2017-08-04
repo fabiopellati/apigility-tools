@@ -6,9 +6,10 @@
  * Time: 11.43
  */
 
-namespace ApigilityTools\SqlActuator\Listener\Sql;
+namespace ApigilityTools\SqlActuator\Listener;
 
 use ApigilityTools\Mapper\Mapper;
+use ApigilityTools\Traits\ReplaceEventAwareTrait;
 use MessageExchangeEventManager\Event\EventInterface;
 use MessageExchangeEventManager\EventManagerAwareTrait;
 use MessageExchangeEventManager\EventRunAwareTrait;
@@ -16,10 +17,9 @@ use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
 
-class SqlCreateListener
+class FetchListener
     extends AbstractListenerAggregate
-    implements EventManagerAwareInterface,
-               SqlActuatorListenerInterface
+    implements SqlActuatorListenerInterface, EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
     use EventRunAwareTrait;
@@ -33,10 +33,11 @@ class SqlCreateListener
     public function attach(EventManagerInterface $events, $priority = 100)
     {
 
-        $this->listeners[] = $events->attach(Mapper::EVENT_MAPPER_CREATE, [$this, 'onMapperEvent'],
+        $this->listeners[] = $events->attach(Mapper::EVENT_MAPPER_FETCH, [$this, 'onMapperEvent'],
                                              $priority);
 
     }
+
 
     /**
      * @param \MessageExchangeEventManager\Event\EventInterface $e
@@ -47,10 +48,10 @@ class SqlCreateListener
     {
 
         $event = $this->replaceEvent($e);
-        $event->getRequest()->getParameters()->set('mapper_action', Mapper::EVENT_MAPPER_CREATE);
-        $response = $this->runEvent($event, SqlActuatorListenerInterface::EVENT_PRE_SQL_INSERT,
-                                    SqlActuatorListenerInterface::EVENT_SQL_INSERT,
-                                    SqlActuatorListenerInterface::EVENT_POST_SQL_INSERT);
+        $event->getRequest()->getParameters()->set('mapper_action', Mapper::EVENT_MAPPER_FETCH);
+        $response = $this->runEvent($event, SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT,
+                                    SqlActuatorListenerInterface::EVENT_SQL_SELECT,
+                                    SqlActuatorListenerInterface::EVENT_POST_SQL_SELECT);
 
         return $response;
     }

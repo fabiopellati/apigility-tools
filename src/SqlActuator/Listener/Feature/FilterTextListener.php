@@ -6,13 +6,14 @@
  * Time: 17.44
  */
 
-namespace ApigilityTools\SqlActuator\Listener\Sql;
+namespace ApigilityTools\SqlActuator\Listener\Feature;
 
+use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class SqlFilterTextListener
+class FilterTextListener
     extends AbstractListenerAggregate
 {
     /**

@@ -11,7 +11,7 @@
 
 namespace ApigilityTools\SqlActuator\Listener\Query;
 
-use ApigilityTools\SqlActuator\Listener\Sql\SqlActuatorListenerInterface;
+use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
 use Zend\Db\Sql\AbstractPreparableSql;

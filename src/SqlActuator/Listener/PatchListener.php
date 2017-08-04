@@ -6,9 +6,10 @@
  * Time: 11.43
  */
 
-namespace ApigilityTools\SqlActuator\Listener\Sql;
+namespace ApigilityTools\SqlActuator\Listener;
 
 use ApigilityTools\Mapper\Mapper;
+use ApigilityTools\Traits\ReplaceEventAwareTrait;
 use MessageExchangeEventManager\Event\EventInterface;
 use MessageExchangeEventManager\EventManagerAwareTrait;
 use MessageExchangeEventManager\EventRunAwareTrait;
@@ -16,7 +17,7 @@ use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
 
-class SqlPatchListener
+class PatchListener
     extends AbstractListenerAggregate
     implements SqlActuatorListenerInterface, EventManagerAwareInterface
 {

@@ -6,9 +6,10 @@
  * Time: 17.44
  */
 
-namespace ApigilityTools\SqlActuator\Listener\Sql;
+namespace ApigilityTools\SqlActuator\Listener\Feature;
 
 use ApigilityTools\Exception\RuntimeException;
+use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
 use Zend\Db\Metadata\Source\Factory;
 use Zend\Db\Sql\AbstractPreparableSql;

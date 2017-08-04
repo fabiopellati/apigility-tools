@@ -6,7 +6,7 @@
  * Time: 11.43
  */
 
-namespace ApigilityTools\SqlActuator\Listener\Sql;
+namespace ApigilityTools\SqlActuator\Listener;
 
 use MessageExchangeEventManager\Event\EventInterface;
 

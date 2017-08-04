@@ -6,7 +6,7 @@
  * Time: 17.44
  */
 
-namespace ApigilityTools\SqlActuator\Listener\Sql;
+namespace ApigilityTools\SqlActuator\Listener\Feature;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;

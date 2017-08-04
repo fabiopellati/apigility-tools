@@ -6,14 +6,15 @@
  * Time: 17.44
  */
 
-namespace ApigilityTools\SqlActuator\Listener\Sql;
+namespace ApigilityTools\SqlActuator\Listener\Feature;
 
 use ApigilityTools\Exception\RuntimeException;
+use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class SqlAssociationListener extends AbstractListenerAggregate
+class AssociationListener extends AbstractListenerAggregate
 {
     /**
      * @var array
