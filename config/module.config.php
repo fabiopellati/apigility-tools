@@ -9,7 +9,7 @@ namespace ApigilityTools;
 
 return [
     'apigility-tools' => [
-        'sql-actuator-mapper' => [
+        'actuator-mapper' => [
             'entity_default' => [
                 ],
             'mapper_default' => [
