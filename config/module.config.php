@@ -88,6 +88,7 @@ return [
              */
             'ApigilityTools\\Rest\\Entity\\Listener\\CompositeKeysListenerAggregate'                 => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             'ApigilityTools\\Rest\\Entity\\Listener\\InputFilterListenerAggregate'                   => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
+            'ApigilityTools\\Rest\\Entity\\Listener\\AliasFieldsListenerAggregate'                   => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
         ],
     ],
 ];
