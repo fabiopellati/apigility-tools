@@ -77,6 +77,8 @@ class CompositeKeysListenerAggregate
             $newValue = implode($identifierDelimiter, $values);
             $arrayCopy[$identifierName] = $newValue;
             $arrayCopy['id'] = $newValue;
+            $request->getParameters()->set('arrayCopy', $arrayCopy);
+
             $response->setContent($arrayCopy);
         }
 

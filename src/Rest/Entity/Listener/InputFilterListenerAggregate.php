@@ -69,6 +69,8 @@ class InputFilterListenerAggregate
                 $arrayCopy[$key] = $value;
             }
 
+            $request->getParameters()->set('arrayCopy', $arrayCopy);
+
             $response->setContent($arrayCopy);
         }
 
