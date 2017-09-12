@@ -9,7 +9,7 @@
 namespace ApigilityTools\Rpc;
 use Zend\Validator\ValidatorChain;
 
-class RpcValidatorAwareTrait
+trait RpcValidatorAwareTrait
 {
     /**
      * @var \Zend\Validator\ValidatorChain
