@@ -31,7 +31,7 @@ trait RpcValidatorAwareTrait
     /**
      * @param \Zend\Validator\ValidatorChain $validator
      */
-    public function setValidator($validator)
+    public function setValidator(ValidatorChain $validator)
     {
         $this->validator = $validator;
     }
