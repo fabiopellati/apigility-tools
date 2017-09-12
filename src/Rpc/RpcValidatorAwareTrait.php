@@ -7,6 +7,8 @@
  */
 
 namespace ApigilityTools\Rpc;
+use Zend\Validator\ValidatorChain;
+
 class RpcValidatorAwareTrait
 {
     /**
@@ -18,7 +20,11 @@ class RpcValidatorAwareTrait
      * @return \Zend\Validator\ValidatorChain
      */
     public function getValidator()
+
     {
+        if(!$this->validator){
+            $this->setValidator(new ValidatorChain());
+        }
         return $this->validator;
     }
 
