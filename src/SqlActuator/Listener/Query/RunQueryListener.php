@@ -213,7 +213,7 @@ class RunQueryListener
      *
      * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
-    private function validateQuery($query)
+    protected function validateQuery($query)
     {
         if (empty($query) || !$query instanceof AbstractPreparableSql) {
             throw new ListenerRequirementException('parametro query non presente: possibile errore nella sequenza dei listener ',
@@ -226,7 +226,7 @@ class RunQueryListener
      *
      * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
-    private function validateSql($sql)
+    protected function validateSql($sql)
     {
         if (empty($sql) || !$sql instanceof Sql) {
             throw new ListenerRequirementException('parametro Sql non presente: possibile errore nella sequenza dei listener ',
@@ -241,7 +241,7 @@ class RunQueryListener
      * @internal param $sql
      * @internal param $query
      */
-    private function checkAffectedRow(Request $request)
+    protected function checkAffectedRow(Request $request)
     {
         $countAffected = $this->getCountAffectedParam($request);
         if ((int)$countAffected > 1) {
@@ -255,7 +255,7 @@ class RunQueryListener
      * @return mixed
      * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
-    private function getCountAffectedParam(Request $request)
+    protected function getCountAffectedParam(Request $request)
     {
         $countAffected = $request->getParameters()->get('count_affected');
 

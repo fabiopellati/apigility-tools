@@ -84,7 +84,7 @@ class CountAffectedQueryListener
      *
      * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
-    private function validateQuery($query)
+    protected function validateQuery($query)
     {
         if (empty($query) || !$query instanceof AbstractPreparableSql) {
             throw new ListenerRequirementException('parametro query non presente: possibile errore nella sequenza dei listener ',
@@ -97,7 +97,7 @@ class CountAffectedQueryListener
      *
      * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
-    private function validateSql($sql)
+    protected function validateSql($sql)
     {
         if (empty($sql) || !$sql instanceof Sql) {
             throw new ListenerRequirementException('parametro Sql non presente: possibile errore nella sequenza dei listener ',
@@ -111,7 +111,7 @@ class CountAffectedQueryListener
      *
      * @return mixed
      */
-    private function countAffected($sql, $query)
+    protected function countAffected($sql, $query)
     {
         $select = $sql->select();
         $select->columns(['count_affected' => new Expression('count(*)')]);

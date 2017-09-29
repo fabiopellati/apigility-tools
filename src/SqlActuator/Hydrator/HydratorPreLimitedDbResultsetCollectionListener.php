@@ -70,7 +70,7 @@ class HydratorPreLimitedDbResultsetCollectionListener
      * @return mixed
      * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
-    private function getCountAffectedParam(Request $request)
+    protected function getCountAffectedParam(Request $request)
     {
         $countAffected = $request->getParameters()->get('count_affected');
         if (empty($countAffected) && !$countAffected === 0) {
@@ -88,7 +88,7 @@ class HydratorPreLimitedDbResultsetCollectionListener
      * @return mixed
      * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
-    private function getCollectionClassParam(Request $request)
+    protected function getCollectionClassParam(Request $request)
     {
         $collectionClass = $request->getParameters()->get('collectionClass');
         if (empty($collectionClass)) {

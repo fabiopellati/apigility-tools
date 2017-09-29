@@ -86,7 +86,7 @@ class PaginatorListener
      * @throws \MessageExchangeEventManager\Exception\InvalidParamException
      * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
-    private function getPageSize($request, $requestQuery)
+    protected function getPageSize($request, $requestQuery)
     {
         $apigilityConfig = $request->getParameters()->get('apigilityConfig');
         if (empty($apigilityConfig)) {

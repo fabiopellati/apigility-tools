@@ -167,7 +167,7 @@ class SoftDeleteListener
      *
      * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
-    private function validateQuery($query)
+    protected function validateQuery($query)
     {
         if (empty($query) || !$query instanceof AbstractPreparableSql) {
             throw new ListenerRequirementException('parametro query non presente: possibile errore nella sequenza dei listener ',

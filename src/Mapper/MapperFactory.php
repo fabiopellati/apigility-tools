@@ -214,7 +214,7 @@ class MapperFactory
      * @param                               $listener
      * @param null                          $priority
      */
-    private function attachListener(Mapper $mapper, $listener, $priority = null)
+    protected function attachListener(Mapper $mapper, $listener, $priority = null)
     {
 
         $eventManager = $mapper->getEventManager();

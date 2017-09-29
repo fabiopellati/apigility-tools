@@ -89,7 +89,7 @@ class EventAwareEntityFactory
      * @param                                                  $listener
      * @param null                                             $priority
      */
-    private function attachListener(EventAwareEntity $entity, $listener, $priority = null)
+    protected function attachListener(EventAwareEntity $entity, $listener, $priority = null)
     {
 
         $eventManager = $entity->getEventManager();
