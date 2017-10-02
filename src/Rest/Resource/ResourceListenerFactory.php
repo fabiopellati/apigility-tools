@@ -37,7 +37,7 @@ class ResourceListenerFactory
         foreach ($requestedConfig as $key => $value) {
             $param = lcfirst($underscoreToCamelCase->filter($key));
             switch ($param) {
-                case 'hal_listeners':
+                case 'halListeners':
                     $helpers = $container->get('ViewHelperManager');
                     /**
                      * @var $hal Hal
