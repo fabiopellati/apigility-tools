@@ -76,7 +76,7 @@ class OrderableListener
             $query->order($order);
 
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 

@@ -94,7 +94,7 @@ class ConstraintWhereListener
                                                        500);
             }
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 

@@ -85,7 +85,7 @@ class SoftDeleteListener
                 $where->and->NEST->equalTo('soft_delete', 0);
             });
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 
@@ -119,7 +119,7 @@ class SoftDeleteListener
             $e->stopPropagation();
 
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 

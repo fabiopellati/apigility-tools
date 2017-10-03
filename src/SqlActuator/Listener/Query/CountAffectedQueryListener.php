@@ -72,7 +72,7 @@ class CountAffectedQueryListener
             }
 
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 

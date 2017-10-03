@@ -89,7 +89,7 @@ class FilterTextListener
             });
 
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 

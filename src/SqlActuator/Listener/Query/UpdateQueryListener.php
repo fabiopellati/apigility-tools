@@ -61,7 +61,7 @@ class UpdateQueryListener
             $request->getParameters()->set('query', $query);
 
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 

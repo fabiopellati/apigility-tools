@@ -70,7 +70,7 @@ class PaginatorListener
             $query->limit($pageSize);
             $query->offset(($page * $pageSize) - $pageSize);
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 

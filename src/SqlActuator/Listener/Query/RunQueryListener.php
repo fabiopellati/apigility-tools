@@ -76,7 +76,7 @@ class RunQueryListener
             $result = $sql->prepareStatementForSqlObject($query)->execute();
             $response->setContent($result);
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 
@@ -114,7 +114,7 @@ class RunQueryListener
                 throw new \Exception('risorsa non creata', 422);
             }
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 
@@ -147,7 +147,7 @@ class RunQueryListener
             $result = $statement->execute();
             $response->setContent($result->getAffectedRows());
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 
@@ -171,7 +171,7 @@ class RunQueryListener
             $result = $statement->execute();
             $response->setContent($result->getAffectedRows() > 0);
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 
@@ -201,7 +201,7 @@ class RunQueryListener
                                                        500);
             }
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 
