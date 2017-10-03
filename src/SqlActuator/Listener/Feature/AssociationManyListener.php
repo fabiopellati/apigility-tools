@@ -1,0 +1,150 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: fabio
+ * Date: 22/02/17
+ * Time: 17.44
+ */
+
+namespace ApigilityTools\SqlActuator\Listener\Feature;
+
+use ApigilityTools\Exception\RuntimeException;
+use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
+use MessageExchangeEventManager\Event\Event;
+use Zend\Db\Sql\Select;
+use Zend\Db\Sql\TableIdentifier;
+use Zend\Db\Sql\Where;
+use Zend\EventManager\AbstractListenerAggregate;
+use Zend\EventManager\EventManagerInterface;
+
+class AssociationManyListener
+    extends AbstractListenerAggregate
+{
+    /**
+     * @var array
+     */
+    protected $params;
+
+    /**
+     * @var array
+     */
+    protected $affected;
+
+    /**
+     *
+     * @param array $params
+     *
+     * @internal param array $affected
+     */
+    function __construct(array $params)
+    {
+        $this->params = $params;
+    }
+
+    /**
+     * Attach one or more listeners
+     *
+     * Implementors may add an optional $priority argument; the EventManager
+     * implementation will pass this to the aggregate.
+     *
+     * @param EventManagerInterface $events
+     * @param int                   $priority
+     *
+     * @return void
+     */
+    public function attach(EventManagerInterface $events, $priority = 50)
+    {
+        $this->listeners[] =
+            $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onEvent'], $priority);
+    }
+
+    /**
+     *
+     * @param \MessageExchangeEventManager\Event\Event $e
+     *
+     * @return \MessageExchangeEventManager\Response\Response
+     * @throws \ApigilityTools\Exception\RuntimeException
+     * @internal  \ChainEvent\Request\RequestInterface
+     */
+    public function onEvent(Event $e)
+    {
+        $params = $this->params;
+        $request = $e->getRequest();
+        $response = $e->getResponse();
+        $associationJoin = $request->getParameters()->get('associationJoins');
+        if (empty($associationJoin) || count($associationJoin) === 0) {
+            throw new RuntimeException('misconfigured: association_joins missed', 500);
+        }
+        try {
+            /**
+             * @var \Zend\Db\Sql\Select $query
+             */
+            $query = $request->getParameters()->get('query');
+            foreach ($associationJoin as $joinConfiguration) {
+                $routeAssociationIdentifierName = $joinConfiguration['route_association_identifier_name'];
+                $valueAssociationIdentifier = $params[$routeAssociationIdentifierName];
+                if (empty($params[$routeAssociationIdentifierName])) {
+                    throw new RuntimeException('Entity not fount', 404);
+                }
+                $this->addJoin($query, $joinConfiguration);
+                $this->addWhere($query, $joinConfiguration, $valueAssociationIdentifier);
+            }
+
+        } catch (\Exception $error) {
+            $response->setContent($error);
+            $e->stopPropagation();
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param        $joinConfiguration
+     * @param Select $query
+     *
+     * @return array
+     */
+    protected function addJoin($query, $joinConfiguration)
+    {
+        /**
+         * @var TableIdentifier $tableIdentifier
+         */
+        $tableIdentifier = new TableIdentifier($joinConfiguration['db_table'], $joinConfiguration['db_schema']);
+        $schema = ($tableIdentifier->getSchema()) ? $tableIdentifier->getSchema() . '.' : '';
+        $table = $tableIdentifier->getTable();
+        $on = '';
+        $and = ' ';
+        foreach ($joinConfiguration['on'] as $onConfig) {
+            $left = $schema . $table . '.' . $onConfig[1];
+            $right = $onConfig[0];
+            $on .= "$and $right = $left";
+            $and = 'AND';
+        }
+        $columns = (!empty($joinConfiguration['columns']) && count($joinConfiguration['columns']) > 0)
+            ? $joinConfiguration['columns'] : [];
+        $query->join($tableIdentifier, $on, $columns, Select::JOIN_INNER);
+
+    }
+
+    /**
+     * @param $query
+     * @param $joinConfiguration
+     */
+    protected function addWhere($query, $joinConfiguration, $valueAssociationIdentifier)
+    {
+        /**
+         * @var TableIdentifier $tableIdentifier
+         */
+        $tableIdentifier = new TableIdentifier($joinConfiguration['db_table'], $joinConfiguration['db_schema']);
+        $query->where(function (Where $where) use ($joinConfiguration, $tableIdentifier, $valueAssociationIdentifier) {
+            $entityAssociationIdentifierName = $joinConfiguration['entity_association_identifier_name'];
+            $schema = ($tableIdentifier->getSchema()) ? $tableIdentifier->getSchema() . '.' : '';
+            $table = $tableIdentifier->getTable();
+            $left = $schema . $table . '.' . $entityAssociationIdentifierName;
+            $right = $valueAssociationIdentifier;
+            $nest = $where->NEST;
+            $nest->equalTo($left, $right);
+            $nest->and;
+        });
+    }
+}
