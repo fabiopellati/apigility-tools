@@ -121,7 +121,7 @@ class CountAffectedQueryListener
             /**
              * @var $join
              */
-            $select->join($join['name'], $join['on'], $join['columns'], $join['type']);
+            $select->join($join['name'], $join['on'], [], $join['type']);
 
         }
         $statement = $sql->prepareStatementForSqlObject($select);
