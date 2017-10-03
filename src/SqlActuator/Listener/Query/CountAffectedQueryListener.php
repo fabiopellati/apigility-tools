@@ -116,6 +116,14 @@ class CountAffectedQueryListener
         $select = $sql->select();
         $select->columns(['count_affected' => new Expression('count(*)')]);
         $select->where($query->where);
+        $select->having($query->having);
+        foreach ($query->joins->getJoins() as $join) {
+            /**
+             * @var $join
+             */
+            $select->join($join['name'], $join['on'], $join['columns'], $join['type']);
+
+        }
         $statement = $sql->prepareStatementForSqlObject($select);
         $current = $statement->execute()->current();
 
