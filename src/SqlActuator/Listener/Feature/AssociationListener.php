@@ -29,7 +29,8 @@ class AssociationListener extends AbstractListenerAggregate
     /**
      *
      * @param array $params
-     * @param array $affected
+     *
+     * @internal param array $affected
      */
     function __construct(array $params)
     {
@@ -49,7 +50,6 @@ class AssociationListener extends AbstractListenerAggregate
      */
     public function attach(EventManagerInterface $events, $priority = 50)
     {
-
         $this->listeners[] =
             $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onEvent'], $priority);
     }
