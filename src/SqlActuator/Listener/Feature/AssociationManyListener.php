@@ -16,6 +16,7 @@ use Zend\Db\Sql\TableIdentifier;
 use Zend\Db\Sql\Where;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
+use Zend\Stdlib\ArrayUtils;
 
 class AssociationManyListener
     extends AbstractListenerAggregate
@@ -83,11 +84,13 @@ class AssociationManyListener
             foreach ($associationJoin as $joinConfiguration) {
                 $routeAssociationIdentifierName = $joinConfiguration['route_association_identifier_name'];
                 $valueAssociationIdentifier = $params[$routeAssociationIdentifierName];
-                if (empty($params[$routeAssociationIdentifierName])) {
-                    throw new RuntimeException('Entity not fount', 404);
-                }
+//                if (empty($params[$routeAssociationIdentifierName])) {
+//                    throw new RuntimeException('Entity not fount', 404);
+//                }
                 $this->addJoin($query, $joinConfiguration);
-                $this->addWhere($query, $joinConfiguration, $valueAssociationIdentifier);
+                if (!empty($valueAssociationIdentifier)) {
+                    $this->addWhere($query, $joinConfiguration, $valueAssociationIdentifier);
+                }
             }
 
         } catch (\Exception $error) {
@@ -111,7 +114,9 @@ class AssociationManyListener
          */
         $tableIdentifier = new TableIdentifier($joinConfiguration['db_table'], $joinConfiguration['db_schema']);
         $entityAssociationIdentifierName = $joinConfiguration['entity_association_identifier_name'];
-        $group[] = $entityAssociationIdentifierName;
+        if (!empty($entityAssociationIdentifierName)) {
+            $group[] = $entityAssociationIdentifierName;
+        }
         $on = '';
         $and = ' ';
         foreach ($joinConfiguration['on'] as $onConfig) {
@@ -124,6 +129,8 @@ class AssociationManyListener
         $columns = (!empty($joinConfiguration['columns']) && count($joinConfiguration['columns']) > 0)
             ? $joinConfiguration['columns'] : [];
         $select = new Select($tableIdentifier);
+        $group = ArrayUtils::merge($group, $columns);
+
         $select->columns($group);
         $select->group($group);
         $query->join(['has' => $select], $on, $columns, Select::JOIN_INNER);
