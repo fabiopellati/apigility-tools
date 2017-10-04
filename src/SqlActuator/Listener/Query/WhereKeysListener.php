@@ -16,7 +16,6 @@ use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
 use Zend\Db\Sql\AbstractPreparableSql;
-use Zend\Db\Sql\Predicate\Like;
 use Zend\Db\Sql\Predicate\Operator;
 use Zend\Db\Sql\Predicate\Predicate;
 use Zend\Db\Sql\Where;
@@ -158,14 +157,15 @@ class WhereKeysListener
             $nest = $where->nest();
             foreach ($keys as $index => $key) {
                 $value = $values[$index];
-                if ($value === (int)$value) {
-                    $value = (int)$value;
-
+//                if ($value === (int)$value) {
+//                    $value = (int)$value;
+//
+//                    $predicate = new Operator($key, Operator::OP_EQ, $value);
+//                    $nest->addPredicate($predicate, Predicate::OP_AND);
+//                    continue;
+//                }
+//                $predicate = new Like($key, $value);
                     $predicate = new Operator($key, Operator::OP_EQ, $value);
-                    $nest->addPredicate($predicate, Predicate::OP_AND);
-                    continue;
-                }
-                $predicate = new Like($key, $value);
                 $nest->addPredicate($predicate, Predicate::OP_AND);
 
             }
