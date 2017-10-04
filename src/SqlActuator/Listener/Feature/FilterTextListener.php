@@ -82,7 +82,7 @@ class FilterTextListener
                     }
                     if ($value != '') {
                         $nest = $where->NEST;
-                        $nest->like($key, $value);
+                        $nest->equalTo($key, $value);
                         $nest->and;
                     }
                 }
