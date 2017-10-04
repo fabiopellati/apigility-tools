@@ -110,19 +110,23 @@ class AssociationManyListener
          * @var TableIdentifier $tableIdentifier
          */
         $tableIdentifier = new TableIdentifier($joinConfiguration['db_table'], $joinConfiguration['db_schema']);
-        $schema = ($tableIdentifier->getSchema()) ? $tableIdentifier->getSchema() . '.' : '';
-        $table = $tableIdentifier->getTable();
+        $entityAssociationIdentifierName = $joinConfiguration['entity_association_identifier_name'];
+        $group[] = $entityAssociationIdentifierName;
         $on = '';
         $and = ' ';
         foreach ($joinConfiguration['on'] as $onConfig) {
-            $left = $schema . $table . '.' . $onConfig[1];
+            $group[] = $onConfig[1];
+            $left = 'has.' . $onConfig[1];
             $right = $onConfig[0];
             $on .= "$and $right = $left";
             $and = 'AND';
         }
         $columns = (!empty($joinConfiguration['columns']) && count($joinConfiguration['columns']) > 0)
             ? $joinConfiguration['columns'] : [];
-        $query->join($tableIdentifier, $on, $columns, Select::JOIN_INNER);
+        $select = new Select($tableIdentifier);
+        $select->columns($group);
+        $select->group($group);
+        $query->join(['has' => $select], $on, $columns, Select::JOIN_INNER);
 
     }
 
@@ -138,9 +142,7 @@ class AssociationManyListener
         $tableIdentifier = new TableIdentifier($joinConfiguration['db_table'], $joinConfiguration['db_schema']);
         $query->where(function (Where $where) use ($joinConfiguration, $tableIdentifier, $valueAssociationIdentifier) {
             $entityAssociationIdentifierName = $joinConfiguration['entity_association_identifier_name'];
-            $schema = ($tableIdentifier->getSchema()) ? $tableIdentifier->getSchema() . '.' : '';
-            $table = $tableIdentifier->getTable();
-            $left = $schema . $table . '.' . $entityAssociationIdentifierName;
+            $left = 'has.' . $entityAssociationIdentifierName;
             $right = $valueAssociationIdentifier;
             $nest = $where->NEST;
             $nest->equalTo($left, $right);
