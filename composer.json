@@ -49,5 +49,8 @@
         "ApigilityTools"
       ]
     }
+  },
+  "require-dev": {
+    "zfcampus/zf-configuration": "^1.3"
   }
 }
