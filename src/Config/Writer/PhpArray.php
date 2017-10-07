@@ -32,7 +32,7 @@ class PhpArray
     {
         $explodeFileName = explode('/', $filename);
         unset($explodeFileName[count($explodeFileName) - 1]);
-        $explodeFileName[] = 'autoload_test';
+        $explodeFileName[] = 'autoload';
         $explodeFileName[] = $splitKey . '.config.php';
         $splittedFileName = implode('/', $explodeFileName);
 
