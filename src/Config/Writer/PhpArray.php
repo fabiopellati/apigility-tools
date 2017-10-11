@@ -166,7 +166,7 @@ class PhpArray
         foreach ($zfRpc as $sectionKey => $sectionConfig) {
             $isVersionOfController = $this->isVersionOfController($controller, $sectionKey);
             if ($isVersionOfController) {
-                $serviceNames[] = $sectionConfig['service_Name'];
+                $serviceNames[] = $sectionConfig['service_name'];
                 $controllers[] = $sectionKey;
                 $services[$routeKey]['zf-rpc'][$sectionKey] = $sectionConfig;
             };
