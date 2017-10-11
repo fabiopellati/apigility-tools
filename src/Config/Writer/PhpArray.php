@@ -10,24 +10,25 @@ class PhpArray
 
     public function toFile($filename, $config, $exclusiveLock = true)
     {
-        parent::toFile($filename, $config, $exclusiveLock);
-        foreach ($this->splitServices($config, $filename) as $splitKey => $splitService) {
-            $splittedFileName = $this->splittedFileName($filename, $splitKey);
-            $parts = explode('/', $splittedFileName);
-            $file = array_pop($parts);
-            $dir = '';
-            foreach ($parts as $part) {
 
-                if (!is_dir($dir .= "/$part")) {
-                    mkdir($dir);
-                }
-            }
-//            print_r([__METHOD__=>__LINE__,$splittedFileName]);exit;
+        parent::toFile($filename, $config, $exclusiveLock);
+        $splitServices = $this->splitServices($config, $filename);
+        foreach ($splitServices as $splitKey => $splitService) {
+            $splittedFileName = $this->splittedFileName($filename, $splitKey);
+            $this->ensureDirectoryExists($splittedFileName);
             parent::toFile($splittedFileName, $splitService, $exclusiveLock);
         }
 
     }
 
+    /**
+     * prepara il nome del file contenente la configurazione su autoload
+     *
+     * @param $filename
+     * @param $splitKey
+     *
+     * @return string
+     */
     protected function splittedFileName($filename, $splitKey)
     {
         $explodeFileName = explode('/', $filename);
@@ -39,19 +40,29 @@ class PhpArray
         return $splittedFileName;
     }
 
+    /**
+     * separa la configurazione per servizi
+     *
+     * @param $config
+     * @param $filename
+     *
+     * @return array
+     */
     protected function splitServices($config, $filename)
     {
         $services = [];
-        foreach ($config['router']['routes'] as $routeKey => $route) {
+        $routes = (empty($config['router']['routes']))
+            ? []
+            : $config['router']['routes'];
+        foreach ($routes as $routeKey => $route) {
             $services[$routeKey]['router']['routes'][$routeKey] = $route;
             $this->setZfVersioning($routeKey, $services);
             $controller = $route['options']['defaults']['controller'];
             list($entitiesRest, $collectionsRest, $serviceNamesRest, $controllersRest) =
-                $this->setZfRest($config, $controller,
-                                 $services, $routeKey);
+                $this->setZfRest($config, $controller, $services, $routeKey);
             list($serviceNamesRpc, $controllersRpc) = $this->setZfRpc($config, $controller,
                                                                       $services, $routeKey);
-            $controllers = ArrayUtils::merge($controllersRest, $controllersRpc);
+            $controllers = ArrayUtils::merge($controllersRest, $controllersRpc, true);
             $this->setZfContentNegotiation($config, $controller, $services, $routeKey);
             $this->setZfHal($config, $controller, $services, $routeKey, $entitiesRest, $collectionsRest);
             $this->setControllers($config, $controller, $services, $routeKey, $controllers);
@@ -78,6 +89,11 @@ class PhpArray
     }
 
     /**
+     * verifica se due controller sono versioni distinte dello stesso controller.
+     * per la specifica fare riferimento a
+     *
+     * @see \ZF\Versioning\VersionListener: onRoute
+     *
      * @param $controller
      * @param $sectionKey
      *
@@ -100,6 +116,8 @@ class PhpArray
     }
 
     /**
+     *
+     *
      * @param $config
      * @param $controller
      * @param $services
@@ -113,7 +131,10 @@ class PhpArray
         $collections = [];
         $serviceNames = [];
         $controllers = [];
-        foreach ($config['zf-rest'] as $sectionKey => $sectionConfig) {
+        $zfRest = (empty($config['zf-rest']))
+            ? []
+            : $config['zf-hal']['metadata_map'];
+        foreach ($zfRest as $sectionKey => $sectionConfig) {
             $isVersionOfController = $this->isVersionOfController($controller, $sectionKey);
             if ($isVersionOfController) {
                 $entities[] = $sectionConfig['entity_class'];
@@ -139,7 +160,10 @@ class PhpArray
     {
         $serviceNames = [];
         $controllers = [];
-        foreach ($config['zf-rpc'] as $sectionKey => $sectionConfig) {
+        $zfRpc = (empty($config['zf-rpc']))
+            ? []
+            : $config['zf-rpc'];
+        foreach ($zfRpc as $sectionKey => $sectionConfig) {
             $isVersionOfController = $this->isVersionOfController($controller, $sectionKey);
             if ($isVersionOfController) {
                 $serviceNames[] = $sectionConfig['service_Name'];
@@ -160,19 +184,29 @@ class PhpArray
      */
     protected function setZfContentNegotiation($config, $controller, &$services, $routeKey)
     {
-        foreach ($config['zf-content-negotiation']['controllers'] as $sectionKey => $sectionConfig) {
+
+        $controllers = (empty($config['zf-content-negotiation']['controllers']))
+            ? []
+            : $config['zf-content-negotiation']['controllers'];
+        foreach ($controllers as $sectionKey => $sectionConfig) {
             $isVersionOfController = $this->isVersionOfController($controller, $sectionKey);
             if ($isVersionOfController) {
                 $services[$routeKey]['zf-content-negotiation']['controllers'][$sectionKey] = $sectionConfig;
             };
         }
-        foreach ($config['zf-content-negotiation']['accept_whitelist'] as $sectionKey => $sectionConfig) {
+        $acceptWhitelist = (empty($config['zf-content-negotiation']['accept_whitelist']))
+            ? []
+            : $config['zf-content-negotiation']['accept_whitelist'];
+        foreach ($acceptWhitelist as $sectionKey => $sectionConfig) {
             $isVersionOfController = $this->isVersionOfController($controller, $sectionKey);
             if ($isVersionOfController) {
                 $services[$routeKey]['zf-content-negotiation']['accept_whitelist'][$sectionKey] = $sectionConfig;
             };
         }
-        foreach ($config['zf-content-negotiation']['content_type_whitelist'] as $sectionKey => $sectionConfig) {
+        $contentTypeWhitelist = (empty($config['zf-content-negotiation']['content_type_whitelist']))
+            ? [] :
+            $config['zf-content-negotiation']['content_type_whitelist'];
+        foreach ($contentTypeWhitelist as $sectionKey => $sectionConfig) {
             $isVersionOfController = $this->isVersionOfController($controller, $sectionKey);
             if ($isVersionOfController) {
                 $services[$routeKey]['zf-content-negotiation']['content_type_whitelist'][$sectionKey] = $sectionConfig;
@@ -192,7 +226,8 @@ class PhpArray
      */
     protected function setZfHal($config, $controller, &$services, $routeKey, $entities, $collections)
     {
-        foreach ($config['zf-hal']['metadata_map'] as $sectionKey => $sectionConfig) {
+        $metadataMap = (empty($config['zf-hal']['metadata_map'])) ? [] : $config['zf-hal']['metadata_map'];
+        foreach ($metadataMap as $sectionKey => $sectionConfig) {
             if (in_array($sectionKey, $entities) || in_array($sectionKey, $collections)) {
                 $services[$routeKey]['zf-hal']['metadata_map'][$sectionKey] = $sectionConfig;
             };
@@ -210,7 +245,8 @@ class PhpArray
      */
     protected function setControllers($config, $controller, &$services, $routeKey, $controllers)
     {
-        foreach ($config['controllers']['factories'] as $sectionKey => $sectionConfig) {
+        $factories = (empty($config['controllers']['factories'])) ? [] : $config['controllers']['factories'];
+        foreach ($factories as $sectionKey => $sectionConfig) {
             if (in_array($sectionKey, $controllers)) {
                 $services[$routeKey]['controllers']['factories'][$sectionKey] = $sectionConfig;
             };
@@ -228,7 +264,9 @@ class PhpArray
      */
     protected function setZfMvcAuth($config, $controller, &$services, $routeKey, $controllers)
     {
-        foreach ($config['zf-mvc-auth']['authorization'] as $sectionKey => $sectionConfig) {
+        $authorization =
+            (empty($config['zf-mvc-auth']['authorization'])) ? [] : $config['zf-mvc-auth']['authorization'];
+        foreach ($authorization as $sectionKey => $sectionConfig) {
             if (in_array($sectionKey, $controllers)) {
                 $services[$routeKey]['zf-mvc-auth']['authorization'][$sectionKey] = $sectionConfig;
             };
@@ -248,7 +286,8 @@ class PhpArray
     protected function setZfContentValidation($config, $controller, &$services, $routeKey, $controllers)
     {
         $inpitFilters = [];
-        foreach ($config['zf-content-validation'] as $sectionKey => $sectionConfig) {
+        $zfContentValidation = (empty($config['zf-content-validation'])) ? [] : $config['zf-content-validation'];
+        foreach ($zfContentValidation as $sectionKey => $sectionConfig) {
             if (in_array($sectionKey, $controllers)) {
                 $inpitFilters[] = $sectionConfig['input_filter'];
                 $services[$routeKey]['zf-content-validation'][$sectionKey] = $sectionConfig;
@@ -270,12 +309,30 @@ class PhpArray
     protected function setInputFilterSpecs($config, $controller, &$services, $routeKey, $inputFilters)
     {
 
-        foreach ($config['input_filter_specs'] as $sectionKey => $sectionConfig) {
+        $inputFilterSpecs = (empty($config['input_filter_specs'])) ? [] : $config['input_filter_specs'];
+        foreach ($inputFilterSpecs as $sectionKey => $sectionConfig) {
             if (in_array($sectionKey, $inputFilters)) {
                 $services[$routeKey]['input_filter_specs'][$sectionKey] = $sectionConfig;
             };
         }
 
+    }
+
+    /**
+     * se la path non esiste sul filesystem, la genera
+     *
+     * @param $splittedFileName
+     */
+    protected function ensureDirectoryExists($splittedFileName)
+    {
+        $parts = explode('/', $splittedFileName);
+        $file = array_pop($parts);
+        $dir = '';
+        foreach ($parts as $part) {
+            if (!is_dir($dir .= "/$part")) {
+                mkdir($dir);
+            }
+        }
     }
 
 }

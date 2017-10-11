@@ -39,9 +39,9 @@ class ResourceFactory
             $autoloadConfig = [];
             foreach ($Regex as $file) {
                 $fileConfig = include $file[0];
-                $autoloadConfig = ArrayUtils::merge($autoloadConfig, $fileConfig);
+                $autoloadConfig = ArrayUtils::merge($autoloadConfig, $fileConfig, true);
             }
-            $config = ArrayUtils::merge($config, $autoloadConfig);
+            $config = ArrayUtils::merge($config, $autoloadConfig, true);
 
         }
 
