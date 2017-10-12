@@ -1,7 +1,7 @@
 {
   "name": "fabiopellati/apigility-tools",
-  "description": "",
-  "license": "proprietary",
+  "description": "General tools for Apigility",
+  "license": "BSD-3-Clause",
   "authors": [
     {
       "name": "Fabio Pellati",
@@ -51,6 +51,5 @@
     }
   },
   "require-dev": {
-    "zfcampus/zf-configuration": "^1.3"
   }
 }
