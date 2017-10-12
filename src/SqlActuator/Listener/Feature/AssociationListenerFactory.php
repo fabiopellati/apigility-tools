@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
- * Date: 22/02/17
- * Time: 17.44
+ *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ *
  */
 
 namespace ApigilityTools\SqlActuator\Listener\Feature;
@@ -21,8 +24,8 @@ class AssociationListenerFactory
      * Create an object
      *
      * @param  ContainerInterface $container
-     * @param  string $requestedName
-     * @param  null|array $options
+     * @param  string             $requestedName
+     * @param  null|array         $options
      *
      * @return object
      * @throws ServiceNotFoundException if unable to resolve the service.
@@ -35,10 +38,10 @@ class AssociationListenerFactory
         /**
          * @var \Zend\Mvc\MvcEvent $mvcEvent
          */
-        $mvcEvent=$container->get('Application')->getMvcEvent();
+        $mvcEvent = $container->get('Application')->getMvcEvent();
         $params = $mvcEvent->getRouteMatch()->getParams();
-
         $object = new AssociationListener($params);
+
         return $object;
     }
 

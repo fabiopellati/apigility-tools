@@ -1,11 +1,11 @@
 <?php
 /**
- * lo scopo di questo listener è quello di disaccoppiare la logica di filtraggio dell'id
- * per SELECT, UPDATE, DELETE
  *
- * per consentire di manipolare l'id filtrato prima dell'esecuzione della query nel caso ad esempio delle chiavi
- * composite
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
  *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  *
  */
 
@@ -24,7 +24,6 @@ class ConstraintWhereListener
 
     use EventManagerAwareTrait;
 
-
     /**
      * Attach one or more listeners
      *
@@ -42,7 +41,6 @@ class ConstraintWhereListener
         $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_CONSTRAINT_WHERE,
                                              [$this, 'onAttachSqlConstraintWhere'], $priority);
     }
-
 
     /**
      * l'attach è differito
@@ -87,7 +85,6 @@ class ConstraintWhereListener
         try {
 //            print_r([__METHOD__ => '001']);
 //            exit;
-
             $hasConstraint = $request->getParameters()->get('hasConstraintWhere');
             if (empty($hasConstraint) || !$hasConstraint) {
                 throw new ListenerRequirementException('il metodo richiede un listener obbligatorio di tipo ConstraintWhere',
@@ -100,6 +97,5 @@ class ConstraintWhereListener
 
         return $response;
     }
-
 
 }

@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
- * Date: 22/02/17
- * Time: 17.44
+ *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ *
  */
 
 namespace ApigilityTools\SqlActuator\Listener\Feature;
@@ -28,7 +31,6 @@ class SoftDeleteListener
      * @var \Zend\Cache\Storage\Adapter\AbstractAdapter
      */
     protected $cache;
-
 
     /**
      * @return \Zend\Cache\Storage\Adapter\AbstractAdapter
@@ -62,7 +64,8 @@ class SoftDeleteListener
 
         $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_DELETE, [$this, 'onDelete'],
                                              $priority + 100);
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onSelect'], $priority);
+        $this->listeners[] =
+            $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onSelect'], $priority);
     }
 
     /**
@@ -75,7 +78,6 @@ class SoftDeleteListener
     {
         $request = $e->getRequest();
         $response = $e->getResponse();
-
         try {
             $sql = $request->getParameters()->get('sql');
             $this->checkTable($sql);
@@ -113,7 +115,6 @@ class SoftDeleteListener
             $this->checkTable($sql);
             $data = [];
             $data['soft_delete'] = '1';
-
             $result = $mapper->update($id, $data);
             $response->setContent($result > 0);
             $e->stopPropagation();
@@ -137,10 +138,8 @@ class SoftDeleteListener
     {
 
         $tableIdentifier = $sql->getTable();
-
         $cache_key = "table_metadata_columns_{$tableIdentifier->getTable()}_{$tableIdentifier->getSchema()}";
         $columns = ($this->getCache()) ? $this->getCache()->getItem($cache_key) : null;
-
         if (!$columns) {
             $metadata = Factory::createSourceFromAdapter($sql->getAdapter());
             $metadata_table = $metadata->getTable($tableIdentifier->getTable(), $tableIdentifier->getSchema());
@@ -149,7 +148,6 @@ class SoftDeleteListener
                 $this->getCache()->setItem($cache_key, $columns);
             }
         }
-
         /**
          * @var $column Column
          */

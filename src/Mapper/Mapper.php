@@ -1,6 +1,11 @@
 <?php
 /**
  *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  *
  */
 
@@ -27,12 +32,10 @@ class Mapper
     use EventManagerAwareTrait;
     use EventRunAwareTrait;
 
-
     /**
      * @var \MessageExchangeEventManager\Event\Event
      */
     protected $event;
-
 
     /**
      *  constructor.
@@ -47,7 +50,6 @@ class Mapper
         $this->event = $event;
         $this->getEvent()->setTarget($this);
     }
-
 
     /**
      * @return \MessageExchangeEventManager\Event\Event
@@ -64,7 +66,6 @@ class Mapper
     {
         $this->event = $event;
     }
-
 
     /**
      * Create a new resource.
@@ -148,7 +149,6 @@ class Mapper
     {
 
         $this->getEvent()->getRequest()->getParameters()->set('id', $id);
-
         $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_FETCH, self::EVENT_MAPPER_FETCH,
                                     self::EVENT_MAPPER_POST_FETCH);
 
@@ -174,6 +174,5 @@ class Mapper
         return $response->getContent();
 
     }
-
 
 }

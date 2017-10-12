@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
- * Date: 22/02/17
- * Time: 17.44
+ *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ *
  */
 
 namespace ApigilityTools\SqlActuator\Listener\Feature;
@@ -20,7 +23,6 @@ class PaginatorListener
     extends AbstractListenerAggregate
 {
 
-
     /**
      *
      *
@@ -33,7 +35,7 @@ class PaginatorListener
     {
 
         $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onEvent'],
-                                             $priority );
+                                             $priority);
     }
 
     /**
@@ -49,7 +51,6 @@ class PaginatorListener
         $request = $e->getRequest();
         $response = $e->getResponse();
         $requestQuery = $request->getParameters()->get('request_query');
-
         if (empty($requestQuery) ||
             empty($requestQuery['page'])
         ) {
@@ -66,7 +67,6 @@ class PaginatorListener
             if (!$query instanceof Select) {
                 return $response;
             }
-
             $query->limit($pageSize);
             $query->offset(($page * $pageSize) - $pageSize);
         } catch (\Exception $error) {
@@ -93,7 +93,6 @@ class PaginatorListener
             throw new ListenerRequirementException(__CLASS__ . '. apigilityConfig is missed', 500);
         }
         $pageSizeParam = $apigilityConfig['page_size_param'];
-
         $pageSize = (int)$apigilityConfig['page_size'];
         $pageSize = (!empty($pageSizeParam) && !empty($requestQuery[$pageSizeParam])) ? $requestQuery[$pageSizeParam] :
             $pageSize;

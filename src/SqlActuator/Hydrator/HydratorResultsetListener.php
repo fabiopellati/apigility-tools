@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
- * Date: 19/04/17
- * Time: 11.43
+ *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ *
  */
 
 namespace ApigilityTools\SqlActuator\Hydrator;
@@ -16,7 +19,6 @@ use Zend\EventManager\EventManagerInterface;
 class HydratorResultsetListener
     extends AbstractListenerAggregate
 {
-
 
     /**
      * @param \Zend\EventManager\EventManagerInterface $events
@@ -35,7 +37,6 @@ class HydratorResultsetListener
 
     }
 
-
     /**
      * @param \MessageExchangeEventManager\Event\EventInterface $e
      *
@@ -46,11 +47,8 @@ class HydratorResultsetListener
         $request = $e->getRequest();
         $hydrator = $request->getParameters()->get('hydrator');
         $resultset = $request->getParameters()->get('resultset');
-
         $response = $e->getResponse();
-
         $content = $response->getContent();
-
         if ($content) {
             $resultset = $hydrator->hydrate($content, $resultset);
             $response->setContent($resultset);
@@ -58,6 +56,5 @@ class HydratorResultsetListener
 
         return $response;
     }
-
 
 }

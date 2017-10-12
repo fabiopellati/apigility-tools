@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
- * Date: 22/02/17
- * Time: 17.44
+ *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ *
  */
 
 namespace ApigilityTools\SqlActuator\Listener\Feature;
@@ -44,7 +47,8 @@ class SearchableListener
     public function attach(EventManagerInterface $events, $priority = 100)
     {
 
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onEvent'], $priority);
+        $this->listeners[] =
+            $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onEvent'], $priority);
     }
 
     /**
@@ -64,7 +68,6 @@ class SearchableListener
         }
         try {
             $query = $request->getParameters()->get('query');
-
             $query->where(function ($where) use ($params) {
                 $search = $params['search'];
                 $nest = $where->NEST;

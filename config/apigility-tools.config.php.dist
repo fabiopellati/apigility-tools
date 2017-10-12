@@ -1,6 +1,7 @@
 <?php
-
-
+/**
+ * Copyright
+ */
 return [
     'apigility-tools'=>[
         'actuator-mapper' => [

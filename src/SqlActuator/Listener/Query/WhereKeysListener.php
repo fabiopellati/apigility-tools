@@ -1,11 +1,11 @@
 <?php
 /**
- * lo scopo di questo listener è quello di disaccoppiare la logica di filtraggio dell'id
- * per SELECT, UPDATE, DELETE
  *
- * per consentire di manipolare l'id filtrato prima dell'esecuzione della query nel caso ad esempio delle chiavi
- * composite
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
  *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  *
  */
 
@@ -26,7 +26,6 @@ class WhereKeysListener
     extends AbstractListenerAggregate
 {
 
-
     /**
      * Attach one or more listeners
      *
@@ -41,9 +40,12 @@ class WhereKeysListener
     public function attach(EventManagerInterface $events, $priority = 500)
     {
 
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_DELETE, [$this, 'onDelete'], $priority);
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onSelect'], $priority);
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_UPDATE, [$this, 'onUpdate'], $priority);
+        $this->listeners[] =
+            $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_DELETE, [$this, 'onDelete'], $priority);
+        $this->listeners[] =
+            $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onSelect'], $priority);
+        $this->listeners[] =
+            $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_UPDATE, [$this, 'onUpdate'], $priority);
     }
 
     /**
@@ -86,7 +88,6 @@ class WhereKeysListener
 
     }
 
-
     /**
      * @param \MessageExchangeEventManager\Event\Event $e
      *
@@ -105,12 +106,10 @@ class WhereKeysListener
                 $identifierDelimiter = '_';
             }
             $identifierName = $request->getParameters()->get('identifierName');
-
-            $keys=[];
+            $keys = [];
             if (!empty($identifierName)) {
                 $keys = explode($identifierDelimiter, $identifierName);
             }
-
             $values = explode($identifierDelimiter, $id);
             if (count($values) != count($keys)) {
                 throw new InvalidParamException('Id parameter contains a wrong number of elements', 500);
@@ -120,10 +119,9 @@ class WhereKeysListener
                 throw new ListenerRequirementException('parametro query non presente: possibile errore nella sequenza dei listener ',
                                                        500);
             }
-
             $this->composeWhere($query, $keys, $values);
             $request->getParameters()->set('hasConstraintWhere', true);
-            $composedKey=array_combine($keys,$values);
+            $composedKey = array_combine($keys, $values);
             $request->getParameters()->set('composedKey', $composedKey);
             $request->getParameters()->set('constraint', [$identifierName => $id]);
 
@@ -148,7 +146,7 @@ class WhereKeysListener
      *
      * @internal param $id
      */
-    protected function composeWhere(AbstractPreparableSql $query,$keys, $values)
+    protected function composeWhere(AbstractPreparableSql $query, $keys, $values)
     {
 
 
@@ -165,7 +163,7 @@ class WhereKeysListener
 //                    continue;
 //                }
 //                $predicate = new Like($key, $value);
-                    $predicate = new Operator($key, Operator::OP_EQ, $value);
+                $predicate = new Operator($key, Operator::OP_EQ, $value);
                 $nest->addPredicate($predicate, Predicate::OP_AND);
 
             }

@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
- * Date: 19/04/17
- * Time: 11.43
+ *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ *
  */
 
 namespace ApigilityTools\SqlActuator\Hydrator;
@@ -21,7 +24,6 @@ class HydratorPreLimitedDbResultsetCollectionListener
     extends AbstractListenerAggregate
 {
 
-
     /**
      * @param \Zend\EventManager\EventManagerInterface $events
      * @param int                                      $priority
@@ -35,7 +37,6 @@ class HydratorPreLimitedDbResultsetCollectionListener
 
     }
 
-
     /**
      * @param \MessageExchangeEventManager\Event\EventInterface $e
      *
@@ -44,7 +45,6 @@ class HydratorPreLimitedDbResultsetCollectionListener
     public function onRunPostFetchAll(EventInterface $e)
     {
         $request = $e->getRequest();
-
         $response = $e->getResponse();
         $collectionClass = $this->getCollectionClassParam($request);
         /**
@@ -53,7 +53,6 @@ class HydratorPreLimitedDbResultsetCollectionListener
         $content = $response->getContent();
         $count = $this->getCountAffectedParam($request);
 //        print_r([__METHOD__=>(int)$count]);
-
         if ($content instanceof HydratingResultSet) {
 
             $adapter = new PreLimitedArrayAdapter($content, (int)$count);

@@ -1,12 +1,16 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
- * Date: 12/09/17
- * Time: 16.00
+ *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ *
  */
 
 namespace ApigilityTools\Rpc;
+
 use Zend\Validator\ValidatorChain;
 
 trait RpcValidatorAwareTrait
@@ -20,11 +24,11 @@ trait RpcValidatorAwareTrait
      * @return \Zend\Validator\ValidatorChain
      */
     public function getValidator()
-
     {
-        if(!$this->validator){
+        if (!$this->validator) {
             $this->setValidator(new ValidatorChain());
         }
+
         return $this->validator;
     }
 
@@ -35,6 +39,5 @@ trait RpcValidatorAwareTrait
     {
         $this->validator = $validator;
     }
-
 
 }

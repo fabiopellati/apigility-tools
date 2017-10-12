@@ -1,6 +1,11 @@
 <?php
 /**
  *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  *
  */
 
@@ -42,9 +47,7 @@ class MapperFactory
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $event = $this->getEvent($container);
-
         $config = $container->get('Config');
-
         $actuatorMapperConfig = $config['apigility-tools']['actuator-mapper'];
         $halMetadataMapConfig = $config['zf-hal']['metadata_map'];
         $requestedConfig = $this->getRequestedConfig($requestedName, $actuatorMapperConfig);
@@ -54,7 +57,6 @@ class MapperFactory
         $entityClass = $controllerConfig['entity_class'];
         $collectionClass = $controllerConfig['collection_class'];
         $apigilityConfig = $config['zf-rest'][$controllerClass];
-
         $requestParameters = $event->getRequest()->getParameters();
         $requestParameters->set('actuatorMapperConfig', $actuatorMapperConfig);
         $requestParameters->set('halMetadataMapConfig', $halMetadataMapConfig);
@@ -63,19 +65,15 @@ class MapperFactory
         $requestParameters->set('collectionClass', $collectionClass);
         $requestParameters->set('identifierName', $halMetadataMapConfig[$entityClass]['entity_identifier_name']);
         $requestParameters->set('apigilityConfig', $apigilityConfig);
-
         $mapper = $this->setMapper($requestedConfig, $event);
-
         $entity = $container->get($entityClass);
         if (!$entity instanceof EventAwareEntity) {
             throw new ServiceNotCreatedException('Entity must be instance of EventAwareEntity', 500);
         }
-
         $hydratorClass = $halMetadataMapConfig[$entityClass]['hydrator'];
         $hydrator = new $hydratorClass();
         $this->setHydrator($hydrator, $container, $event);
         $this->setResultset($entity, $container, $event);
-
         $underscoreToCamelCase = new UnderscoreToCamelCase();
         foreach ($requestedConfig as $key => $value) {
             $param = lcfirst($underscoreToCamelCase->filter($key));
@@ -195,7 +193,6 @@ class MapperFactory
     {
         $mapperClass = $this->extractConfigParam($requestedConfig, 'mapper_class');
         $mapper = new $mapperClass($event);
-
         if (!$mapper instanceof Mapper) {
             throw new ServiceNotCreatedException('$mapperClass must be instance of ApigilityTools\Mapper\Mapper ' .
                                                  $mapperClass . ' given',
@@ -207,7 +204,6 @@ class MapperFactory
         return $mapper;
 
     }
-
 
     /**
      * @param \ApigilityTools\Mapper\Mapper $mapper

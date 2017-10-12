@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
- * Date: 22/02/17
- * Time: 17.44
+ *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ *
  */
 
 namespace ApigilityTools\SqlActuator\Listener\Feature;
@@ -14,7 +17,8 @@ use MessageExchangeEventManager\Event\Event;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class AssociationListener extends AbstractListenerAggregate
+class AssociationListener
+    extends AbstractListenerAggregate
 {
     /**
      * @var array
@@ -44,7 +48,7 @@ class AssociationListener extends AbstractListenerAggregate
      * implementation will pass this to the aggregate.
      *
      * @param EventManagerInterface $events
-     * @param int $priority
+     * @param int                   $priority
      *
      * @return void
      */
@@ -67,26 +71,25 @@ class AssociationListener extends AbstractListenerAggregate
         $params = $this->params;
         $request = $e->getRequest();
         $response = $e->getResponse();
-        $routeAssociationIdentifierName=$request->getParameters()->get('routeAssociationIdentifierName');
-        $entityAssociationIdentifierName=$request->getParameters()->get('entityAssociationIdentifierName');
-
+        $routeAssociationIdentifierName = $request->getParameters()->get('routeAssociationIdentifierName');
+        $entityAssociationIdentifierName = $request->getParameters()->get('entityAssociationIdentifierName');
         if (empty($params[$routeAssociationIdentifierName])) {
             throw new RuntimeException('Entity not fount', 404);
         }
         try {
             $query = $request->getParameters()->get('query');
-
-                $id = $params[$routeAssociationIdentifierName];
+            $id = $params[$routeAssociationIdentifierName];
             $query->where(function ($where) use ($id, $entityAssociationIdentifierName) {
-                        $nest = $where->NEST;
-                        $nest->equalTo($entityAssociationIdentifierName, $id);
-                        $nest->and;
+                $nest = $where->NEST;
+                $nest->equalTo($entityAssociationIdentifierName, $id);
+                $nest->and;
             });
 
         } catch (\Exception $error) {
             $response->setError($error->getMessage(), $error->getCode());
             $e->stopPropagation();
         }
+
         return $response;
     }
 }
