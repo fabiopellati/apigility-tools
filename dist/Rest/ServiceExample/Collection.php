@@ -1,4 +1,7 @@
 <?php
+/**
+ * Copyright
+ */
 namespace ServiceExample;
 
 use Zend\Paginator\Paginator;
