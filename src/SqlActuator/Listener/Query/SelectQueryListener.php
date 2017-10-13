@@ -43,7 +43,7 @@ class SelectQueryListener
 
     /**
      *
-     * @param \MessageExchangeEventManager\Event\Event|\Zend\EventManager\Event $e
+     * @param \MessageExchangeEventManager\Event\Event $e
      *
      * @return \MessageExchangeEventManager\Response\ResponseInterface
      */
@@ -54,10 +54,9 @@ class SelectQueryListener
 
     /**
      *
-     * @param \Zend\EventManager\Event $e
+     * @param \MessageExchangeEventManager\Event\Event $e
      *
      * @return \MessageExchangeEventManager\Response\ResponseInterface
-     * @throws \MessageExchangeEventManager\Exception\InvalidParamException
      */
     public function onEvent(Event $e)
     {
