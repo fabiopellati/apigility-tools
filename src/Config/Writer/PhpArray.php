@@ -142,7 +142,7 @@ class PhpArray
         $controllers = [];
         $zfRest = (empty($config['zf-rest']))
             ? []
-            : $config['zf-hal']['metadata_map'];
+            : $config['zf-rest'];
         foreach ($zfRest as $sectionKey => $sectionConfig) {
             $isVersionOfController = $this->isVersionOfController($controller, $sectionKey);
             if ($isVersionOfController) {
