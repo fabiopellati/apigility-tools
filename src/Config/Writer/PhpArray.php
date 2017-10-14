@@ -148,7 +148,7 @@ class PhpArray
             if ($isVersionOfController) {
                 $entities[] = $sectionConfig['entity_class'];
                 $collections[] = $sectionConfig['collection_class'];
-                $serviceNames[] = $sectionConfig['service_Name'];
+                $serviceNames[] = $sectionConfig['service_name'];
                 $controllers[] = $sectionKey;
                 $services[$routeKey]['zf-rest'][$sectionKey] = $sectionConfig;
             };
