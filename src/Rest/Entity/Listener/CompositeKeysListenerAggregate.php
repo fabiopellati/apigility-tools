@@ -62,26 +62,29 @@ class CompositeKeysListenerAggregate
         $request = $e->getRequest();
         $response = $e->getResponse();
         $arrayCopy = $request->getParameters()->get('arrayCopy');
-        $identifierName = $request->getParameters()->get('identifierName');
-        $identifierDelimiter = $request->getParameters()->get('identifierDelimiter');
-        if (empty($identifierDelimiter)) {
-            $identifierDelimiter = '_';
-        }
-        $keys = explode($identifierDelimiter, $identifierName);
-        if (!is_array($keys) || count($keys) === 0) {
-            throw new InvalidArgumentException('keys must be array or valid string ', 500);
-        }
-        if (is_array($arrayCopy)) {
-            $values = [];
-            foreach ($keys as $key) {
-                $values[$key] = $arrayCopy[$key];
+        if (count($arrayCopy) > 0) {
+
+            $identifierName = $request->getParameters()->get('identifierName');
+            $identifierDelimiter = $request->getParameters()->get('identifierDelimiter');
+            if (empty($identifierDelimiter)) {
+                $identifierDelimiter = '_';
             }
-            $newValue = implode($identifierDelimiter, $values);
-            $arrayCopy[$identifierName] = $newValue;
-            $arrayCopy['id'] = $newValue;
-            $request->getParameters()->set('arrayCopy', $arrayCopy);
-            $response->setContent($arrayCopy);
+            $keys = explode($identifierDelimiter, $identifierName);
+            if (!is_array($keys) || count($keys) === 0) {
+                throw new InvalidArgumentException('keys must be array or valid string ', 500);
+            }
+            if (is_array($arrayCopy)) {
+                $values = [];
+                foreach ($keys as $key) {
+                    $values[$key] = $arrayCopy[$key];
+                }
+                $newValue = implode($identifierDelimiter, $values);
+                $arrayCopy[$identifierName] = $newValue;
+                $arrayCopy['id'] = $newValue;
+                $request->getParameters()->set('arrayCopy', $arrayCopy);
+            }
         }
+        $response->setContent($arrayCopy);
 
         return $response;
 
