@@ -40,10 +40,12 @@ class EventAwareEntity
         $response = $this->triggerEvent(self::EVENT_EXCHANGE_ARRAY, $this->getEvent());
         $content = $response->getContent();
         if (is_array($content)) {
-            parent::exchangeArray($content);
+            $storage = parent::exchangeArray($content);
         } else {
-            parent::exchangeArray($input);
+            $storage = parent::exchangeArray($input);
         }
+
+        return $storage;
     }
 
     /**
