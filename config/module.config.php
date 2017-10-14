@@ -74,7 +74,6 @@ return [
             'ApigilityTools\\SqlActuator\\Listener\\Query\\ConstraintWhereListener'                  => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             'ApigilityTools\\SqlActuator\\Listener\\Query\\WhereKeysListener'                        => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             'ApigilityTools\\SqlActuator\\Listener\\Query\\WhereIdListener'                          => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
-            'ApigilityTools\\SqlActuator\\Listener\\Query\\ColumnsQueryListener'                     => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             /**
              * hydrators
              */
