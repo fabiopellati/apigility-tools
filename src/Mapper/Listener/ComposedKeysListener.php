@@ -106,7 +106,7 @@ class ComposedKeysListener
         try {
             $id = $request->getParameters()->get('id');
             $identifierDelimiter = $request->getParameters()->get('identifierDelimiter');
-            if (!empty($identifierDelimiter)) {
+            if (empty($identifierDelimiter)) {
                 $identifierDelimiter = '_';
             }
             $identifierName = $request->getParameters()->get('identifierName');
