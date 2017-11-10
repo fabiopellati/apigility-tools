@@ -51,9 +51,11 @@ class UpdateListener
 
         $event = $this->replaceEvent($e);
         $event->getRequest()->getParameters()->set('mapper_action', Mapper::EVENT_MAPPER_UPDATE);
-        $response = $this->runEvent($event, SqlActuatorListenerInterface::EVENT_PRE_SQL_UPDATE,
-                                    SqlActuatorListenerInterface::EVENT_SQL_UPDATE,
-                                    SqlActuatorListenerInterface::EVENT_POST_SQL_UPDATE);
+        $response = $this->runEvent($event, [
+            SqlActuatorListenerInterface::EVENT_PRE_SQL_UPDATE,
+            SqlActuatorListenerInterface::EVENT_SQL_UPDATE,
+            SqlActuatorListenerInterface::EVENT_POST_SQL_UPDATE,
+        ]);
 
         return $response;
     }

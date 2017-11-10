@@ -319,6 +319,7 @@ class PhpArray
     {
 
         $inputFilterSpecs = (empty($config['input_filter_specs'])) ? [] : $config['input_filter_specs'];
+        $services[$routeKey]['input_filter_specs'] = [];
         foreach ($inputFilterSpecs as $sectionKey => $sectionConfig) {
             if (in_array($sectionKey, $inputFilters)) {
                 $services[$routeKey]['input_filter_specs'][$sectionKey] = $sectionConfig;

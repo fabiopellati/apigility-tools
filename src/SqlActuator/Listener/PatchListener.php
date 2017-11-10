@@ -51,9 +51,11 @@ class PatchListener
 
         $event = $this->replaceEvent($e);
         $event->getRequest()->getParameters()->set('mapper_action', Mapper::EVENT_MAPPER_PATCH);
-        $response = $this->runEvent($event, SqlActuatorListenerInterface::EVENT_PRE_SQL_PATCH,
-                                    SqlActuatorListenerInterface::EVENT_SQL_PATCH,
-                                    SqlActuatorListenerInterface::EVENT_POST_SQL_PATCH);
+        $response = $this->runEvent($event, [
+            SqlActuatorListenerInterface::EVENT_PRE_SQL_PATCH,
+            SqlActuatorListenerInterface::EVENT_SQL_PATCH,
+            SqlActuatorListenerInterface::EVENT_POST_SQL_PATCH,
+        ]);
 
         return $response;
     }

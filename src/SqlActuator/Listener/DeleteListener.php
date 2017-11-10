@@ -51,9 +51,11 @@ class DeleteListener
 
         $event = $this->replaceEvent($e);
         $event->getRequest()->getParameters()->set('mapper_action', Mapper::EVENT_MAPPER_DELETE);
-        $response = $this->runEvent($event, SqlActuatorListenerInterface::EVENT_PRE_SQL_DELETE,
-                                    SqlActuatorListenerInterface::EVENT_SQL_DELETE,
-                                    SqlActuatorListenerInterface::EVENT_POST_SQL_DELETE);
+        $response = $this->runEvent($event, [
+            SqlActuatorListenerInterface::EVENT_PRE_SQL_DELETE,
+            SqlActuatorListenerInterface::EVENT_SQL_DELETE,
+            SqlActuatorListenerInterface::EVENT_POST_SQL_DELETE,
+        ]);
 
         return $response;
     }

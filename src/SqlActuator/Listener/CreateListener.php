@@ -52,9 +52,11 @@ class CreateListener
 
         $event = $this->replaceEvent($e);
         $event->getRequest()->getParameters()->set('mapper_action', Mapper::EVENT_MAPPER_CREATE);
-        $response = $this->runEvent($event, SqlActuatorListenerInterface::EVENT_PRE_SQL_INSERT,
-                                    SqlActuatorListenerInterface::EVENT_SQL_INSERT,
-                                    SqlActuatorListenerInterface::EVENT_POST_SQL_INSERT);
+        $response = $this->runEvent($event, [
+            SqlActuatorListenerInterface::EVENT_PRE_SQL_INSERT,
+            SqlActuatorListenerInterface::EVENT_SQL_INSERT,
+            SqlActuatorListenerInterface::EVENT_POST_SQL_INSERT,
+        ]);
 
         return $response;
     }

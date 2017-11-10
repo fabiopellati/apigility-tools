@@ -77,8 +77,11 @@ class Mapper
     public function create($data)
     {
         $this->getEvent()->getRequest()->getParameters()->set('data', $data);
-        $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_CREATE, self::EVENT_MAPPER_CREATE,
-                                    self::EVENT_MAPPER_POST_CREATE);
+        $response = $this->runEvent($this->getEvent(), [
+            self::EVENT_MAPPER_PRE_CREATE,
+            self::EVENT_MAPPER_CREATE,
+            self::EVENT_MAPPER_POST_CREATE,
+        ]);
 
         return $response->getContent();
 
@@ -97,8 +100,11 @@ class Mapper
     {
         $this->getEvent()->getRequest()->getParameters()->set('id', $id);
         $this->getEvent()->getRequest()->getParameters()->set('data', $data);
-        $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_UPDATE, self::EVENT_MAPPER_UPDATE,
-                                    self::EVENT_MAPPER_POST_UPDATE);
+        $response = $this->runEvent($this->getEvent(), [
+            self::EVENT_MAPPER_PRE_UPDATE,
+            self::EVENT_MAPPER_UPDATE,
+            self::EVENT_MAPPER_POST_UPDATE,
+        ]);
 
         return $response->getContent();
     }
@@ -129,8 +135,11 @@ class Mapper
     public function delete($id)
     {
         $this->getEvent()->getRequest()->getParameters()->set('id', $id);
-        $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_DELETE, self::EVENT_MAPPER_DELETE,
-                                    self::EVENT_MAPPER_POST_DELETE);
+        $response = $this->runEvent($this->getEvent(), [
+            self::EVENT_MAPPER_PRE_DELETE,
+            self::EVENT_MAPPER_DELETE,
+            self::EVENT_MAPPER_POST_DELETE,
+        ]);
 
         return $response->getContent();
 
@@ -149,8 +158,11 @@ class Mapper
     {
 
         $this->getEvent()->getRequest()->getParameters()->set('id', $id);
-        $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_FETCH, self::EVENT_MAPPER_FETCH,
-                                    self::EVENT_MAPPER_POST_FETCH);
+        $response = $this->runEvent($this->getEvent(), [
+            self::EVENT_MAPPER_PRE_FETCH,
+            self::EVENT_MAPPER_FETCH,
+            self::EVENT_MAPPER_POST_FETCH,
+        ]);
 
         return $response->getContent();
 
@@ -168,8 +180,11 @@ class Mapper
     {
 
         $this->getEvent()->getRequest()->getParameters()->set('params', $params);
-        $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_FETCH_ALL, self::EVENT_MAPPER_FETCH_ALL,
-                                    self::EVENT_MAPPER_POST_FETCH_ALL);
+        $response = $this->runEvent($this->getEvent(), [
+            self::EVENT_MAPPER_PRE_FETCH_ALL,
+            self::EVENT_MAPPER_FETCH_ALL,
+            self::EVENT_MAPPER_POST_FETCH_ALL,
+        ]);
 
         return $response->getContent();
 

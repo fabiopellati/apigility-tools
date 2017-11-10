@@ -51,9 +51,11 @@ class FetchAllListener
 
         $event = $this->replaceEvent($e);
         $event->getRequest()->getParameters()->set('mapper_action', Mapper::EVENT_MAPPER_FETCH_ALL);
-        $response = $this->runEvent($event, SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT,
-                                    SqlActuatorListenerInterface::EVENT_SQL_SELECT,
-                                    SqlActuatorListenerInterface::EVENT_POST_SQL_SELECT);
+        $response = $this->runEvent($event, [
+            SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT,
+            SqlActuatorListenerInterface::EVENT_SQL_SELECT,
+            SqlActuatorListenerInterface::EVENT_POST_SQL_SELECT,
+        ]);
 
         return $response;
     }
