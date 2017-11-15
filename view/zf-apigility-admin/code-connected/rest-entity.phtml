@@ -1,0 +1,34 @@
+<?php
+/**
+ *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ *
+ */
+$hydratorName = '';
+if ($this->details) {
+    $hydratorName = $this->details->hydratorName;
+}
+?>
+namespace <?= $module ?>\V<?= $version ?>\Rest\<?= $resource ?>;
+<?php if ($hydratorName == 'ArraySerializable') : // Entity class implementing ArraySerializableInterface ?>
+
+    use Zend\Stdlib\ArraySerializableInterface;
+    use ApigilityTools\Rest\Entity\EventAwareEntity;
+
+    class <?= $classname ?>
+    extends EventAwareEntity
+    implements ArraySerializableInterface
+    {
+
+    }
+<?php else : // Simple entity class ?>
+
+    class <?= $classname ?>
+
+    {
+    }
+<?php endif ?>
