@@ -1,6 +1,11 @@
 <?php
 /**
  *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  *
  */
 
@@ -27,12 +32,10 @@ class Mapper
     use EventManagerAwareTrait;
     use EventRunAwareTrait;
 
-
     /**
      * @var \MessageExchangeEventManager\Event\Event
      */
     protected $event;
-
 
     /**
      *  constructor.
@@ -47,7 +50,6 @@ class Mapper
         $this->event = $event;
         $this->getEvent()->setTarget($this);
     }
-
 
     /**
      * @return \MessageExchangeEventManager\Event\Event
@@ -65,7 +67,6 @@ class Mapper
         $this->event = $event;
     }
 
-
     /**
      * Create a new resource.
      *
@@ -76,8 +77,11 @@ class Mapper
     public function create($data)
     {
         $this->getEvent()->getRequest()->getParameters()->set('data', $data);
-        $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_CREATE, self::EVENT_MAPPER_CREATE,
-                                    self::EVENT_MAPPER_POST_CREATE);
+        $response = $this->runEvent($this->getEvent(), [
+            self::EVENT_MAPPER_PRE_CREATE,
+            self::EVENT_MAPPER_CREATE,
+            self::EVENT_MAPPER_POST_CREATE,
+        ]);
 
         return $response->getContent();
 
@@ -96,8 +100,11 @@ class Mapper
     {
         $this->getEvent()->getRequest()->getParameters()->set('id', $id);
         $this->getEvent()->getRequest()->getParameters()->set('data', $data);
-        $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_UPDATE, self::EVENT_MAPPER_UPDATE,
-                                    self::EVENT_MAPPER_POST_UPDATE);
+        $response = $this->runEvent($this->getEvent(), [
+            self::EVENT_MAPPER_PRE_UPDATE,
+            self::EVENT_MAPPER_UPDATE,
+            self::EVENT_MAPPER_POST_UPDATE,
+        ]);
 
         return $response->getContent();
     }
@@ -128,8 +135,11 @@ class Mapper
     public function delete($id)
     {
         $this->getEvent()->getRequest()->getParameters()->set('id', $id);
-        $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_DELETE, self::EVENT_MAPPER_DELETE,
-                                    self::EVENT_MAPPER_POST_DELETE);
+        $response = $this->runEvent($this->getEvent(), [
+            self::EVENT_MAPPER_PRE_DELETE,
+            self::EVENT_MAPPER_DELETE,
+            self::EVENT_MAPPER_POST_DELETE,
+        ]);
 
         return $response->getContent();
 
@@ -148,9 +158,11 @@ class Mapper
     {
 
         $this->getEvent()->getRequest()->getParameters()->set('id', $id);
-
-        $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_FETCH, self::EVENT_MAPPER_FETCH,
-                                    self::EVENT_MAPPER_POST_FETCH);
+        $response = $this->runEvent($this->getEvent(), [
+            self::EVENT_MAPPER_PRE_FETCH,
+            self::EVENT_MAPPER_FETCH,
+            self::EVENT_MAPPER_POST_FETCH,
+        ]);
 
         return $response->getContent();
 
@@ -168,12 +180,14 @@ class Mapper
     {
 
         $this->getEvent()->getRequest()->getParameters()->set('params', $params);
-        $response = $this->runEvent($this->getEvent(), self::EVENT_MAPPER_PRE_FETCH_ALL, self::EVENT_MAPPER_FETCH_ALL,
-                                    self::EVENT_MAPPER_POST_FETCH_ALL);
+        $response = $this->runEvent($this->getEvent(), [
+            self::EVENT_MAPPER_PRE_FETCH_ALL,
+            self::EVENT_MAPPER_FETCH_ALL,
+            self::EVENT_MAPPER_POST_FETCH_ALL,
+        ]);
 
         return $response->getContent();
 
     }
-
 
 }

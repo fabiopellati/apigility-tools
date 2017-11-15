@@ -1,6 +1,7 @@
 <?php
-
-
+/**
+ * Copyright
+ */
 return [
     'apigility-tools'=>[
         'actuator-mapper' => [
@@ -29,7 +30,7 @@ return [
 
                     'ApigilityTools\\SqlActuator\\Listener\\Query\\RunQueryListener'=>'ApigilityTools\\SqlActuator\\Listener\\Query\\RunQueryListener',
                     'ApigilityTools\\SqlActuator\\Hydrator\\HydratorDbResultListener'=>'ApigilityTools\\SqlActuator\\Hydrator\\HydratorDbResultListener',
-                    'ApigilityTools\\SqlActuator\\Listener\\Feature\\SqlPaginatorListener'=>'ApigilityTools\\SqlActuator\\Listener\\Feature\\PaginatorListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Feature\\PaginatorListener'=>'ApigilityTools\\SqlActuator\\Listener\\Feature\\PaginatorListener',
 
                     /**
                     *

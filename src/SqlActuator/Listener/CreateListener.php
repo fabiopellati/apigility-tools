@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
- * Date: 19/04/17
- * Time: 11.43
+ *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ *
  */
 
 namespace ApigilityTools\SqlActuator\Listener;
@@ -49,12 +52,13 @@ class CreateListener
 
         $event = $this->replaceEvent($e);
         $event->getRequest()->getParameters()->set('mapper_action', Mapper::EVENT_MAPPER_CREATE);
-        $response = $this->runEvent($event, SqlActuatorListenerInterface::EVENT_PRE_SQL_INSERT,
-                                    SqlActuatorListenerInterface::EVENT_SQL_INSERT,
-                                    SqlActuatorListenerInterface::EVENT_POST_SQL_INSERT);
+        $response = $this->runEvent($event, [
+            SqlActuatorListenerInterface::EVENT_PRE_SQL_INSERT,
+            SqlActuatorListenerInterface::EVENT_SQL_INSERT,
+            SqlActuatorListenerInterface::EVENT_POST_SQL_INSERT,
+        ]);
 
         return $response;
     }
-
 
 }

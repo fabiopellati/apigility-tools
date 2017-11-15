@@ -1,4 +1,13 @@
 <?php
+/**
+ *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ *
+ */
 
 namespace ApigilityTools\Rest\Entity;
 
@@ -11,7 +20,6 @@ use Zend\Stdlib\ArrayUtils;
 class EventAwareEntityFactory
     implements FactoryInterface
 {
-
 
     /**
      * @param \Interop\Container\ContainerInterface $container
@@ -28,7 +36,6 @@ class EventAwareEntityFactory
         $halMetadataMap = $config['zf-hal']['metadata_map'];
         $entityIdentifierName = $halMetadataMap[$requestedName]['entity_identifier_name'];
         $entity->getEvent()->getRequest()->getParameters()->set('identifierName', $entityIdentifierName);
-
         $requestedConfig = $this->getRequestedConfig($requestedName, $sqlActuatorMapperConfig);
         if (isset($requestedConfig)) {
 
@@ -89,7 +96,7 @@ class EventAwareEntityFactory
      * @param                                                  $listener
      * @param null                                             $priority
      */
-    private function attachListener(EventAwareEntity $entity, $listener, $priority = null)
+    protected function attachListener(EventAwareEntity $entity, $listener, $priority = null)
     {
 
         $eventManager = $entity->getEventManager();

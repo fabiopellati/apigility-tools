@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
- * Date: 19/04/17
- * Time: 11.43
+ *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ *
  */
 
 namespace ApigilityTools\SqlActuator\Listener;
@@ -38,7 +41,6 @@ class UpdateListener
 
     }
 
-
     /**
      * @param \MessageExchangeEventManager\Event\EventInterface $e
      *
@@ -49,12 +51,13 @@ class UpdateListener
 
         $event = $this->replaceEvent($e);
         $event->getRequest()->getParameters()->set('mapper_action', Mapper::EVENT_MAPPER_UPDATE);
-        $response = $this->runEvent($event, SqlActuatorListenerInterface::EVENT_PRE_SQL_UPDATE,
-                                    SqlActuatorListenerInterface::EVENT_SQL_UPDATE,
-                                    SqlActuatorListenerInterface::EVENT_POST_SQL_UPDATE);
+        $response = $this->runEvent($event, [
+            SqlActuatorListenerInterface::EVENT_PRE_SQL_UPDATE,
+            SqlActuatorListenerInterface::EVENT_SQL_UPDATE,
+            SqlActuatorListenerInterface::EVENT_POST_SQL_UPDATE,
+        ]);
 
         return $response;
     }
-
 
 }

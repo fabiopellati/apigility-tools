@@ -1,11 +1,11 @@
 <?php
 /**
- * lo scopo di questo listener è quello di disaccoppiare la logica di filtraggio dell'id
- * per SELECT, UPDATE, DELETE
  *
- * per consentire di manipolare l'id filtrato prima dell'esecuzione della query nel caso ad esempio delle chiavi
- * composite
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
  *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  *
  */
 
@@ -25,7 +25,6 @@ class RunQueryListener
     extends AbstractListenerAggregate
 {
 
-
     /**
      * Attach one or more listeners
      *
@@ -40,19 +39,24 @@ class RunQueryListener
     public function attach(EventManagerInterface $events, $priority = 100)
     {
 //
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_UPDATE, [$this, 'onEventConstraint'],
-                                             $priority + 100);
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_DELETE, [$this, 'onEventConstraint'],
-                                             $priority + 100);
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_PATCH, [$this, 'onEventConstraint'],
-                                             $priority + 100);
-
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_SELECT, [$this, 'onSelect'], $priority);
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_INSERT, [$this, 'onInsert'], $priority);
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_UPDATE, [$this, 'onUpdate'], $priority);
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_SQL_DELETE, [$this, 'onDelete'], $priority);
+        $this->listeners[] =
+            $events->attach(SqlActuatorListenerInterface::EVENT_SQL_UPDATE, [$this, 'onEventConstraint'],
+                            $priority + 100);
+        $this->listeners[] =
+            $events->attach(SqlActuatorListenerInterface::EVENT_SQL_DELETE, [$this, 'onEventConstraint'],
+                            $priority + 100);
+        $this->listeners[] =
+            $events->attach(SqlActuatorListenerInterface::EVENT_SQL_PATCH, [$this, 'onEventConstraint'],
+                            $priority + 100);
+        $this->listeners[] =
+            $events->attach(SqlActuatorListenerInterface::EVENT_SQL_SELECT, [$this, 'onSelect'], $priority);
+        $this->listeners[] =
+            $events->attach(SqlActuatorListenerInterface::EVENT_SQL_INSERT, [$this, 'onInsert'], $priority);
+        $this->listeners[] =
+            $events->attach(SqlActuatorListenerInterface::EVENT_SQL_UPDATE, [$this, 'onUpdate'], $priority);
+        $this->listeners[] =
+            $events->attach(SqlActuatorListenerInterface::EVENT_SQL_DELETE, [$this, 'onDelete'], $priority);
     }
-
 
     /**
      * @param \MessageExchangeEventManager\Event\Event $e
@@ -76,7 +80,7 @@ class RunQueryListener
             $result = $sql->prepareStatementForSqlObject($query)->execute();
             $response->setContent($result);
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 
@@ -95,12 +99,10 @@ class RunQueryListener
         try {
             $request = $e->getRequest();
             $table = $request->getParameters()->get('table');
-
             $sql = $request->getParameters()->get('sql');
             $this->validateSql($sql);
             $query = $request->getParameters()->get('query');
             $this->validateQuery($query);
-
             $data = $request->getParameters()->get('data');
             if (empty($data) || !is_array($data)) {
                 throw new InvalidParamException('parametro data non valido', 500);
@@ -114,7 +116,7 @@ class RunQueryListener
                 throw new \Exception('risorsa non creata', 422);
             }
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 
@@ -136,7 +138,6 @@ class RunQueryListener
             $this->validateSql($sql);
             $query = $request->getParameters()->get('query');
             $this->validateQuery($query);
-
             $data = $request->getParameters()->get('data');
             if (empty($data) || !is_array($data)) {
                 throw new InvalidParamException('parametro data non valido', 500);
@@ -147,7 +148,7 @@ class RunQueryListener
             $result = $statement->execute();
             $response->setContent($result->getAffectedRows());
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 
@@ -164,14 +165,12 @@ class RunQueryListener
             $this->validateSql($sql);
             $query = $request->getParameters()->get('query');
             $this->validateQuery($query);
-
             $this->checkAffectedRow($request);
-
             $statement = $sql->prepareStatementForSqlObject($query);
             $result = $statement->execute();
             $response->setContent($result->getAffectedRows() > 0);
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 
@@ -201,7 +200,7 @@ class RunQueryListener
                                                        500);
             }
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 
@@ -213,7 +212,7 @@ class RunQueryListener
      *
      * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
-    private function validateQuery($query)
+    protected function validateQuery($query)
     {
         if (empty($query) || !$query instanceof AbstractPreparableSql) {
             throw new ListenerRequirementException('parametro query non presente: possibile errore nella sequenza dei listener ',
@@ -226,7 +225,7 @@ class RunQueryListener
      *
      * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
-    private function validateSql($sql)
+    protected function validateSql($sql)
     {
         if (empty($sql) || !$sql instanceof Sql) {
             throw new ListenerRequirementException('parametro Sql non presente: possibile errore nella sequenza dei listener ',
@@ -241,7 +240,7 @@ class RunQueryListener
      * @internal param $sql
      * @internal param $query
      */
-    private function checkAffectedRow(Request $request)
+    protected function checkAffectedRow(Request $request)
     {
         $countAffected = $this->getCountAffectedParam($request);
         if ((int)$countAffected > 1) {
@@ -255,10 +254,9 @@ class RunQueryListener
      * @return mixed
      * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
-    private function getCountAffectedParam(Request $request)
+    protected function getCountAffectedParam(Request $request)
     {
         $countAffected = $request->getParameters()->get('count_affected');
-
         if (empty($countAffected) && !$countAffected === 0) {
             throw new ListenerRequirementException('parametro count_affected non presente: possibile errore nella sequenza dei listener ',
                                                    500);

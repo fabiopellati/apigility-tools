@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
- * Date: 19/04/17
- * Time: 11.43
+ *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ *
  */
 
 namespace ApigilityTools\SqlActuator\Hydrator;
@@ -18,7 +21,6 @@ use Zend\EventManager\EventManagerInterface;
 class HydratorDbResultListener
     extends AbstractListenerAggregate
 {
-
 
     /**
      * @param \Zend\EventManager\EventManagerInterface $events
@@ -37,7 +39,6 @@ class HydratorDbResultListener
 
     }
 
-
     /**
      * @param \MessageExchangeEventManager\Event\EventInterface $e
      *
@@ -46,18 +47,14 @@ class HydratorDbResultListener
     public function onRunPostFetch(EventInterface $e)
     {
         $request = $e->getRequest();
-
         $response = $e->getResponse();
-
         /**
          * @var \Zend\Db\Adapter\Driver\ResultInterface
          */
         $content = $response->getContent();
-
         if ($content instanceof ResultInterface && $content->isQueryResult()) {
             $hydrator = $request->getParameters()->get('hydrator');
             $resultset = $request->getParameters()->get('resultset');
-
             $resultset = new HydratingResultSet($hydrator, $resultset);
             $resultset->initialize($content);
 //            print_r([__METHOD__=>__LINE__, $resultset->toArray()]);exit;
@@ -66,6 +63,5 @@ class HydratorDbResultListener
 
         return $response;
     }
-
 
 }

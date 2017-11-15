@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
- * Date: 21/02/17
- * Time: 12.24
+ *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ *
  */
 
 namespace ApigilityTools\Rest\Resource;
@@ -35,7 +38,6 @@ class ResourceListener
         }
         $this->mapper = $mapper;
     }
-
 
     /**
      * Create a resource
@@ -83,7 +85,6 @@ class ResourceListener
     {
 //        $result = $this->mapper->deleteList($data);
 //        return $result;
-
         return new ApiProblem(405, 'The DELETE method has not been defined for collections');
     }
 
@@ -99,7 +100,6 @@ class ResourceListener
         $result = $this->mapper->fetch($id);
 
 //        print_r($result->toArray());exit;
-
         return $result->current();
     }
 
@@ -114,7 +114,6 @@ class ResourceListener
     {
         $requestQuery = $this->getEvent()->getRequest()->getQuery();
         $this->mapper->getEvent()->getRequest()->getParameters()->set('request_query', $requestQuery);
-
         /**
          * @var $result \Zend\Paginator\Paginator
          */
@@ -150,7 +149,6 @@ class ResourceListener
     {
 //        $result = $this->mapper->patchList($data);
 //        return $result;
-
         return new ApiProblem(405, 'The PATCH method has not been defined for collections');
     }
 

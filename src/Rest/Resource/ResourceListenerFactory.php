@@ -1,4 +1,13 @@
 <?php
+/**
+ *
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
+ *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ *
+ */
 
 namespace ApigilityTools\Rest\Resource;
 
@@ -10,7 +19,6 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 class ResourceListenerFactory
     implements FactoryInterface
 {
-
 
     /**
      * @param \Interop\Container\ContainerInterface $container
@@ -32,12 +40,11 @@ class ResourceListenerFactory
         $mapperClass = $requestedConfig['mapper_class'];
         $mapper = $container->get($mapperClass);
         $resource = new ResourceListener($mapper);
-
         $underscoreToCamelCase = new UnderscoreToCamelCase();
         foreach ($requestedConfig as $key => $value) {
             $param = lcfirst($underscoreToCamelCase->filter($key));
             switch ($param) {
-                case 'hal_listeners':
+                case 'halListeners':
                     $helpers = $container->get('ViewHelperManager');
                     /**
                      * @var $hal Hal
@@ -53,7 +60,5 @@ class ResourceListenerFactory
 
         return $resource;
     }
-
-
 
 }

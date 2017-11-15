@@ -1,7 +1,7 @@
 {
   "name": "fabiopellati/apigility-tools",
-  "description": "",
-  "license": "proprietary",
+  "description": "General tools for Apigility",
+  "license": "BSD-3-Clause",
   "authors": [
     {
       "name": "Fabio Pellati",
@@ -18,7 +18,6 @@
   "prefer-stable":true,
   "require": {
     "zendframework/zend-view": "^2.9",
-    "zendframework/zend-test": "^3.1",
     "zendframework/zend-db": "^2.8",
     "zendframework/zend-hydrator": "^2.2",
     "zendframework/zend-serializer": "^2.8",
@@ -28,7 +27,10 @@
     "zendframework/zend-uri": "^2.5",
     "zendframework/zend-cache": "^2.7",
     "zendframework/zend-stdlib": "^3.1",
-    "fabiopellati/message-exchange-event-manager": "dev-master"
+    "fabiopellati/message-exchange-event-manager": "1.0 |^2"
+  },
+  "require-dev": {
+    "zendframework/zend-test": "^3.1"
   },
   "autoload": {
     "psr-4": {

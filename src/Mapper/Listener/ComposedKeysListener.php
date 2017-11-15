@@ -1,11 +1,11 @@
 <?php
 /**
- * lo scopo di questo listener è quello di disaccoppiare la logica di filtraggio dell'id
- * per SELECT, UPDATE, DELETE
  *
- * per consentire di manipolare l'id filtrato prima dell'esecuzione della query nel caso ad esempio delle chiavi
- * composite
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
  *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  *
  */
 
@@ -19,10 +19,16 @@ use MessageExchangeEventManager\Event\Event;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
+/**
+ * lo scopo di questo listener è quello di disaccoppiare la logica di filtraggio dell'id
+ * per SELECT, UPDATE, DELETE
+ *
+ * per consentire di manipolare l'id filtrato prima dell'esecuzione della query nel caso ad esempio delle chiavi
+ * composite
+ */
 class ComposedKeysListener
     extends AbstractListenerAggregate
 {
-
 
     /**
      * Attach one or more listeners
@@ -38,9 +44,12 @@ class ComposedKeysListener
     public function attach(EventManagerInterface $events, $priority = 100)
     {
 
-        $this->listeners[] = $events->attach(MapperDeleteAwareInterface::EVENT_MAPPER_PRE_DELETE, [$this, 'onDelete'], $priority);
-        $this->listeners[] = $events->attach(MapperFetchAwareInterface::EVENT_MAPPER_PRE_FETCH, [$this, 'onSelect'], $priority);
-        $this->listeners[] = $events->attach(MapperUpdateAwareInterface::EVENT_MAPPER_PRE_UPDATE, [$this, 'onUpdate'], $priority);
+        $this->listeners[] =
+            $events->attach(MapperDeleteAwareInterface::EVENT_MAPPER_PRE_DELETE, [$this, 'onDelete'], $priority);
+        $this->listeners[] =
+            $events->attach(MapperFetchAwareInterface::EVENT_MAPPER_PRE_FETCH, [$this, 'onSelect'], $priority);
+        $this->listeners[] =
+            $events->attach(MapperUpdateAwareInterface::EVENT_MAPPER_PRE_UPDATE, [$this, 'onUpdate'], $priority);
     }
 
     /**
@@ -83,7 +92,6 @@ class ComposedKeysListener
 
     }
 
-
     /**
      * @param \MessageExchangeEventManager\Event\Event $e
      *
@@ -98,21 +106,19 @@ class ComposedKeysListener
         try {
             $id = $request->getParameters()->get('id');
             $identifierDelimiter = $request->getParameters()->get('identifierDelimiter');
-            if (!empty($identifierDelimiter)) {
+            if (empty($identifierDelimiter)) {
                 $identifierDelimiter = '_';
             }
             $identifierName = $request->getParameters()->get('identifierName');
-            $keys=[];
+            $keys = [];
             if (!empty($identifierName)) {
                 $keys = explode($identifierDelimiter, $identifierName);
             }
-
             $values = explode($identifierDelimiter, $id);
             if (count($values) != count($keys)) {
                 throw new InvalidParamException('Id parameter contains a wrong number of elements', 500);
             }
-
-            $composedKey=array_combine($keys,$values);
+            $composedKey = array_combine($keys, $values);
             $request->getParameters()->set('composedKey', $composedKey);
             $request->getParameters()->set('constraint', [$identifierName => $id]);
 
@@ -124,6 +130,5 @@ class ComposedKeysListener
         return $response;
 
     }
-
 
 }

@@ -1,11 +1,11 @@
 <?php
 /**
- * lo scopo di questo listener è quello di disaccoppiare la logica di filtraggio dell'id
- * per SELECT, UPDATE, DELETE
  *
- * per consentire di manipolare l'id filtrato prima dell'esecuzione della query nel caso ad esempio delle chiavi
- * composite
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
  *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  *
  */
 
@@ -23,7 +23,6 @@ use Zend\EventManager\EventManagerInterface;
 class CountAffectedQueryListener
     extends AbstractListenerAggregate
 {
-
 
     /**
      * Attach one or more listeners
@@ -47,7 +46,6 @@ class CountAffectedQueryListener
                                              $priority + 100);
     }
 
-
     /**
      * @param \MessageExchangeEventManager\Event\Event $e
      *
@@ -66,13 +64,15 @@ class CountAffectedQueryListener
             $countAffected = $this->countAffected($sql, $query);
             if (isset($countAffected['count_affected'])) {
                 $request->getParameters()->set('count_affected', $countAffected['count_affected']);
-            } else if (isset($countAffected['COUNT_AFFECTED'])) {
-                $request->getParameters()->set('count_affected', $countAffected['COUNT_AFFECTED']);
+            } else {
+                if (isset($countAffected['COUNT_AFFECTED'])) {
+                    $request->getParameters()->set('count_affected', $countAffected['COUNT_AFFECTED']);
 
+                }
             }
 
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 
@@ -84,7 +84,7 @@ class CountAffectedQueryListener
      *
      * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
-    private function validateQuery($query)
+    protected function validateQuery($query)
     {
         if (empty($query) || !$query instanceof AbstractPreparableSql) {
             throw new ListenerRequirementException('parametro query non presente: possibile errore nella sequenza dei listener ',
@@ -97,7 +97,7 @@ class CountAffectedQueryListener
      *
      * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
-    private function validateSql($sql)
+    protected function validateSql($sql)
     {
         if (empty($sql) || !$sql instanceof Sql) {
             throw new ListenerRequirementException('parametro Sql non presente: possibile errore nella sequenza dei listener ',
@@ -111,16 +111,32 @@ class CountAffectedQueryListener
      *
      * @return mixed
      */
-    private function countAffected($sql, $query)
+    protected function countAffected($sql, $query)
     {
         $select = $sql->select();
         $select->columns(['count_affected' => new Expression('count(*)')]);
-        $select->where($query->where);
+        $where = $query->where;
+        if ($where instanceof Where) {
+            $select->where($where);
+        }
+        $having = $query->having;
+        if ($having instanceof Having) {
+            $select->having($having);
+        }
+        $joins = $query->joins;
+        if ($joins instanceof Join) {
+            foreach ($joins->getJoins() as $join) {
+                /**
+                 * @var $join
+                 */
+                $select->join($join['name'], $join['on'], [], $join['type']);
+
+            }
+        }
         $statement = $sql->prepareStatementForSqlObject($select);
         $current = $statement->execute()->current();
 
         return $current;
     }
-
 
 }

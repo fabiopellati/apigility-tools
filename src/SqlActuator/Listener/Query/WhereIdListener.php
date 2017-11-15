@@ -1,11 +1,11 @@
 <?php
 /**
- * lo scopo di questo listener è quello di disaccoppiare la logica di filtraggio dell'id
- * per SELECT, UPDATE, DELETE
  *
- * per consentire di manipolare l'id filtrato prima dell'esecuzione della query nel caso ad esempio delle chiavi
- * composite
+ * apigility-tools (https://github.com/fabiopellati/apigility-tools)
  *
+ * @link      https://github.com/fabiopellati/apigility-tools for the canonical source repository
+ * @copyright Copyright (c) 2017 Fabio Pellati (https://github.com/fabiopellati)
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  *
  */
 
@@ -26,7 +26,6 @@ class WhereIdListener
     extends AbstractListenerAggregate
 {
 
-
     /**
      * Attach one or more listeners
      *
@@ -38,12 +37,15 @@ class WhereIdListener
      *
      * @return void
      */
-    public function attach(EventManagerInterface $events, $priority = 100)
+    public function attach(EventManagerInterface $events, $priority = 500)
     {
 
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_DELETE, [$this, 'onDelete'], $priority);
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onSelect'], $priority);
-        $this->listeners[] = $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_UPDATE, [$this, 'onUpdate'], $priority);
+        $this->listeners[] =
+            $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_DELETE, [$this, 'onDelete'], $priority);
+        $this->listeners[] =
+            $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onSelect'], $priority);
+        $this->listeners[] =
+            $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_UPDATE, [$this, 'onUpdate'], $priority);
     }
 
     /**
@@ -92,7 +94,6 @@ class WhereIdListener
 
         $request = $e->getRequest();
         $response = $e->getResponse();
-
         try {
             $query = $request->getParameters()->get('query');
             $id = $request->getParameters()->get('id');
@@ -109,7 +110,7 @@ class WhereIdListener
             $request->getParameters()->set('constraint', [$identifierName => $id]);
 
         } catch (\Exception $error) {
-            $response->setcontent($error);
+            $response->setContent($error);
             $e->stopPropagation();
         }
 
