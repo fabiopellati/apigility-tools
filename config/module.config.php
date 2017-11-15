@@ -9,6 +9,9 @@
  *
  */
 namespace ApigilityTools;
+
+use Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory;
+
 return [
     'apigility-tools' => [
         'actuator-mapper' => [
@@ -39,7 +42,10 @@ return [
         ],
     ],
     'service_manager' => [
-        'factories' => [
+        'abstract_factories' => [
+            ConfigAbstractFactory::class,
+        ],
+        'factories'          => [
             'ApigilityTools\\Mapper\\Listener\\ComposedKeysListener'                                 => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             /**
              * actuator sql
