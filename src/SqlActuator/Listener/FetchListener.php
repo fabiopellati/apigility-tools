@@ -12,8 +12,8 @@
 namespace ApigilityTools\SqlActuator\Listener;
 
 use ApigilityTools\Mapper\Mapper;
-use ApigilityTools\Traits\ReplaceEventAwareTrait;
 use MessageExchangeEventManager\Event\EventInterface;
+use MessageExchangeEventManager\Event\ReplaceEventAwareTrait;
 use MessageExchangeEventManager\EventManagerAwareTrait;
 use MessageExchangeEventManager\EventRunAwareTrait;
 use Zend\EventManager\AbstractListenerAggregate;
