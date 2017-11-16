@@ -27,14 +27,16 @@ class ResourceFactory
         }
         $moduleConfigPath = $this->modules->getModuleConfigPath($moduleName);
         $config = include $moduleConfigPath;
-        $this->mergeAutoloadConfig($config, $moduleConfigPath);
+        $config = $this->mergeAutoloadConfig($config, $moduleConfigPath);
+//        $this->writer->toFileUnsplitted($moduleConfigPath,$config, false);
+//        $config = include $moduleConfigPath;
         $this->resources[$moduleName] = new ConfigResource($config, $moduleConfigPath, $this->writer);
 
         return $this->resources[$moduleName];
 
     }
 
-    protected function mergeAutoloadConfig(&$config, $moduleConfigPath)
+    protected function mergeAutoloadConfig($config, $moduleConfigPath)
     {
         if (is_dir(dirname($moduleConfigPath) . '/autoload')) {
             $Directory = new \RecursiveDirectoryIterator(dirname($moduleConfigPath) . '/autoload');
@@ -49,6 +51,8 @@ class ResourceFactory
             $config = ArrayUtils::merge($config, $autoloadConfig, true);
 
         }
+
+        return $config;
 
     }
 }

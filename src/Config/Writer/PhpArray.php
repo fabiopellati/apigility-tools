@@ -17,10 +17,23 @@ class PhpArray
     extends \Zend\Config\Writer\PhpArray
 {
 
+    /**
+     *
+     * @param $filename
+     * @param $config
+     * @param $exclusiveLock
+     */
+    public function toFileUnsplitted($filename, $config, $exclusiveLock = true)
+    {
+        parent::toFile($filename, $config, $exclusiveLock);
+
+    }
+
     public function toFile($filename, $config, $exclusiveLock = true)
     {
 
         parent::toFile($filename, $config, $exclusiveLock);
+
         $splitServices = $this->splitServices($config, $filename);
         foreach ($splitServices as $splitKey => $splitService) {
             $splittedFileName = $this->splittedFileName($filename, $splitKey);
@@ -92,7 +105,7 @@ class PhpArray
      */
     protected function setZfVersioning($routeKey, &$services)
     {
-        $services[$routeKey]['zf-versioning']['uri'] = $routeKey;
+        $services[$routeKey]['zf-versioning']['uri'][] = $routeKey;
 
         return $services;
     }
