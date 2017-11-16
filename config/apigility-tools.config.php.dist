@@ -3,8 +3,7 @@
  * Copyright
  */
 return [
-
-    'apigility-tools' => [
+    'apigility-tools'                                                 => [
         'actuator-mapper' => [
             'mapper_default' => [
                 'composite_key'        => false,
@@ -78,7 +77,7 @@ return [
     /**
      * configurare la cache
      */
-    'caches'          => [
+    'caches'                                                          => [
         'apigility_tools_model_cache' => [
             'adapter' => [
                 'name'    => 'filesystem',
