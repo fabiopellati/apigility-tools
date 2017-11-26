@@ -16,7 +16,10 @@ use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
 use Zend\Db\Sql\AbstractPreparableSql;
 use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Having;
+use Zend\Db\Sql\Join;
 use Zend\Db\Sql\Sql;
+use Zend\Db\Sql\Where;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
