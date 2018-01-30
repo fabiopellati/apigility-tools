@@ -38,7 +38,7 @@ class RunQueryListener
      */
     public function attach(EventManagerInterface $events, $priority = 100)
     {
-//
+
         $this->listeners[] =
             $events->attach(SqlActuatorListenerInterface::EVENT_SQL_UPDATE, [$this, 'onEventConstraint'],
                             $priority + 100);
@@ -62,7 +62,6 @@ class RunQueryListener
      * @param \MessageExchangeEventManager\Event\Event $e
      *
      * @return \MessageExchangeEventManager\Response\ResponseInterface
-     * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
     public function onSelect(Event $e)
     {
@@ -76,7 +75,7 @@ class RunQueryListener
              */
             $query = $request->getParameters()->get('query');
             $this->validateQuery($query);
-//            print_r([__METHOD__=>$query->getSqlString()]);            exit;
+            //print_r([__METHOD__=>$query->getSqlString()]);            exit;
             $result = $sql->prepareStatementForSqlObject($query)->execute();
             $response->setContent($result);
         } catch (\Exception $error) {
@@ -91,7 +90,6 @@ class RunQueryListener
      * @param \MessageExchangeEventManager\Event\Event $e
      *
      * @return \MessageExchangeEventManager\Response\ResponseInterface
-     * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
     public function onInsert(Event $e)
     {

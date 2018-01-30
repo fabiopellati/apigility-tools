@@ -83,8 +83,6 @@ class ConstraintWhereListener
         $request = $e->getRequest();
         $response = $e->getResponse();
         try {
-//            print_r([__METHOD__ => '001']);
-//            exit;
             $hasConstraint = $request->getParameters()->get('hasConstraintWhere');
             if (empty($hasConstraint) || !$hasConstraint) {
                 throw new ListenerRequirementException('il metodo richiede un listener obbligatorio di tipo ConstraintWhere',

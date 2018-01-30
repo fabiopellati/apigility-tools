@@ -42,10 +42,9 @@ class DeleteQueryListener
 
     /**
      *
-     * @param \Zend\EventManager\Event $e
+     * @param \MessageExchangeEventManager\Event\Event $e
      *
      * @return \MessageExchangeEventManager\Response\ResponseInterface
-     * @throws \MessageExchangeEventManager\Exception\InvalidParamException
      */
     public function onEvent(Event $e)
     {

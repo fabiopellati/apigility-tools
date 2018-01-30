@@ -51,6 +51,8 @@ class WhereIdListener
     /**
      *
      * @param \Zend\EventManager\Event $e
+     *
+     * @return \MessageExchangeEventManager\Response\Response
      */
     public function onSelect(Event $e)
     {
@@ -66,6 +68,8 @@ class WhereIdListener
     /**
      *
      * @param \Zend\EventManager\Event $e
+     *
+     * @return \MessageExchangeEventManager\Response\Response
      */
     public function onDelete(Event $e)
     {
@@ -75,6 +79,8 @@ class WhereIdListener
     /**
      *
      * @param \Zend\EventManager\Event $e
+     *
+     * @return \MessageExchangeEventManager\Response\Response
      */
     public function onUpdate(Event $e)
     {
@@ -86,8 +92,7 @@ class WhereIdListener
      *
      * @param \Zend\EventManager\Event $e
      *
-     * @throws \MessageExchangeEventManager\Exception\InvalidParamException
-     * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
+     * @return \MessageExchangeEventManager\Response\Response
      */
     public function onEvent(Event $e)
     {
