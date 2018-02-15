@@ -32,7 +32,7 @@ class EventAwareEntity
      * @param array|\Zend\Stdlib\ArrayObject $input
      *
      * @return array|void
-     * @throws \ApigilityTools\Exception\RuntimeException
+     * @throws \Exception
      */
     public function exchangeArray($input)
     {
@@ -50,7 +50,7 @@ class EventAwareEntity
 
     /**
      * @return mixed
-     * @throws \ApigilityTools\Exception\RuntimeException
+     * @throws \Exception
      */
     public function getArrayCopy()
     {
@@ -69,6 +69,7 @@ class EventAwareEntity
     /**
      *
      * @return array|mixed
+     * @throws \Exception
      */
     public function fetchAll()
     {
@@ -77,6 +78,8 @@ class EventAwareEntity
 
     /**
      * @param mixed $data
+     *
+     * @throws \Exception
      */
     public function initialize($data)
     {

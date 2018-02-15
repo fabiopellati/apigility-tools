@@ -27,6 +27,8 @@ class EventAwareEntityFactory
      * @param array|null                            $options
      *
      * @return \ApigilityTools\Rest\Entity\EventAwareEntity
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
