@@ -43,6 +43,8 @@ class MapperFactory
      * @param array|null                            $options
      *
      * @return object
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
