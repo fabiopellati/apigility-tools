@@ -105,10 +105,11 @@ class AssociationManyListener
     }
 
     /**
-     * @param        $joinConfiguration
      * @param Select $query
      *
-     * @return array
+     * @param        $joinConfiguration
+     *
+     * @return void
      */
     protected function addJoin($query, $joinConfiguration)
     {
@@ -122,20 +123,31 @@ class AssociationManyListener
         }
         $on = '';
         $and = ' ';
+        /**
+         * @var TableIdentifier $from
+         */
+        $from = $query->getRawState('table');
+
         foreach ($joinConfiguration['on'] as $onConfig) {
             $group[] = $onConfig[1];
             $left = 'has.' . $onConfig[1];
-            $right = $onConfig[0];
+            $right = $from->getSchema().'.'.$from->getTable().'.'.$onConfig[0];
             $on .= "$and $right = $left";
             $and = 'AND';
         }
         $columns = (!empty($joinConfiguration['columns']) && count($joinConfiguration['columns']) > 0)
             ? $joinConfiguration['columns'] : [];
+
+        if(!empty($joinConfiguration['with_sub_query']) && $joinConfiguration['with_sub_query']===true){
         $select = new Select($tableIdentifier);
         $group = ArrayUtils::merge($group, $columns);
         $select->columns($group);
         $select->group($group);
+        }else{
+            $select=$tableIdentifier;
+        }
         $query->join(['has' => $select], $on, $columns, Select::JOIN_INNER);
+
 
     }
 
