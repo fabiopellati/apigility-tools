@@ -135,6 +135,11 @@ class WhereIdListener
     protected function composeWhere(AbstractPreparableSql $query, $id, $identifierName)
     {
 
+        /**
+         * @var $table \Zend\Db\Sql\TableIdentifier
+         */
+        $table=$query->getRawState('table');
+        $identifierName=sprintf('%s.%s.%s', $table->getSchema(), $table->getTable(), $identifierName);
         $query->where(function (Where $where) use ($id, $identifierName) {
             $where->and;
             $nest = $where->nest();
