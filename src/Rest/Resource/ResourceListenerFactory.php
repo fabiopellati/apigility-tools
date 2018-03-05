@@ -26,6 +26,8 @@ class ResourceListenerFactory
      * @param array|null                            $options
      *
      * @return \ApigilityTools\Rest\Resource\ResourceListener|object
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {

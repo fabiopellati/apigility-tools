@@ -152,7 +152,6 @@ class Mapper
      * @param  mixed $id
      *
      * @return mixed|\ZF\ApiProblem\ApiProblem
-     * @throws \ApigilityTools\Exception\RuntimeException
      */
     public function fetch($id)
     {
@@ -174,7 +173,6 @@ class Mapper
      * @param  array $params
      *
      * @return mixed|\ZF\ApiProblem\ApiProblem
-     * @throws \ApigilityTools\Exception\RuntimeException
      */
     public function fetchAll($params = [])
     {

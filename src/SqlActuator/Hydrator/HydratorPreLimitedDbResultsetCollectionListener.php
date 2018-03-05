@@ -41,6 +41,7 @@ class HydratorPreLimitedDbResultsetCollectionListener
      * @param \MessageExchangeEventManager\Event\EventInterface $e
      *
      * @return \MessageExchangeEventManager\Response\Response
+     * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      */
     public function onRunPostFetchAll(EventInterface $e)
     {
