@@ -26,7 +26,7 @@ return [
             ],
             __NAMESPACE__ . '\\Mapper'                     => [
                 'namespace'                          => __NAMESPACE__,
-                'db_adapter'                         => 'Gnc\\Db\\Adapter\\Locale',
+                'db_adapter'                         => 'Db\\Adapter\\Locale',
                 'db_schema'                          => 'schema',
                 'db_table'                           => 'associated_table',
                 'route_association_identifier_name'  => 'has_many_id',
