@@ -93,7 +93,7 @@ class MapperFactory
                     }
                     break;
                 default:
-                    if ($container->has($value)) {
+                    if (is_string($value) && $container->has($value)) {
                         $mapper->getEvent()->getRequest()->getParameters()->set($param, $container->get($value));
                     } else {
                         $mapper->getEvent()->getRequest()->getParameters()->set($param, $value);
