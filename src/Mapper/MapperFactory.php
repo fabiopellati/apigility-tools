@@ -82,6 +82,9 @@ class MapperFactory
             switch ($param) {
                 case 'mapper-listeners':
                     foreach ($value as $listener_class) {
+                        if (!$container->has($listener_class)) {
+                            continue;
+                        }
                         $listener = $container->get($listener_class);
                         if (method_exists($listener, 'setEventManager')) {
                             $listener->setEventManager($mapper->getEventManager());
