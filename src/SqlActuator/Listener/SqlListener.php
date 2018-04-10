@@ -55,11 +55,22 @@ class SqlListener
 
         $request = $e->getRequest();
         $response = $e->getResponse();
-        $dbAdapter = $request->getParameters()->get('dbAdapter');
-        $dbSchema = $request->getParameters()->get('dbSchema');
-        $dbTable = $request->getParameters()->get('dbTable');
-        $sql = new Sql($dbAdapter, new TableIdentifier($dbTable, $dbSchema));
-        $request->getParameters()->set('sql', $sql);
+        try {
+
+            $dbAdapter = $request->getParameters()->get('dbAdapter');
+            $tableIdentifier = $request->getParameters()->get('tableIdentifier');
+            if ($tableIdentifier instanceof TableIdentifier) {
+                $sql = new Sql($dbAdapter, $tableIdentifier);
+            } else {
+                $dbSchema = $request->getParameters()->get('dbSchema');
+                $dbTable = $request->getParameters()->get('dbTable');
+                $sql = new Sql($dbAdapter, new TableIdentifier($dbTable, $dbSchema));
+            }
+            $request->getParameters()->set('sql', $sql);
+        } catch (\Exception $error) {
+            $response->setContent($error);
+            $e->stopPropagation();
+        }
 
         return $response;
     }
