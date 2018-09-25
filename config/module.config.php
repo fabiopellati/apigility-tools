@@ -18,6 +18,7 @@ return [
                 'mapper_class'     => 'ApigilityTools\\Mapper\\Mapper',
                 'mapper-listeners' => [
                     'ApigilityTools\\SqlActuator\\Listener\\SqlListener'                                     => 'ApigilityTools\\SqlActuator\\Listener\\SqlListener',
+                    'ApigilityTools\\Mapper\\Listener\\PrepareMvcRequestParamsListener'                      => 'ApigilityTools\\Mapper\\Listener\\PrepareMvcRequestParamsListener',
                     'ApigilityTools\\SqlActuator\\Listener\\FetchListener'                                   => 'ApigilityTools\\SqlActuator\\Listener\\FetchListener',
                     'ApigilityTools\\SqlActuator\\Listener\\FetchAllListener'                                => 'ApigilityTools\\SqlActuator\\Listener\\FetchAllListener',
                     //                    'ApigilityTools\\SqlActuator\\Listener\\CreateListener'=>'ApigilityTools\\SqlActuator\\Listener\\CreateListener',
@@ -40,25 +41,26 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            'ApigilityTools\\Mapper\\Listener\\ComposedKeysListener'                  => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
+            'ApigilityTools\\Mapper\\Listener\\ComposedKeysListener'                   => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
+            'ApigilityTools\\Mapper\\Listener\\PrepareMvcRequestParamsListener'        => 'ApigilityTools\\Mapper\\Listener\\PrepareMvcRequestParamsListenerFactory',
             /**
              * actuator sql
              */
-            'ApigilityTools\\SqlActuator\\Listener\\SqlListener'                      => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
-            'ApigilityTools\\SqlActuator\\Listener\\FetchListener'                    => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
-            'ApigilityTools\\SqlActuator\\Listener\\FetchAllListener'                 => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
-            'ApigilityTools\\SqlActuator\\Listener\\CreateListener'                   => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
+            'ApigilityTools\\SqlActuator\\Listener\\SqlListener'                       => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
+            'ApigilityTools\\SqlActuator\\Listener\\FetchListener'                     => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
+            'ApigilityTools\\SqlActuator\\Listener\\FetchAllListener'                  => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
+            'ApigilityTools\\SqlActuator\\Listener\\CreateListener'                    => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             'ApigilityTools\\SqlActuator\\Listener\\UpdateListener'                   => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             'ApigilityTools\\SqlActuator\\Listener\\DeleteListener'                   => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
-            'ApigilityTools\\SqlActuator\\Listener\\PatchListener'                    => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
+            'ApigilityTools\\SqlActuator\\Listener\\PatchListener'                     => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             /**
              * utility sql
              */
-            'ApigilityTools\\SqlActuator\\Listener\\Feature\\AssociationListener'     => 'ApigilityTools\\SqlActuator\\Listener\\Feature\\AssociationListenerFactory',
-            'ApigilityTools\\SqlActuator\\Listener\\Feature\\AssociationManyListener' => 'ApigilityTools\\SqlActuator\\Listener\\Feature\\AssociationManyListenerFactory',
-            'ApigilityTools\\SqlActuator\\Listener\\Feature\\OrderableListener'       => 'ApigilityTools\\SqlActuator\\Listener\\Feature\\OrderableListenerFactory',
-            'ApigilityTools\\SqlActuator\\Listener\\Feature\\SearchableListener'      => 'ApigilityTools\\SqlActuator\\Listener\\Feature\\SearchableListenerFactory',
-            'ApigilityTools\\SqlActuator\\Listener\\Feature\\FilterTextListener'      => 'ApigilityTools\\SqlActuator\\Listener\\Feature\\FilterTextListenerFactory',
+            'ApigilityTools\\SqlActuator\\Listener\\Feature\\AssociationListener'      => 'ApigilityTools\\SqlActuator\\Listener\\Feature\\AssociationListenerFactory',
+            'ApigilityTools\\SqlActuator\\Listener\\Feature\\AssociationManyListener'  => 'ApigilityTools\\SqlActuator\\Listener\\Feature\\AssociationManyListenerFactory',
+            'ApigilityTools\\SqlActuator\\Listener\\Feature\\OrderableListener'        => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
+            'ApigilityTools\\SqlActuator\\Listener\\Feature\\SearchableListener'       => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
+            'ApigilityTools\\SqlActuator\\Listener\\Feature\\FilterTextListener'       => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             'ApigilityTools\\SqlActuator\\Listener\\Feature\\SoftDeleteListener'       => 'ApigilityTools\\SqlActuator\\Listener\\Feature\\SoftDeleteListenerFactory',
             'ApigilityTools\\SqlActuator\\Listener\\Feature\\PaginatorListener'        => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             /**

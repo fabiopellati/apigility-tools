@@ -21,21 +21,6 @@ class SearchableListener
 {
 
     /**
-     * @var array
-     */
-    protected $params;
-
-    /**
-     * RestSearchableListenerAggregate constructor.
-     *
-     * @param array $params
-     */
-    function __construct(array $params)
-    {
-        $this->params = $params;
-    }
-
-    /**
      *
      * aggiunge alla select del mapper una serie di where ricavandoli dai parametri search e search_into
      *
@@ -60,8 +45,9 @@ class SearchableListener
      */
     public function onEvent(Event $e)
     {
-        $params = $this->params;
         $request = $e->getRequest();
+        $params = $request->getParameters()->get('paramsFromQuery');
+
         $response = $e->getResponse();
         if (empty($params['search_into']) || empty($params['search'])) {
             return $response;

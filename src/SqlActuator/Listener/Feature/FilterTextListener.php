@@ -19,27 +19,7 @@ use Zend\EventManager\EventManagerInterface;
 class FilterTextListener
     extends AbstractListenerAggregate
 {
-    /**
-     * @var array
-     */
-    protected $params;
 
-    /**
-     * @var array
-     */
-    protected $affected;
-
-    /**
-     * RestSearchableListenerAggregate constructor.
-     *
-     * @param array $params
-     * @param array $affected
-     */
-    function __construct(array $params, array $affected = [])
-    {
-        $this->params = $params;
-        $this->affected = $affected;
-    }
 
     /**
      * Attach one or more listeners
@@ -54,7 +34,6 @@ class FilterTextListener
      */
     public function attach(EventManagerInterface $events, $priority = 100)
     {
-
         $this->listeners[] =
             $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onEvent'], $priority);
     }
@@ -68,8 +47,8 @@ class FilterTextListener
      */
     public function onEvent(Event $e)
     {
-        $params = $this->params;
         $request = $e->getRequest();
+        $params = $request->getParameters()->get('paramsFromQuery');
         $response = $e->getResponse();
         if (empty($params['filters_keys']) || empty($params['filters_values'])) {
             return $response;
@@ -81,9 +60,6 @@ class FilterTextListener
                 $values = $params['filters_values'];
                 foreach ($values as $index => $value) {
                     $key = $keys[$index];
-                    if (count($this->affected) > 0 && !isset($affected[$key])) {
-                        continue;
-                    }
                     if ($value != '') {
                         $nest = $where->NEST;
                         $nest->equalTo($key, $value);

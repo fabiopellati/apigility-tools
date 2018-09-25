@@ -9,12 +9,12 @@
  *
  */
 
-namespace ApigilityTools\SqlActuator\Listener\Feature;
+namespace ApigilityTools\Mapper\Listener;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
-class FilterTextListenerFactory
+class PrepareMvcRequestParamsListenerFactory
     implements FactoryInterface
 {
     /**
@@ -30,8 +30,8 @@ class FilterTextListenerFactory
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $params = $container->get('Application')->getMvcEvent()->getRequest()->getQuery()->toArray();
-        $object = new FilterTextListener($params);
+        $mvcEvent = $container->get('Application')->getMvcEvent();
+        $object = new PrepareMvcRequestParamsListener($mvcEvent);
 
         return $object;
     }

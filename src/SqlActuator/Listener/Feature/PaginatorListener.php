@@ -44,6 +44,7 @@ class PaginatorListener
      *
      * @return \MessageExchangeEventManager\Response\ResponseInterface
      * @throws \MessageExchangeEventManager\Exception\InvalidParamException
+     * @throws \MessageExchangeEventManager\Exception\ListenerRequirementException
      * @internal  \MessageExchangeEventManager\Request\RequestInterface
      */
     public function onEvent(Event $e)

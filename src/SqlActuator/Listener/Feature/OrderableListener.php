@@ -20,20 +20,7 @@ class OrderableListener
     extends AbstractListenerAggregate
 {
 
-    /**
-     * @var array
-     */
-    protected $params;
 
-    /**
-     * RestSearchableListenerAggregate constructor.
-     *
-     * @param array $params
-     */
-    function __construct(array $params)
-    {
-        $this->params = $params;
-    }
 
     /**
      * Attach one or more listeners
@@ -62,8 +49,8 @@ class OrderableListener
      */
     public function onEvent(Event $e)
     {
-        $params = $this->params;
         $request = $e->getRequest();
+        $params = $request->getParameters()->get('paramsFromQuery');
         $response = $e->getResponse();
         if (empty($params['order'])) {
             return $response;
