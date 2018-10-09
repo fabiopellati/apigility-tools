@@ -31,17 +31,17 @@ class DebugQueryListener
      *
      * @return void
      */
-    public function attach(EventManagerInterface $events, $priority = 100)
+    public function attach(EventManagerInterface $events, $priority = -5000)
     {
 
         $this->listeners[] =
-            $events->attach(SqlActuatorListenerInterface::EVENT_SQL_SELECT, [$this, 'onEvent'], $priority);
+            $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_SELECT, [$this, 'onEvent'], $priority);
         $this->listeners[] =
-            $events->attach(SqlActuatorListenerInterface::EVENT_SQL_INSERT, [$this, 'onEvent'], $priority);
+            $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_INSERT, [$this, 'onEvent'], $priority);
         $this->listeners[] =
-            $events->attach(SqlActuatorListenerInterface::EVENT_SQL_UPDATE, [$this, 'onEvent'], $priority);
+            $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_UPDATE, [$this, 'onEvent'], $priority);
         $this->listeners[] =
-            $events->attach(SqlActuatorListenerInterface::EVENT_SQL_DELETE, [$this, 'onEvent'], $priority);
+            $events->attach(SqlActuatorListenerInterface::EVENT_PRE_SQL_DELETE, [$this, 'onEvent'], $priority);
     }
 
     /**
