@@ -66,6 +66,7 @@ return [
             /**
              * query listeners
              */
+            'ApigilityTools\\SqlActuator\\Listener\\Query\\DebugQueryListener'         => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             'ApigilityTools\\SqlActuator\\Listener\\Query\\CountAffectedQueryListener' => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             'ApigilityTools\\SqlActuator\\Listener\\Query\\ColumnsListener'            => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             'ApigilityTools\\SqlActuator\\Listener\\Query\\SelectQueryListener'        => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
