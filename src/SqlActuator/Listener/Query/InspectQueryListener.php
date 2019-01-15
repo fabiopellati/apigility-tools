@@ -69,12 +69,10 @@ class InspectQueryListener
         try {
             $request = $e->getRequest();
             $sql = $request->getParameters()->get('sql');
-            $this->validateSql($sql);
             /**
              * @var \Zend\Db\Sql\Select $query
              */
             $query = $request->getParameters()->get('query');
-            $this->validateQuery($query);
             print_r([__METHOD__=>$query->getSqlString()]);
             $e->stopPropagation();
             exit;
@@ -125,9 +123,7 @@ class InspectQueryListener
         try {
             $request = $e->getRequest();
             $sql = $request->getParameters()->get('sql');
-            $this->validateSql($sql);
             $query = $request->getParameters()->get('query');
-            $this->validateQuery($query);
             $data = $request->getParameters()->get('data');
             if (empty($data) || !is_array($data)) {
                 throw new InvalidParamException('parametro data non valido', 500);
@@ -151,7 +147,6 @@ class InspectQueryListener
         try {
             $request = $e->getRequest();
             $sql = $request->getParameters()->get('sql');
-            $this->validateSql($sql);
             $query = $request->getParameters()->get('query');
             print_r([__METHOD__=>$query->getSqlString()]);
             $e->stopPropagation();
