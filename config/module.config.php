@@ -63,6 +63,7 @@ return [
             'ApigilityTools\\SqlActuator\\Listener\\Feature\\FilterTextListener'       => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             'ApigilityTools\\SqlActuator\\Listener\\Feature\\SoftDeleteListener'       => 'ApigilityTools\\SqlActuator\\Listener\\Feature\\SoftDeleteListenerFactory',
             'ApigilityTools\\SqlActuator\\Listener\\Feature\\PaginatorListener'        => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
+
             /**
              * query listeners
              */
@@ -77,6 +78,14 @@ return [
             'ApigilityTools\\SqlActuator\\Listener\\Query\\ConstraintWhereListener'                  => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             'ApigilityTools\\SqlActuator\\Listener\\Query\\WhereKeysListener'                        => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
             'ApigilityTools\\SqlActuator\\Listener\\Query\\WhereIdListener'                          => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
+
+
+            /**
+             * query debug
+             */
+            'ApigilityTools\\SqlActuator\\Listener\\Query\\InspectQueryListener'                         => 'Zend\\ServiceManager\\Factory\\InvokableFactory',
+
+
             /**
              * hydrators
              */
