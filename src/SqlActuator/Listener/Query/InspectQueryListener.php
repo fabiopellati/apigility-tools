@@ -68,12 +68,10 @@ class InspectQueryListener
         $response = $e->getResponse();
         try {
             $request = $e->getRequest();
-            $sql = $request->getParameters()->get('sql');
-            /**
-             * @var \Zend\Db\Sql\Select $query
-             */
             $query = $request->getParameters()->get('query');
-            print_r([__METHOD__=>$query->getSqlString()]);
+            $countAffected = $request->getParameters()->get('count_affected');
+
+            print_r([__METHOD__ => __LINE__,$countAffected,$query->getSqlString()]);
             $e->stopPropagation();
             exit;
         } catch (\Exception $error) {
@@ -95,12 +93,13 @@ class InspectQueryListener
         try {
             $request = $e->getRequest();
             $query = $request->getParameters()->get('query');
+            $countAffected = $request->getParameters()->get('count_affected');
             $data = $request->getParameters()->get('data');
             if (empty($data) || !is_array($data)) {
                 throw new InvalidParamException('parametro data non valido', 500);
             }
             $query->values($data);
-            print_r([__METHOD__=>$query->getSqlString()]);
+            print_r([__METHOD__ => __LINE__,$countAffected,$query->getSqlString()]);
             $e->stopPropagation();
             exit;
         } catch (\Exception $error) {
@@ -122,14 +121,14 @@ class InspectQueryListener
         $response = $e->getResponse();
         try {
             $request = $e->getRequest();
-            $sql = $request->getParameters()->get('sql');
             $query = $request->getParameters()->get('query');
+            $countAffected = $request->getParameters()->get('count_affected');
             $data = $request->getParameters()->get('data');
             if (empty($data) || !is_array($data)) {
                 throw new InvalidParamException('parametro data non valido', 500);
             }
             $query->set($data);
-            print_r([__METHOD__=>$query->getSqlString()]);
+            print_r([__METHOD__ => __LINE__,$countAffected,$query->getSqlString()]);
             $e->stopPropagation();
             exit;
         } catch (\Exception $error) {
@@ -146,9 +145,9 @@ class InspectQueryListener
         $response = $e->getResponse();
         try {
             $request = $e->getRequest();
-            $sql = $request->getParameters()->get('sql');
             $query = $request->getParameters()->get('query');
-            print_r([__METHOD__=>$query->getSqlString()]);
+            $countAffected = $request->getParameters()->get('count_affected');
+            print_r([__METHOD__ => __LINE__,$countAffected,$query->getSqlString()]);
             $e->stopPropagation();
             exit;
         } catch (\Exception $error) {
