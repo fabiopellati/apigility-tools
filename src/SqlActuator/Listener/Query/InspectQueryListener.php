@@ -36,7 +36,7 @@ class InspectQueryListener
      *
      * @return void
      */
-    public function attach(EventManagerInterface $events, $priority = 500)
+    public function attach(EventManagerInterface $events, $priority = 150)
     {
 
         $this->listeners[] =
