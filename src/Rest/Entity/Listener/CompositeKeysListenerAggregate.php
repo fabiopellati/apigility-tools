@@ -76,7 +76,9 @@ class CompositeKeysListenerAggregate
             if (is_array($arrayCopy)) {
                 $values = [];
                 foreach ($keys as $key) {
-                    $values[$key] = $arrayCopy[$key];
+                    if (!empty($arrayCopy[$key])) {
+                        $values[$key] = $arrayCopy[$key];
+                    }
                 }
                 $newValue = implode($identifierDelimiter, $values);
                 $arrayCopy[$identifierName] = $newValue;

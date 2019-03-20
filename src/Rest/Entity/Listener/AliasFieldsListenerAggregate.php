@@ -61,7 +61,9 @@ class AliasFieldsListenerAggregate
         $arrayCopy = $request->getParameters()->get('arrayCopy');
         $alias = $request->getParameters()->get('alias');
         foreach ($alias as $f1 => $f) {
-            $arrayCopy[$f1] = $arrayCopy[$f];
+            if (!empty($arrayCopy[$f])) {
+                $arrayCopy[$f1] = $arrayCopy[$f];
+            }
         }
         $request->getParameters()->set('arrayCopy', $arrayCopy);
         $response->setContent($arrayCopy);
