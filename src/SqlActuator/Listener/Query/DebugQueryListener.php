@@ -13,8 +13,8 @@ namespace ApigilityTools\SqlActuator\Listener\Query;
 
 use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
 
 class DebugQueryListener
     extends AbstractListenerAggregate
@@ -55,7 +55,7 @@ class DebugQueryListener
         try {
             $request = $e->getRequest();
             /**
-             * @var \Zend\Db\Sql\Select $query
+             * @var \Laminas\Db\Sql\Select $query
              */
             $query = $request->getParameters()->get('query');
             $sqlString = $query->getSqlString();

@@ -13,9 +13,9 @@ namespace ApigilityTools\Rest\Entity\Listener;
 
 use ApigilityTools\Rest\Entity\EventAwareEntity;
 use MessageExchangeEventManager\Event\Event;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
-use Zend\Stdlib\Exception\InvalidArgumentException;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Stdlib\Exception\InvalidArgumentException;
 
 /**
  * lo scopo di questo listener è quello di disaccoppiare la logica di filtraggio dell'id

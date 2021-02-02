@@ -16,10 +16,10 @@ use Interop\Container\ContainerInterface;
 use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\Request\Request;
 use MessageExchangeEventManager\Response\Response;
-use Zend\Filter\Word\UnderscoreToCamelCase;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\Stdlib\ArrayUtils;
+use Laminas\Filter\Word\UnderscoreToCamelCase;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Laminas\Stdlib\ArrayUtils;
 
 /**
  * Class DefaultTableGatewayMapper
@@ -51,14 +51,14 @@ class MapperFactory
         $event = $this->getEvent($container);
         $config = $container->get('Config');
         $actuatorMapperConfig = $config['apigility-tools']['actuator-mapper'];
-        $halMetadataMapConfig = $config['zf-hal']['metadata_map'];
+        $halMetadataMapConfig = $config['api-tools-hal']['metadata_map'];
         $requestedConfig = $this->getRequestedConfig($requestedName, $actuatorMapperConfig);
         $namespace = $this->extractConfigParam($requestedConfig, 'namespace');
         $controllerClass = $namespace . '\Controller';
-        $controllerConfig = $config['zf-rest'][$controllerClass];
+        $controllerConfig = $config['api-tools-rest'][$controllerClass];
         $entityClass = $controllerConfig['entity_class'];
         $collectionClass = $controllerConfig['collection_class'];
-        $apigilityConfig = $config['zf-rest'][$controllerClass];
+        $apigilityConfig = $config['api-tools-rest'][$controllerClass];
         $requestParameters = $event->getRequest()->getParameters();
         $requestParameters->set('actuatorMapperConfig', $actuatorMapperConfig);
         $requestParameters->set('halMetadataMapConfig', $halMetadataMapConfig);

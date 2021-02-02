@@ -16,9 +16,9 @@ use ApigilityTools\Traits\ReplaceEventAwareTrait;
 use MessageExchangeEventManager\Event\EventInterface;
 use MessageExchangeEventManager\EventManagerAwareTrait;
 use MessageExchangeEventManager\EventRunAwareTrait;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerAwareInterface;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerAwareInterface;
+use Laminas\EventManager\EventManagerInterface;
 
 class CreateListener
     extends AbstractListenerAggregate
@@ -30,7 +30,7 @@ class CreateListener
     use ReplaceEventAwareTrait;
 
     /**
-     * @param \Zend\EventManager\EventManagerInterface $events
+     * @param \Laminas\EventManager\EventManagerInterface $events
      * @param int                                      $priority
      *
      */

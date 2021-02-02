@@ -14,26 +14,26 @@ namespace ApigilityTools\SqlActuator\Listener\Feature;
 use ApigilityTools\Exception\RuntimeException;
 use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
-use Zend\Db\Metadata\Source\Factory;
-use Zend\Db\Sql\AbstractPreparableSql;
-use Zend\Db\Sql\Ddl\Column\Column;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Where;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\Event;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\Db\Metadata\Source\Factory;
+use Laminas\Db\Sql\AbstractPreparableSql;
+use Laminas\Db\Sql\Ddl\Column\Column;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\Where;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\Event;
+use Laminas\EventManager\EventManagerInterface;
 
 class SoftDeleteListener
     extends AbstractListenerAggregate
 {
 
     /**
-     * @var \Zend\Cache\Storage\Adapter\AbstractAdapter
+     * @var \Laminas\Cache\Storage\Adapter\AbstractAdapter
      */
     protected $cache;
 
     /**
-     * @return \Zend\Cache\Storage\Adapter\AbstractAdapter
+     * @return \Laminas\Cache\Storage\Adapter\AbstractAdapter
      */
     public function getCache()
     {
@@ -72,7 +72,7 @@ class SoftDeleteListener
      * sull'evento select aggiunge sempre una condizione
      * where soft_delete=0
      *
-     * @param \Zend\EventManager\Event $e
+     * @param \Laminas\EventManager\Event $e
      */
     public function onSelect(Event $e)
     {
@@ -100,7 +100,7 @@ class SoftDeleteListener
      * su delete aggiorna il campo softdelet al valore 1
      * l'implementazione del listenere prevede anche che a valle l'esecuzione del delete venga skipapta
      *
-     * @param \Zend\EventManager\Event $e
+     * @param \Laminas\EventManager\Event $e
      *
      * @return int
      */
@@ -129,7 +129,7 @@ class SoftDeleteListener
     }
 
     /**
-     * @param  \Zend\Db\Sql\Sql $sql
+     * @param  \Laminas\Db\Sql\Sql $sql
      *
      * @return bool
      * @throws \ApigilityTools\Exception\RuntimeException

@@ -16,10 +16,10 @@ use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
 use MessageExchangeEventManager\Request\Request;
-use Zend\Db\Sql\AbstractPreparableSql;
-use Zend\Db\Sql\Sql;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\Db\Sql\AbstractPreparableSql;
+use Laminas\Db\Sql\Sql;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
 
 class RunQueryListener
     extends AbstractListenerAggregate
@@ -71,7 +71,7 @@ class RunQueryListener
             $sql = $request->getParameters()->get('sql');
             $this->validateSql($sql);
             /**
-             * @var \Zend\Db\Sql\Select $query
+             * @var \Laminas\Db\Sql\Select $query
              */
             $query = $request->getParameters()->get('query');
             $this->validateQuery($query);

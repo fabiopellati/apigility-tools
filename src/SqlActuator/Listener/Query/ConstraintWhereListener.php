@@ -15,8 +15,8 @@ use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\EventManagerAwareTrait;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
 
 class ConstraintWhereListener
     extends AbstractListenerAggregate

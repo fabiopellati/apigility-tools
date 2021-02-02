@@ -13,9 +13,9 @@ namespace ApigilityTools\Rest\Entity\Listener;
 
 use ApigilityTools\Rest\Entity\EventAwareEntity;
 use MessageExchangeEventManager\Event\Event;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
-use Zend\InputFilter\InputFilter;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\InputFilter\InputFilter;
 
 class InputFilterListenerAggregate
     extends AbstractListenerAggregate

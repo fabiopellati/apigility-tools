@@ -15,12 +15,12 @@ use ApigilityTools\Exception\InvalidParamException;
 use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
-use Zend\Db\Sql\AbstractPreparableSql;
-use Zend\Db\Sql\Predicate\Operator;
-use Zend\Db\Sql\Predicate\Predicate;
-use Zend\Db\Sql\Where;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\Db\Sql\AbstractPreparableSql;
+use Laminas\Db\Sql\Predicate\Operator;
+use Laminas\Db\Sql\Predicate\Predicate;
+use Laminas\Db\Sql\Where;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
 
 class WhereKeysListener
     extends AbstractListenerAggregate

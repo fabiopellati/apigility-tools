@@ -12,8 +12,8 @@
 namespace ApigilityTools\SqlActuator\Listener\Feature;
 
 use Interop\Container\ContainerInterface;
-use Zend\Cache\StorageFactory;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\Cache\StorageFactory;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class SoftDeleteListenerFactory
     implements FactoryInterface

@@ -12,7 +12,7 @@
 namespace ApigilityTools\Config;
 
 use Interop\Container\ContainerInterface;
-use ZF\Configuration\ModuleUtils;
+use Laminas\ApiTools\Configuration\ModuleUtils;
 
 class ResourceFactoryFactory
 {
@@ -27,7 +27,7 @@ class ResourceFactoryFactory
 
         return new ResourceFactory(
             $container->get(ModuleUtils::class),
-            $container->get('ZF\\Configuration\\ConfigWriter')
+            $container->get('Laminas\\ApiTools\\Configuration\\ConfigWriter')
         );
     }
 }

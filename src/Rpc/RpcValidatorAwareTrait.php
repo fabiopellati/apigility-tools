@@ -11,17 +11,17 @@
 
 namespace ApigilityTools\Rpc;
 
-use Zend\Validator\ValidatorChain;
+use Laminas\Validator\ValidatorChain;
 
 trait RpcValidatorAwareTrait
 {
     /**
-     * @var \Zend\Validator\ValidatorChain
+     * @var \Laminas\Validator\ValidatorChain
      */
     protected $validator;
 
     /**
-     * @return \Zend\Validator\ValidatorChain
+     * @return \Laminas\Validator\ValidatorChain
      */
     public function getValidator()
     {
@@ -33,7 +33,7 @@ trait RpcValidatorAwareTrait
     }
 
     /**
-     * @param \Zend\Validator\ValidatorChain $validator
+     * @param \Laminas\Validator\ValidatorChain $validator
      */
     public function setValidator(ValidatorChain $validator)
     {

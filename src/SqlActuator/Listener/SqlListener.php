@@ -15,11 +15,11 @@ use ApigilityTools\Mapper\Mapper;
 use MessageExchangeEventManager\Event\EventInterface;
 use MessageExchangeEventManager\EventManagerAwareTrait;
 use MessageExchangeEventManager\EventRunAwareTrait;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\TableIdentifier;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerAwareInterface;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\TableIdentifier;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerAwareInterface;
+use Laminas\EventManager\EventManagerInterface;
 
 class SqlListener
     extends AbstractListenerAggregate
@@ -29,7 +29,7 @@ class SqlListener
     use EventRunAwareTrait;
 
     /**
-     * @param \Zend\EventManager\EventManagerInterface $events
+     * @param \Laminas\EventManager\EventManagerInterface $events
      * @param int                                      $priority
      *
      */

@@ -4,7 +4,7 @@
  */
 namespace ServiceExample;
 
-use Zend\Paginator\Paginator;
+use Laminas\Paginator\Paginator;
 
 class Collection extends Paginator
 {

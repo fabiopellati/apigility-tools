@@ -15,9 +15,9 @@ use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\Exception\InvalidParamException;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
-use Zend\Db\Sql\Select;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\Db\Sql\Select;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
 
 class PaginatorListener
     extends AbstractListenerAggregate
@@ -62,7 +62,7 @@ class PaginatorListener
         $pageSize = (int)$this->getPageSize($request, $requestQuery);
         try {
             /**
-             * @var $query \Zend\Db\Sql\Select
+             * @var $query \Laminas\Db\Sql\Select
              */
             $query = $request->getParameters()->get('query');
             if (!$query instanceof Select) {

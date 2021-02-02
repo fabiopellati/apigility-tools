@@ -14,13 +14,13 @@ namespace ApigilityTools\SqlActuator\Listener\Query;
 use ApigilityTools\Exception\InvalidParamException;
 use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
-use Zend\Db\Sql\AbstractPreparableSql;
-use Zend\Db\Sql\Predicate\Operator;
-use Zend\Db\Sql\Predicate\Predicate;
-use Zend\Db\Sql\Where;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\Event;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\Db\Sql\AbstractPreparableSql;
+use Laminas\Db\Sql\Predicate\Operator;
+use Laminas\Db\Sql\Predicate\Predicate;
+use Laminas\Db\Sql\Where;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\Event;
+use Laminas\EventManager\EventManagerInterface;
 
 class WhereIdListener
     extends AbstractListenerAggregate
@@ -50,7 +50,7 @@ class WhereIdListener
 
     /**
      *
-     * @param \Zend\EventManager\Event $e
+     * @param \Laminas\EventManager\Event $e
      *
      * @return \MessageExchangeEventManager\Response\Response
      */
@@ -67,7 +67,7 @@ class WhereIdListener
 
     /**
      *
-     * @param \Zend\EventManager\Event $e
+     * @param \Laminas\EventManager\Event $e
      *
      * @return \MessageExchangeEventManager\Response\Response
      */
@@ -78,7 +78,7 @@ class WhereIdListener
 
     /**
      *
-     * @param \Zend\EventManager\Event $e
+     * @param \Laminas\EventManager\Event $e
      *
      * @return \MessageExchangeEventManager\Response\Response
      */
@@ -90,7 +90,7 @@ class WhereIdListener
 
     /**
      *
-     * @param \Zend\EventManager\Event $e
+     * @param \Laminas\EventManager\Event $e
      *
      * @return \MessageExchangeEventManager\Response\Response
      */
@@ -129,14 +129,14 @@ class WhereIdListener
      *
      * nel comportamento standard la query viene filtrata per 'id'=$id
      *
-     * @param \Zend\Db\Sql\AbstractPreparableSql $query
+     * @param \Laminas\Db\Sql\AbstractPreparableSql $query
      * @param                                    $id
      */
     protected function composeWhere(AbstractPreparableSql $query, $id, $identifierName)
     {
 
         /**
-         * @var $table \Zend\Db\Sql\TableIdentifier
+         * @var $table \Laminas\Db\Sql\TableIdentifier
          */
         $table=$query->getRawState('table');
         $identifierName=sprintf('%s.%s.%s', $table->getSchema(), $table->getTable(), $identifierName);

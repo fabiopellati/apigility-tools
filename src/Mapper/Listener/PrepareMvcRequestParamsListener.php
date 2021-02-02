@@ -13,8 +13,8 @@ namespace ApigilityTools\Mapper\Listener;
 
 use ApigilityTools\Mapper\Mapper;
 use MessageExchangeEventManager\Event\Event;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
 
 /**
  *
@@ -24,16 +24,16 @@ class PrepareMvcRequestParamsListener
 {
 
     /**
-     * @var \Zend\Mvc\MvcEvent
+     * @var \Laminas\Mvc\MvcEvent
      */
     private $mvcEvent;
 
     /**
      * PrepareMvcRequestParamsListener constructor.
      *
-     * @param \Zend\Mvc\MvcEvent $mvcEvent
+     * @param \Laminas\Mvc\MvcEvent $mvcEvent
      */
-    public function __construct(\Zend\Mvc\MvcEvent $mvcEvent)
+    public function __construct(\Laminas\Mvc\MvcEvent $mvcEvent)
     {
         $this->mvcEvent = $mvcEvent;
     }
@@ -78,7 +78,7 @@ class PrepareMvcRequestParamsListener
         $response = $e->getResponse();
         try {
             /**
-             * @var $httpRequest \Zend\Http\Request
+             * @var $httpRequest \Laminas\Http\Request
              */
             $httpRequest = $this->mvcEvent->getRequest();
             $fromQuery = $httpRequest->getQuery()->toArray();

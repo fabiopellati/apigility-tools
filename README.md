@@ -2,7 +2,7 @@ Apigility tools
 ===============
 
 
-General tools for Apigility https://github.com/zfcampus/zf-apigility
+General tools for Apigility https://github.com/laminas-api-tools/api-tools
 
 - Implementation event-driven of mapper pattern based on MessageExchangeEventManager Actuator
  https://github.com/fabiopellati/message-exchange-event-manager for Rest service

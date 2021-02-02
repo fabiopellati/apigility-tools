@@ -12,9 +12,9 @@
 namespace ApigilityTools\Rest\Resource;
 
 use Interop\Container\ContainerInterface;
-use Zend\Filter\Word\UnderscoreToCamelCase;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\Filter\Word\UnderscoreToCamelCase;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class ResourceListenerFactory
     implements FactoryInterface

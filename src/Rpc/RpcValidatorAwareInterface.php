@@ -11,17 +11,17 @@
 
 namespace ApigilityTools\Rpc;
 
-use Zend\Validator\ValidatorChain;
+use Laminas\Validator\ValidatorChain;
 
 interface RpcValidatorAwareInterface
 {
     /**
-     * @return \Zend\Validator\ValidatorChain
+     * @return \Laminas\Validator\ValidatorChain
      */
     function getValidator();
 
     /**
-     * @param \Zend\Validator\ValidatorChain $validator
+     * @param \Laminas\Validator\ValidatorChain $validator
      *
      * @return mixed
      */

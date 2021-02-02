@@ -11,8 +11,8 @@
 
 namespace ApigilityTools\Rest\Resource;
 
-use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\ApiTools\Rest\AbstractResourceListener;
 
 class ResourceListener
     extends AbstractResourceListener
@@ -21,7 +21,7 @@ class ResourceListener
     const EVENT_REQUEST_QUERY = 'event.request.query';
 
     /**
-     * @var \Zend\EventManager\EventManagerAwareInterface
+     * @var \Laminas\EventManager\EventManagerAwareInterface
      */
     protected $mapper;
 
@@ -115,7 +115,7 @@ class ResourceListener
         $requestQuery = $this->getEvent()->getRequest()->getQuery();
         $this->mapper->getEvent()->getRequest()->getParameters()->set('request_query', $requestQuery);
         /**
-         * @var $result \Zend\Paginator\Paginator
+         * @var $result \Laminas\Paginator\Paginator
          */
         $result = $this->mapper->fetchAll($params);
 

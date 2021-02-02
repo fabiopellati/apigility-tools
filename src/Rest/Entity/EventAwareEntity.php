@@ -16,7 +16,7 @@ use MessageExchangeEventManager\Event\EventInterface;
 use MessageExchangeEventManager\Response\ResponseInterface;
 use MessageExchangeEventManager\Resultset\ResultsetInterface;
 use MessageExchangeEventManager\SingletonEventManagerAwareTrait;
-use Zend\Stdlib\ArrayObject;
+use Laminas\Stdlib\ArrayObject;
 
 class EventAwareEntity
     extends ArrayObject
@@ -29,7 +29,7 @@ class EventAwareEntity
     const EVENT_EXCHANGE_ARRAY = 'exchangeArray';
 
     /**
-     * @param array|\Zend\Stdlib\ArrayObject $input
+     * @param array|\Laminas\Stdlib\ArrayObject $input
      *
      * @return array|void
      * @throws \Exception

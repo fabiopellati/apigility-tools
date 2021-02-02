@@ -11,11 +11,11 @@
 
 namespace ApigilityTools\Config;
 
-use Zend\Stdlib\ArrayUtils;
-use ZF\Configuration\ConfigResource;
+use Laminas\Stdlib\ArrayUtils;
+use Laminas\ApiTools\Configuration\ConfigResource;
 
 class ResourceFactory
-    extends \ZF\Configuration\ResourceFactory
+    extends \Laminas\ApiTools\Configuration\ResourceFactory
 {
 
     public function factory($moduleName)

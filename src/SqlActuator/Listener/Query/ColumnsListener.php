@@ -13,8 +13,8 @@ namespace ApigilityTools\SqlActuator\Listener\Query;
 
 use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
 
 class ColumnsListener
     extends AbstractListenerAggregate

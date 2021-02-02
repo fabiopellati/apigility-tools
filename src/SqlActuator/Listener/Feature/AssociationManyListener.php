@@ -14,12 +14,12 @@ namespace ApigilityTools\SqlActuator\Listener\Feature;
 use ApigilityTools\Exception\RuntimeException;
 use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\TableIdentifier;
-use Zend\Db\Sql\Where;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
-use Zend\Stdlib\ArrayUtils;
+use Laminas\Db\Sql\Select;
+use Laminas\Db\Sql\TableIdentifier;
+use Laminas\Db\Sql\Where;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Stdlib\ArrayUtils;
 
 class AssociationManyListener
     extends AbstractListenerAggregate
@@ -81,7 +81,7 @@ class AssociationManyListener
         }
         try {
             /**
-             * @var \Zend\Db\Sql\Select $query
+             * @var \Laminas\Db\Sql\Select $query
              */
             $query = $request->getParameters()->get('query');
             foreach ($associationJoin as $joinConfiguration) {

@@ -12,10 +12,10 @@
 namespace ApigilityTools\Rest\Entity;
 
 use Interop\Container\ContainerInterface;
-use Zend\Filter\Word\UnderscoreToCamelCase;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\Stdlib\ArrayUtils;
+use Laminas\Filter\Word\UnderscoreToCamelCase;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Laminas\Stdlib\ArrayUtils;
 
 class EventAwareEntityFactory
     implements FactoryInterface
@@ -35,7 +35,7 @@ class EventAwareEntityFactory
         $entity = new $requestedName();
         $config = $container->get('Config');
         $sqlActuatorMapperConfig = $config['apigility-tools']['actuator-mapper'];
-        $halMetadataMap = $config['zf-hal']['metadata_map'];
+        $halMetadataMap = $config['api-tools-hal']['metadata_map'];
         $entityIdentifierName = $halMetadataMap[$requestedName]['entity_identifier_name'];
         $entity->getEvent()->getRequest()->getParameters()->set('identifierName', $entityIdentifierName);
         $requestedConfig = $this->getRequestedConfig($requestedName, $sqlActuatorMapperConfig);

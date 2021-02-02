@@ -14,9 +14,9 @@ namespace ApigilityTools\SqlActuator\Listener\Query;
 use ApigilityTools\Exception\InvalidParamException;
 use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
-use Zend\Db\Sql\Sql;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\Db\Sql\Sql;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
 
 class InsertQueryListener
     extends AbstractListenerAggregate
@@ -42,7 +42,7 @@ class InsertQueryListener
 
     /**
      *
-     * @param \MessageExchangeEventManager\Event\Event|\Zend\EventManager\Event $e
+     * @param \MessageExchangeEventManager\Event\Event|\Laminas\EventManager\Event $e
      *
      * @return \MessageExchangeEventManager\Response\ResponseInterface
      */

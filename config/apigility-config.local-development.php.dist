@@ -11,8 +11,8 @@
 return [
     'service_manager' => [
         'factories' => [
-            'ZF\Configuration\ConfigWriter'=>\ApigilityTools\Config\Writer\ConfigWriterFactory::class,
-            'ZF\Configuration\ConfigResourceFactory' => \ApigilityTools\Config\ResourceFactoryFactory::class
+            'Laminas\ApiTools\Configuration\ConfigWriter'=>\ApigilityTools\Config\Writer\ConfigWriterFactory::class,
+            'Laminas\ApiTools\Configuration\ConfigResourceFactory' => \ApigilityTools\Config\ResourceFactoryFactory::class
         ],
     ],
 ];

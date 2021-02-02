@@ -13,8 +13,8 @@ namespace ApigilityTools\SqlActuator\Listener\Feature;
 
 use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
 
 class FilterTextListener
     extends AbstractListenerAggregate

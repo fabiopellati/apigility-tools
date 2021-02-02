@@ -19,7 +19,7 @@
 namespace ApigilityTools\Hal;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class HalLinkListenerFactory
     implements FactoryInterface
@@ -37,12 +37,12 @@ class HalLinkListenerFactory
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /**
-         * @var $application \Zend\Mvc\Application
+         * @var $application \Laminas\Mvc\Application
          */
         $application = $container->get('Application');
         $routeMatch = $application->getMvcEvent()->getRouteMatch();
         /**
-         * @var $object \Zend\EventManager\AbstractListenerAggregate
+         * @var $object \Laminas\EventManager\AbstractListenerAggregate
          */
         $object = new $requestedName($routeMatch);
 

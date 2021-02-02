@@ -16,16 +16,16 @@ use ApigilityTools\Paginator\Adapter\PreLimitedArrayAdapter;
 use MessageExchangeEventManager\Event\EventInterface;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
 use MessageExchangeEventManager\Request\Request;
-use Zend\Db\ResultSet\HydratingResultSet;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\Db\ResultSet\HydratingResultSet;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
 
 class HydratorPreLimitedDbResultsetCollectionListener
     extends AbstractListenerAggregate
 {
 
     /**
-     * @param \Zend\EventManager\EventManagerInterface $events
+     * @param \Laminas\EventManager\EventManagerInterface $events
      * @param int                                      $priority
      *
      */
@@ -49,7 +49,7 @@ class HydratorPreLimitedDbResultsetCollectionListener
         $response = $e->getResponse();
         $collectionClass = $this->getCollectionClassParam($request);
         /**
-         * @var \Zend\Db\Adapter\Driver\ResultInterface
+         * @var \Laminas\Db\Adapter\Driver\ResultInterface
          */
         $content = $response->getContent();
         $count = $this->getCountAffectedParam($request);

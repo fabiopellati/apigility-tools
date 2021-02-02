@@ -13,8 +13,8 @@ namespace ApigilityTools\Rest\Entity\Listener;
 
 use ApigilityTools\Rest\Entity\EventAwareEntity;
 use MessageExchangeEventManager\Event\Event;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
 
 /**
  * lo scopo di questo listener è quello di disaccoppiare la logica di filtraggio dell'id

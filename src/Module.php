@@ -11,8 +11,8 @@
 
 namespace ApigilityTools;
 
-use Zend\Mvc\MvcEvent;
-use Zend\Uri\UriFactory;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Uri\UriFactory;
 
 class Module
 {
@@ -25,6 +25,6 @@ class Module
 
     public function onBootstrap(MvcEvent $event)
     {
-        UriFactory::registerScheme('chrome-extension', 'Zend\Uri\Uri');
+        UriFactory::registerScheme('chrome-extension', 'Laminas\Uri\Uri');
     }
 }

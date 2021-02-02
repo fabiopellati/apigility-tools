@@ -49,10 +49,10 @@ class ConfigWriterFactory
             return false;
         }
         $config = $container->get('config');
-        if (!isset($config['zf-configuration'][$key])) {
+        if (!isset($config['api-tools-configuration'][$key])) {
             return false;
         }
 
-        return (bool)$config['zf-configuration'][$key];
+        return (bool)$config['api-tools-configuration'][$key];
     }
 }

@@ -12,7 +12,7 @@
 namespace ApigilityTools\SqlActuator\Listener\Feature;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class AssociationListenerFactory
     implements FactoryInterface
@@ -31,7 +31,7 @@ class AssociationListenerFactory
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /**
-         * @var \Zend\Mvc\MvcEvent $mvcEvent
+         * @var \Laminas\Mvc\MvcEvent $mvcEvent
          */
         $mvcEvent = $container->get('Application')->getMvcEvent();
         $params = $mvcEvent->getRouteMatch()->getParams();

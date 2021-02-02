@@ -13,15 +13,15 @@ namespace ApigilityTools\SqlActuator\Hydrator;
 
 use ApigilityTools\Mapper\Mapper;
 use MessageExchangeEventManager\Event\EventInterface;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
 
 class HydratorResultsetListener
     extends AbstractListenerAggregate
 {
 
     /**
-     * @param \Zend\EventManager\EventManagerInterface $events
+     * @param \Laminas\EventManager\EventManagerInterface $events
      * @param int                                      $priority
      *
      */

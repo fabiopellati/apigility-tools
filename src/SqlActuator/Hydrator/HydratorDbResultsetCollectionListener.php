@@ -13,17 +13,17 @@ namespace ApigilityTools\SqlActuator\Hydrator;
 
 use ApigilityTools\Mapper\Mapper;
 use MessageExchangeEventManager\Event\EventInterface;
-use Zend\Db\ResultSet\HydratingResultSet;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
-use Zend\Paginator\Adapter\ArrayAdapter;
+use Laminas\Db\ResultSet\HydratingResultSet;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Paginator\Adapter\ArrayAdapter;
 
 class HydratorDbResultsetCollectionListener
     extends AbstractListenerAggregate
 {
 
     /**
-     * @param \Zend\EventManager\EventManagerInterface $events
+     * @param \Laminas\EventManager\EventManagerInterface $events
      * @param int                                      $priority
      *
      */
@@ -46,7 +46,7 @@ class HydratorDbResultsetCollectionListener
         $response = $e->getResponse();
         $collectionClass = $request->getParameters()->get('collectionClass');
         /**
-         * @var \Zend\Db\Adapter\Driver\ResultInterface
+         * @var \Laminas\Db\Adapter\Driver\ResultInterface
          */
         $content = $response->getContent();
         if ($content instanceof HydratingResultSet) {

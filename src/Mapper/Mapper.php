@@ -151,7 +151,7 @@ class Mapper
      *
      * @param  mixed $id
      *
-     * @return mixed|\ZF\ApiProblem\ApiProblem
+     * @return mixed|\Laminas\ApiTools\ApiProblem\ApiProblem
      */
     public function fetch($id)
     {
@@ -172,7 +172,7 @@ class Mapper
      *
      * @param  array $params
      *
-     * @return mixed|\ZF\ApiProblem\ApiProblem
+     * @return mixed|\Laminas\ApiTools\ApiProblem\ApiProblem
      */
     public function fetchAll($params = [])
     {

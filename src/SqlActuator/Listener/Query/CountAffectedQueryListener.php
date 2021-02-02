@@ -14,14 +14,14 @@ namespace ApigilityTools\SqlActuator\Listener\Query;
 use ApigilityTools\SqlActuator\Listener\SqlActuatorListenerInterface;
 use MessageExchangeEventManager\Event\Event;
 use MessageExchangeEventManager\Exception\ListenerRequirementException;
-use Zend\Db\Sql\AbstractPreparableSql;
-use Zend\Db\Sql\Expression;
-use Zend\Db\Sql\Having;
-use Zend\Db\Sql\Join;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Where;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
+use Laminas\Db\Sql\AbstractPreparableSql;
+use Laminas\Db\Sql\Expression;
+use Laminas\Db\Sql\Having;
+use Laminas\Db\Sql\Join;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\Where;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
 
 class CountAffectedQueryListener
     extends AbstractListenerAggregate
